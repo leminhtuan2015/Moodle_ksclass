@@ -17,10 +17,19 @@ if (isset($_GET['action'])) {
 
 if($action == "index"){
     // Index
-    $controller->index();
+    $categoryid = optional_param('categoryid', "all", PARAM_INT);
+
+    $controller->index($categoryid);
 } else if($action == "show"){
     // Show
     $id = $_GET['id'];
+
+    $controller->show($id);
+
+} else if($action == "edit"){
+    $id = optional_param('id', 0, PARAM_INT); // Course id.
+
+    $controller->edit($id);
 
 } else if($action == "myCourses"){
     // My course
