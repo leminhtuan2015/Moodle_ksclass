@@ -9,6 +9,11 @@
 require_once(__DIR__."/../application/ApplicationController.php");
 
 class CourseController extends ApplicationController {
+
+    function __construct() {
+        parent::__construct();
+    }
+
     public function index() {
 
         require_once(__DIR__.'/views/index.php');
