@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js"></script>
+
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -18,8 +20,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Class</a></li>
+                <li class="active"><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
+                <li><a href="/moodle/koolsoft/course">Class</a></li>
+                <li><a href="/moodle/koolsoft/category">Category</a></li>
                 <li><a href="#">Document</a></li>
             </ul>
             <form class="navbar-form navbar-left">
@@ -28,6 +31,7 @@
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
+
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
@@ -40,6 +44,8 @@
                     </ul>
                 </li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=edit">Create class</a></li></ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

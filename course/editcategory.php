@@ -105,6 +105,9 @@ if ($mform->is_cancelled()) {
         }
         $coursecat->update($data, $mform->get_description_editor_options());
     } else {
+
+        error_log(print_r($data, true));
+
         $category = coursecat::create($data, $mform->get_description_editor_options());
     }
     $manageurl->param('categoryid', $category->id);
