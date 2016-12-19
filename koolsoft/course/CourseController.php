@@ -9,6 +9,7 @@ require_once("../../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
+require_once (__DIR__."/../category/CategoryController.php");
 
 class CourseController extends ApplicationController {
 
@@ -46,9 +47,33 @@ class CourseController extends ApplicationController {
             $course = get_course($id);
         }
 
+        $categoryController = new CategoryController();
+
+        $categories = $categoryController->getAllCategories();
+        $categoriesName = $categoryController->getPathCategory($categories);
+
         require_once(__DIR__.'/views/edit.php');
     }
 
+    public function create(){
+//        error_log(print_r($_POST, true));
+
+        $data = new stdClass();
+
+        $data->fullname = $_POST["name"];
+        $data->shortname = $_POST["name"];
+        $data->category = $_POST["categoryId"];
+        $data->visible = $_POST["visible"];
+
+
+        $course = create_course($data);
+
+        if($course){
+            redirect("/moodle/koolsoft/course");
+        }
+    }
+
+    //    PRIVATE ----------------------------------------------- PRIVATE
     private function enrolledUsers($courseId){
         $context = context_COURSE::instance($courseId);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');

@@ -57,7 +57,7 @@ class CategoryController extends ApplicationController {
 
 //    PRIVATE ----------------------------------------------- PRIVATE
 
-    private function getAllCategories(){
+    public function getAllCategories(){
         $categorieslist = coursecat::make_categories_list('moodle/category:manage');
         $categoryids = array_keys($categorieslist);
         $categories = coursecat::get_many($categoryids);
@@ -99,7 +99,7 @@ class CategoryController extends ApplicationController {
         return $courses;
     }
 
-    private function getPathCategory($categories){
+    public function getPathCategory($categories){
         $categoriesName = array();
 
         foreach ($categories as $category) {
