@@ -154,6 +154,9 @@ if ($editform->is_cancelled()) {
     // Process data if submitted.
     if (empty($course->id)) {
         // In creating the course.
+
+        error_log(print_r($data, true));
+
         $course = create_course($data, $editoroptions);
 
         // Get the context of the newly created course.

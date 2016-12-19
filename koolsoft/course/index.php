@@ -33,4 +33,6 @@ if($action == "index"){
 
 } else if($action == "myCourses"){
     // My course
+} else if($action == "create"){
+    $controller->create();
 }

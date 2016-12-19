@@ -10,25 +10,28 @@
 
 <div class="container">
 
-    <form data-toggle="validator" role="form">
+    <form data-toggle="validator" role="form" action="/moodle/koolsoft/course/?action=create" method="post">
         <div class="form-group">
-            <label for="inputName" class="control-label">Name</label>
-            <input type="text" class="form-control" id="inputName" placeholder="Class name" required>
+            <label for="inputName" class="control-label" >Name</label>
+            <input type="text" name="name" class="form-control" id="inputName" placeholder="Class name" required>
         </div>
 
         <div class="form-group">
             <label for="inputName" class="control-label">Category</label>
-            <select class="form-control" id="sel2">
-                <option>Category 1</option>
-                <option>Category 2</option>
+            <select class="form-control" name="categoryId" id="sel2">
+                <?php
+                    foreach ($categoriesName as $key => $categoryName) {
+                        echo "<option value='$key'> $categoryName </option>";
+                    }
+                ?>
             </select>
         </div>
 
         <div class="form-group">
             <label for="inputName" class="control-label">Visibale</label>
-            <select class="form-control" id="sel2">
-                <option>Show</option>
-                <option>Hide</option>
+            <select class="form-control" id="sel2" name="visible">
+                <option value="1">Show</option>
+                <option value="0">Hide</option>
             </select>
         </div>
 
