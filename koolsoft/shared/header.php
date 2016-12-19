@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.8/validator.min.js"></script>
+<link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap.3.3.7.min.css">
+<script src="/moodle/koolsoft/resources/javascript/jquery.3.1.0.min.js"></script>
+<script src="/moodle/koolsoft/resources/javascript/bootstrap.3.3.7.min.js"></script>
+<script src="/moodle/koolsoft/resources/javascript/validator.0.11.8.min.js"></script>
 
 
 <nav class="navbar navbar-default">
