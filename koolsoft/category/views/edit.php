@@ -15,8 +15,11 @@
         <div class="form-group">
             <label for="parentId" class="control-label">Parent Category</label>
             <select class="form-control" id="parentId" name="parentId">
-                <option>1</option>
-                <option>2</option>
+                <?php
+                    foreach ($categoriesName as $key => $categoryName) {
+                        echo "<option value='$key'> $categoryName </option>";
+                    }
+                ?>
             </select>
         </div>
 
