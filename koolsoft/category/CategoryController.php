@@ -11,6 +11,7 @@ require_once("../../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
+require_once(__DIR__."/models/Category.php");
 
 class CategoryController extends ApplicationController {
 
@@ -19,13 +20,8 @@ class CategoryController extends ApplicationController {
     }
 
     public function index(){
-        $categorieslist = coursecat::make_categories_list('moodle/category:manage');
-        $categoryids = array_keys($categorieslist);
-        $categories = coursecat::get_many($categoryids);
-
-//        error_log(print_r($categories, true));
-
-        $this->treeCategory($categories, 0);
+        $rootCategory = new Category();
+        $rootCategory = $this->getAllCategories();
 
         require_once(__DIR__.'/views/index.php');
     }
@@ -44,26 +40,51 @@ class CategoryController extends ApplicationController {
         }
     }
 
-    private function treeCategory($categories, $rootId){
-        $parentCategories = array();
+    public function show($id){
+        $rootCategory = new Category();
+        $rootCategory = $this->getAllCategories();
+        $coursesOfCategory = $this->getCoursesByCategoryId($id);
 
-        foreach ($categories as $category) {
-            if($category->parent == $rootId){
-                echo "$category->id";
+        require_once(__DIR__.'/views/index.php');
+    }
 
-                array_push($parentCategories, $category);
+    private function getAllCategories(){
+        $categorieslist = coursecat::make_categories_list('moodle/category:manage');
+        $categoryids = array_keys($categorieslist);
+        $categories = coursecat::get_many($categoryids);
+
+//        error_log(print_r($categories, true));
+
+        $rootCategory = new Category();
+
+        $this->treeCategory($categories, $rootCategory);
+
+        return $rootCategory;
+    }
+
+    private function treeCategory($categories, $rootCategory){
+        foreach ($categories as $c) {
+            if($c->parent == $rootCategory->id){
+//                echo "$c->id";
+
+                $category = new Category();
+                $category->id = $c->id;
+                $category->name = $c->name;
+
+                array_push($rootCategory->childrent, $category);
+
+                $this->treeCategory($categories, $category);
             }
         }
+    }
 
-        if(count($parentCategories) > 0){
+    private function getCoursesByCategoryId($categoryId){
 
-//            error_log(print_r($parentCategories, true));
+        $courses = get_courses($categoryId);
 
-            foreach ($parentCategories as $category) {
-                echo "sub of $category->id";
-                $this->treeCategory($categories, $category->id);
-            }
-        }
+        error_log(print_r($courses, true));
+
+        return $courses;
     }
 
 }
