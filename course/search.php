@@ -97,6 +97,8 @@ if (empty($searchcriteria)) {
     $eventparams = array('context' => $PAGE->context, 'other' => array('query' => $search));
     $event = \core\event\courses_searched::create($eventparams);
     $event->trigger();
+
+    error_log(print_r($searchcriteria, true));
 }
 
 $PAGE->set_heading($site->fullname);
