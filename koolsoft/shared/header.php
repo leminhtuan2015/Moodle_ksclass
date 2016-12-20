@@ -4,6 +4,7 @@
 
 
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap.3.3.7.min.css">
+<link rel="stylesheet" href="/moodle/koolsoft/resources/css/adddata.css">
 <script src="/moodle/koolsoft/resources/javascript/jquery.3.1.0.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap.3.3.7.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/validator.0.11.8.min.js"></script>

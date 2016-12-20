@@ -43,7 +43,6 @@ if($action == "index"){
 
 } else if($action == "update"){
     $controller->update();
-
 } else if($action == "delete"){
     $id = $_GET['id'];
 
@@ -52,4 +51,11 @@ if($action == "index"){
     $id = $_GET['id'];
 
     $controller->deleteSection($id);
+}else if ($action == "adddata") {
+    $id = optional_param('idcourse',0,PARAM_INT);
+    $lecture = optional_param('lecture',0,PARAM_INT);
+    $add = optional_param('add','',PARAM_ALPHA);
+    if($add == "label") {
+        header('Location: ' . "/moodle/koolsoft/course/views/adddata/addlabel.php?idcourse=$id&lecture=$lecture&add=$add");
+    }
 }

@@ -42,6 +42,7 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                                 <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section->section ?>">
                                     <?php echo "$section->name ($section->section)"?>
                                 </a>
+                                <a id="addResource" type="button"  href="<?php echo "/moodle/koolsoft/course/?action=adddata&add=label&idcourse=".$course->id . "&lecture=" . $section->section ?>">Add resource or activity</a>
                             </h4>
                         </div>
                         <div id="<?php echo $section->section ?>" class="panel-collapse collapse">
