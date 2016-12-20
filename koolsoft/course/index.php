@@ -26,13 +26,21 @@ if($action == "index"){
 
     $controller->show($id);
 
-} else if($action == "edit"){
+} else if($action == "new"){
     $id = optional_param('id', 0, PARAM_INT); // Course id.
 
-    $controller->edit($id);
+    $controller->newCourse($id);
 
 } else if($action == "myCourses"){
-    // My course
+    $controller->myCourse();
+
 } else if($action == "create"){
     $controller->create();
+
+} else if($action == "edit"){
+    $id = $_GET['id'];
+    $controller->edit($id);
+
+} else if($action == "update"){
+    $controller->update();
 }
