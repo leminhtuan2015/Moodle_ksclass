@@ -66,7 +66,7 @@ function tree1(&$rootCategory) {
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <span class="glyphicon glyphicon-folder-close"></span>Content
+                                <span class="glyphicon glyphicon-folder-close"></span>Category
                             </a>
                         </h4>
                     </div>
@@ -120,34 +120,6 @@ function tree1(&$rootCategory) {
                             <a href="#" class="list-group-item">Morbi leo risus</a>
                             <a href="#" class="list-group-item">Porta ac consectetur ac</a>
                             <a href="#" class="list-group-item">Vestibulum at eros</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"><span class="glyphicon glyphicon-heart">
-                    </span>Reports</a>
-                        </h4>
-                    </div>
-                    <div id="collapseFive" class="panel-collapse collapse">
-                        <div class="list-group">
-                            <a href="#" class="list-group-item">
-                                <h4 class="list-group-item-heading">List group item heading</h4>
-                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                            </a>
-                        </div>
-                        <div class="list-group">
-                            <a href="#" class="list-group-item active">
-                                <h4 class="list-group-item-heading">List group item heading</h4>
-                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                            </a>
-                        </div>
-                        <div class="list-group">
-                            <a href="#" class="list-group-item">
-                                <h4 class="list-group-item-heading">List group item heading</h4>
-                                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                            </a>
                         </div>
                     </div>
                 </div>

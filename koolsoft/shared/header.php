@@ -1,3 +1,8 @@
+<?php
+    require_once(__DIR__.'/../../config.php');
+?>
+
+
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap.3.3.7.min.css">
 <script src="/moodle/koolsoft/resources/javascript/jquery.3.1.0.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap.3.3.7.min.js"></script>
@@ -21,7 +26,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
-                <li><a href="/moodle/koolsoft/course">Class</a></li>
+                <li><a href="/moodle/koolsoft/course">Courses</a></li>
                 <li><a href="/moodle/koolsoft/category">Category</a></li>
                 <li><a href="#">Document</a></li>
             </ul>
@@ -33,19 +38,29 @@
             </form>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
+                <?php if(isloggedin()) { ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <?php
+                                global $USER;
+                                echo "$USER->username";
+                            ?>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">My course</a></li>
+                            <li><a href="#">Setting</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/moodle/login/logout.php">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php } else { ?>
+                    <li><a href="/moodle/login/index.php">Login</a></li>
+                <?php } ?>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=edit">Create class</a></li></ul>
+            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=edit">Create course</a></li></ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
