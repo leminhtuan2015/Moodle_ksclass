@@ -40,7 +40,7 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                                 </a>
                             </h4>
                         </div>
-                        <div id="<?php echo $section->id ?>" class="panel-collapse collapse">
+                        <div id="<?php echo $section->section ?>" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <?php
                                 foreach ($section->modinfo->cms as $cms) {
