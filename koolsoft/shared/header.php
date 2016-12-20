@@ -30,9 +30,9 @@
                 <li><a href="/moodle/koolsoft/category">Category</a></li>
                 <li><a href="#">Document</a></li>
             </ul>
-            <form class="navbar-form navbar-left">
+            <form class="navbar-form navbar-left" action="/moodle/koolsoft/search/?action=show" method="get">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" name="search">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -52,7 +52,7 @@
                             <li><a href="#">My course</a></li>
                             <li><a href="#">Setting</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="/moodle/login/logout.php">Logout</a></li>
+                            <li><a href="/moodle/koolsoft/login/logout.php">Logout</a></li>
                         </ul>
                     </li>
                 <?php } else { ?>
