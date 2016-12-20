@@ -2,11 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: leminhtuan
- * Date: 12/15/16
- * Time: 10:04 PM
+ * Date: 12/20/16
+ * Time: 1:29 PM
  */
-
-
 
 ?>
 
@@ -14,8 +12,6 @@
     <div class="panel panel-primary" style="width: 960px">
         <div class="panel-heading">
             <h3 class="panel-title pull-left">Courses</h3>
-
-<!--            <button class="btn btn-default pull-right">New</button>-->
             <div class="clearfix"></div>
         </div>
         <div class="panel-body center">

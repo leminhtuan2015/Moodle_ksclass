@@ -22,6 +22,7 @@ class CourseController extends ApplicationController {
 
         require_once(__DIR__.'/views/index.php');
     }
+
     public function show($id) {
         global $DB;
 
@@ -71,6 +72,14 @@ class CourseController extends ApplicationController {
         if($course){
             redirect("/moodle/koolsoft/course");
         }
+    }
+
+    public function myCourse(){
+        global $USER;
+
+        $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
+
+        require_once(__DIR__.'/views/myCourse.php');
     }
 
     //    PRIVATE ----------------------------------------------- PRIVATE

@@ -32,7 +32,8 @@ if($action == "index"){
     $controller->edit($id);
 
 } else if($action == "myCourses"){
-    // My course
+    $controller->myCourse();
+
 } else if($action == "create"){
     $controller->create();
 }

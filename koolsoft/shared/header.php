@@ -34,7 +34,6 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search" name="search">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
             </form>
 
             <ul class="nav navbar-nav navbar-right">
@@ -49,7 +48,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Profile</a></li>
-                            <li><a href="#">My course</a></li>
+                            <li><a href="/moodle/koolsoft/course/?action=myCourses">My course</a></li>
                             <li><a href="#">Setting</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="/moodle/koolsoft/login/logout.php">Logout</a></li>
