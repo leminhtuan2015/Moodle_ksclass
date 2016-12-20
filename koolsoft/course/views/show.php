@@ -35,8 +35,8 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section->id ?>">
-                                    <?php echo "$section->name ($section->id)"?>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section->section ?>">
+                                    <?php echo "$section->name ($section->section)"?>
                                 </a>
                             </h4>
                         </div>
@@ -44,7 +44,7 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                             <div class="panel-body">
                                 <?php
                                 foreach ($section->modinfo->cms as $cms) {
-                                    if ($cms->section == $section->id) {
+                                    if ($cms->section == $section->section) {
                                         if ($cms->content) {
                                             echo "$cms->content";
                                         }
