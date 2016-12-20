@@ -7,7 +7,6 @@
  */
 
 
-
 ?>
 
 <div class="container">
@@ -20,12 +19,11 @@
         </div>
         <div class="panel-body center">
             <!-- List group -->
-            <ul class="list-group">
-
+            <div class="list-group ">
                 <?php foreach ($courses as $c) { ?>
-                    <li class="list-group-item"><?php echo "<a href='../course/?action=show&id=$c->id'>$c->fullname</a>" ?></li>
+                    <?php echo "<a class='list-group-item' href='../course/?action=show&id=$c->id'>$c->fullname</a>" ?>
                 <?php } ?>
-            </ul>
+            </div>
         </div>
     </div>
 </div>

@@ -5,10 +5,18 @@
  * Date: 12/15/16
  * Time: 10:04 PM
  */
+
+require_once(__DIR__."/../../shared/views/confirm.php");
 ?>
 
 <div class="container">
     <h2>Course: <?php echo $course->fullname ?></h2>
+    <div class="btn-group pull-right" role="group">
+        <a type="button" class="btn btn-secondary" href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a>
+        <a type="button" class="btn btn-secondary" data-toggle="modal" data-target="#confirm-delete"
+           data-href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Delete</a>
+    </div>
+
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#home">Lectures</a></li>
         <li><a data-toggle="tab" href="#menu1">Document</a></li>
@@ -18,7 +26,7 @@
 
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
-            <h3>Lectures</h3>
+            <h4>Lectures</h4>
 
             <div class="panel-group" id="accordion">
 

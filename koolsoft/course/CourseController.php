@@ -43,17 +43,16 @@ class CourseController extends ApplicationController {
         require_once(__DIR__.'/views/show.php');
     }
 
-    public function edit($id){
+    public function newCourse($id){
         if($id){
             $course = get_course($id);
         }
 
         $categoryController = new CategoryController();
-
         $categories = $categoryController->getAllCategories();
         $categoriesName = $categoryController->getPathCategory($categories);
 
-        require_once(__DIR__.'/views/edit.php');
+        require_once(__DIR__.'/views/new.php');
     }
 
     public function create(){
@@ -65,7 +64,6 @@ class CourseController extends ApplicationController {
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
-
 
         $course = create_course($data);
 
@@ -80,6 +78,38 @@ class CourseController extends ApplicationController {
         $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
 
         require_once(__DIR__.'/views/myCourse.php');
+    }
+
+    public function edit($id){
+        if($id){
+            $course = get_course($id);
+
+            $modinfo = get_fast_modinfo($course);
+            $sections = $modinfo->get_section_info_all();
+            $categoryController = new CategoryController();
+            $categories = $categoryController->getAllCategories();
+            $categoriesName = $categoryController->getPathCategory($categories);
+
+//            error_log(print_r($sections, true));
+        }
+
+        require_once(__DIR__.'/views/edit.php');
+    }
+
+    public function update(){
+//        error_log(print_r($_POST, true));
+
+        $data = new stdClass();
+
+        $data->id = $_POST["id"];
+        $data->fullname = $_POST["name"];
+        $data->shortname = $_POST["name"];
+        $data->category = $_POST["categoryId"];
+        $data->visible = $_POST["visible"];
+
+        update_course($data);
+
+        redirect("/moodle/koolsoft/course");
     }
 
     //    PRIVATE ----------------------------------------------- PRIVATE

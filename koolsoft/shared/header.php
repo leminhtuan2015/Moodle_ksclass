@@ -59,7 +59,7 @@
                 <?php } ?>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=edit">Create course</a></li></ul>
+            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=new">Create course</a></li></ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
