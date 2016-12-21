@@ -18,7 +18,12 @@ class CourseController extends ApplicationController {
     }
 
     public function index($categoryid) {
+        global $USER;
+
         $courses = get_courses($categoryid);
+
+//        error_log(print_r($USER->sesskey, true));
+//        $SESSION->sesskey = $USER->sesskey;
 
         require_once(__DIR__.'/views/index.php');
     }
@@ -56,40 +61,61 @@ class CourseController extends ApplicationController {
     }
 
     public function create(){
-//        error_log(print_r($_POST, true));
+        global $DB;
 
         $data = new stdClass();
-
         $data->fullname = $_POST["name"];
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
-
+//        $data->numsections = 0;
+        $lectures = $_POST["lectures"];
+//        error_log(print_r($lectures, true));
         $course = create_course($data);
 
         if($course){
+            $DB->delete_records('course_sections', array('course' => $course->id, 'section' => 0));
+            $numberSections = 0;
+
+            foreach ($lectures as $index => $lecture) {
+                if ($lecture[name]) {
+//                    error_log(print_r($lecture[name], true));
+//                    error_log(print_r($course->id, true));
+                    $section = new stdClass();
+                    $section->name = $lecture[name];
+                    $section->course = $course->id;
+                    $section->section  = $index;
+                    $section->summary  = '';
+                    $section->summaryformat = FORMAT_HTML;
+                    $section->sequence = '';
+                    $id = $DB->insert_record("course_sections", $section);
+                    $numberSections ++;
+//                    error_log(print_r("section: ".$id, true));
+                }
+            }
+
+            update_course((object)array('id' => $course->id, 'numsections' => $numberSections));
             redirect("/moodle/koolsoft/course");
         }
     }
 
     public function myCourse(){
         global $USER;
-
         $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
 
         require_once(__DIR__.'/views/myCourse.php');
     }
 
     public function edit($id){
+        global $USER;
+
         if($id){
             $course = get_course($id);
-
             $modinfo = get_fast_modinfo($course);
             $sections = $modinfo->get_section_info_all();
             $categoryController = new CategoryController();
             $categories = $categoryController->getAllCategories();
             $categoriesName = $categoryController->getPathCategory($categories);
-
 //            error_log(print_r($sections, true));
         }
 
@@ -97,16 +123,14 @@ class CourseController extends ApplicationController {
     }
 
     public function update(){
-//        error_log(print_r($_POST, true));
+        error_log(print_r($_POST, true));
 
         $data = new stdClass();
-
         $data->id = $_POST["id"];
         $data->fullname = $_POST["name"];
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
-
         update_course($data);
 
         redirect("/moodle/koolsoft/course");

@@ -43,18 +43,16 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                         <div id="<?php echo $section->section ?>" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <?php
-                                foreach ($section->modinfo->cms as $cms) {
-//                                    error_log(print_r($cms, true));
-
-                                    if ($cms->section == $section->id) {
-                                        if ($cms->content) {
-                                            echo "$cms->content";
-                                        }
-                                        if ($cms->url) {
-                                            echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)</li>";
+                                    foreach ($section->modinfo->cms as $cms) {
+                                        if ($cms->section == $section->id) {
+                                            if ($cms->content) {
+                                                echo "$cms->content";
+                                            }
+                                            if ($cms->url) {
+                                                echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)</li>";
+                                            }
                                         }
                                     }
-                                }
                                 ?>
                             </div>
                         </div>
