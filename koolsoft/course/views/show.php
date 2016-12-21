@@ -7,7 +7,26 @@
  */
 
 require_once(__DIR__."/../../shared/views/confirm.php");
+
+
+if(isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+if(isset($_POST['typeadd'])){
+    $typeAdd = $_POST['typeadd'];
+    if($typeAdd == "Label") {
+        header("Location: /moodle/koolsoft/course/");
+//          header("Location: http://localhost/moodle/koolsoft/course/");
+    }
+}
+
+
+
+
+
+
 ?>
+<link rel="stylesheet" href="../../resources/css/adddata.css">
 
 <div class="container">
     <h2>Course: <?php echo $course->fullname ?></h2>
@@ -42,9 +61,10 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                                 <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section->section ?>">
                                     <?php echo "$section->name ($section->section)"?>
                                 </a>
-                                <a id="addResource" type="button"  href="<?php echo "/moodle/koolsoft/course/?action=adddata&add=label&idcourse=".$course->id . "&lecture=" . $section->section ?>">Add resource or activity</a>
+<!--                                <a id="addResource" type="button"  href="--><?php //echo "/moodle/koolsoft/course/?action=adddata&add=label&idcourse=".$course->id . "&lecture=" . $section->section ."&id=" .$_GET['id'] ?><!--">Add resource or activity</a>-->
                             </h4>
                         </div>
+                        <button id="addResource" type="button" class="btn btn-default" onclick="functionAddResource(<?php echo $section->section?>)">Add resource</button>
                         <div id="<?php echo $section->section ?>" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <?php
@@ -87,3 +107,108 @@ require_once(__DIR__."/../../shared/views/confirm.php");
         </div>
     </div>
 </div>
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Add an activity or resource</h2>
+            </div>
+            <form action="/moodle/koolsoft/course/?action=show&id=<?php echo $id ?>" method="post" id="mainForm" name="mainForm">
+                <div class="modal-body">
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" class="radioButton" value="assigment">Assigment</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" class="radioButton" value="chat">Chat</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" value="choise">Choise</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" value="extenaltool">External tool</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" value="label">Label</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" value="folder">Folder</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" value="file">File</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" value="url">Url</label>
+                        </div>
+                        <input type="hidden" id="typeadd" name="typeadd" value="typeadd">
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAdd" type="button" name="submit" class="btn btn-primary">Add</button>
+                    <button id="btnCancel" type="button" class="btn btn-default">Cancel</button>
+                </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById("addResource");
+    var btnCancel = document.getElementById("btnCancel");
+    var btnSubmit = document.getElementById("btnAdd");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+//    btn.onclick = function() {
+//        modal.style.display = "block";
+//    }
+    var sectionId ;
+    function functionAddResource(section){
+        modal.style.display = "block";
+        sectionId = section;
+    }
+
+
+    btnCancel.onclick = function() {
+        hideDialog();
+    }
+
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    var selectedValue;
+    $('#mainForm input').on('change', function() {
+        selectedValue = $('input[name=optradio]:checked', '#mainForm').val();
+        document.getElementById("typeadd").value = selectedValue;
+    });
+
+    function hideDialog() {
+        modal.style.display = "none";
+    }
+    btnSubmit.onclick = function() {
+        hideDialog();
+        if(selectedValue != null && selectedValue == "label"){
+            var id = "<?php echo $id?>";
+            var courseId = "<?php echo $course->id?>"
+            location.href = "/moodle/koolsoft/course/?action=adddata&add=" + selectedValue + "&idcourse=" + courseId+"&lecture=" + sectionId + "&id=" + id;
+        }
+    }
+
+
+</script>
