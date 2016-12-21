@@ -9,6 +9,12 @@
 
 
 <div class="container">
+    <div style="margin-bottom: 50px">
+        <a type="button" class="btn btn-primary pull-right"
+           href="">
+            Add Lecture
+        </a>
+    </div>
 
     <form data-toggle="validator" role="form" action="/moodle/koolsoft/course/?action=update" method="post">
         <div class="form-group">
@@ -32,19 +38,20 @@
 
                     }
                 ?>
-</select>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="inputName" class="control-label">Visibale</label>
+            <select class="form-control" id="sel2" name="visible">
+                <option value="1">Show</option>
+                <option value="0">Hide</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
 </div>
 
-<div class="form-group">
-    <label for="inputName" class="control-label">Visibale</label>
-    <select class="form-control" id="sel2" name="visible">
-        <option value="1">Show</option>
-        <option value="0">Hide</option>
-    </select>
-</div>
-
-<div class="form-group">
-    <button type="submit" class="btn btn-primary">Create</button>
-</div>
-</form>
-</div>

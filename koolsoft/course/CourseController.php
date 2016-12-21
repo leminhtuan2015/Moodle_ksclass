@@ -18,7 +18,12 @@ class CourseController extends ApplicationController {
     }
 
     public function index($categoryid) {
+        global $USER;
+
         $courses = get_courses($categoryid);
+
+//        error_log(print_r($USER->sesskey, true));
+//        $SESSION->sesskey = $USER->sesskey;
 
         require_once(__DIR__.'/views/index.php');
     }
@@ -56,7 +61,7 @@ class CourseController extends ApplicationController {
     }
 
     public function create(){
-//        error_log(print_r($_POST, true));
+        global $DB;
 
         $data = new stdClass();
 
@@ -64,10 +69,32 @@ class CourseController extends ApplicationController {
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
+        $data->numsections = 0;
+
+        $lectures = $_POST["lectures"];
+
+        error_log(print_r($lectures, true));
 
         $course = create_course($data);
 
         if($course){
+            foreach ($lectures as $index => $lecture) {
+                if ($lecture[name]) {
+//                    error_log(print_r($lecture[name], true));
+//                    error_log(print_r($course->id, true));
+
+                    $section = new stdClass();
+                    $section->name = $lecture[name];
+                    $section->course = $course->id;
+                    $section->section  = $index + 1;
+                    $section->summary  = '';
+                    $section->summaryformat = FORMAT_HTML;
+                    $section->sequence = '';
+                    $id = $DB->insert_record("course_sections", $section);
+
+//                    error_log(print_r("section: ".$id, true));
+                }
+            }
             redirect("/moodle/koolsoft/course");
         }
     }
@@ -81,6 +108,8 @@ class CourseController extends ApplicationController {
     }
 
     public function edit($id){
+        global $USER;
+
         if($id){
             $course = get_course($id);
 
