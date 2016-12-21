@@ -29,8 +29,12 @@ require_once(__DIR__."/../../shared/views/confirm.php");
             <h4>Lectures</h4>
 
             <div class="panel-group" id="accordion">
-
                 <?php foreach ($sections as $section) { ?>
+                    <?php
+                        if($section->section == 0){
+                            continue;
+                        }
+                    ?>
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -57,11 +61,8 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                             </div>
                         </div>
                     </div>
-
                 <?php } ?>
-
             </div>
-
         </div>
         <div id="menu1" class="tab-pane fade">
             <h3>Menu 1</h3>
