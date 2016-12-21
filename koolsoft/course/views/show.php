@@ -14,7 +14,7 @@ require_once(__DIR__."/../../shared/views/confirm.php");
     <div class="btn-group pull-right" role="group">
         <a type="button" class="btn btn-secondary" href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a>
         <a type="button" class="btn btn-secondary" data-toggle="modal" data-target="#confirm-delete"
-           data-href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Delete</a>
+           data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a>
     </div>
 
     <ul class="nav nav-tabs">

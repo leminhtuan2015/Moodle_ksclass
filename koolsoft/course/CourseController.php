@@ -136,6 +136,12 @@ class CourseController extends ApplicationController {
         redirect("/moodle/koolsoft/course");
     }
 
+    public function delete($id){
+        delete_course($id, false);
+
+        redirect("/moodle/koolsoft/course");
+    }
+
     //    PRIVATE ----------------------------------------------- PRIVATE
     private function enrolledUsers($courseId){
         $context = context_COURSE::instance($courseId);
