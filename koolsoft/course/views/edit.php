@@ -5,6 +5,9 @@
  * Date: 12/20/16
  * Time: 3:02 PM
  */
+
+require_once(__DIR__."/../../shared/views/confirm.php");
+
 ?>
 
 
@@ -54,6 +57,8 @@
                     <a data-toggle="collapse" data-target="#courseDetail<?php echo $section->section ?>" href="#courseDetail">
                         <?php echo "$section->name ($section->section)"?>
                     </a>
+                    <a class='btn btn-danger pull-right btn-xs' data-toggle="modal" data-target="#confirm-delete"
+                       data-href="/moodle/koolsoft/course/?action=deleteSection&id=<?php echo $section->id ?>">Remove</a>
                 </div>
 
                 <div id="courseDetail<?php echo $section->section ?>" class="panel-collapse collapse in">

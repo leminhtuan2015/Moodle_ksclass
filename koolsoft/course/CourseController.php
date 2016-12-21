@@ -123,6 +123,8 @@ class CourseController extends ApplicationController {
     }
 
     public function update(){
+        global $DB;
+
         error_log(print_r($_POST, true));
 
         $data = new stdClass();
@@ -133,13 +135,52 @@ class CourseController extends ApplicationController {
         $data->visible = $_POST["visible"];
         update_course($data);
 
-        redirect("/moodle/koolsoft/course");
+        $lectures = $_POST["lectures"];
+
+        foreach ($lectures as $index => $lecture) {
+            if ($lecture[name] && $lecture[sectionId]) {
+//              error_log(print_r($lecture[name], true));
+//              error_log(print_r($course->id, true));
+                $section = new stdClass();
+                $section->id = $lecture[sectionId];
+                $section->name = $lecture[name];
+                $section->section  = $index;
+                $id = $DB->update_record("course_sections", $section);
+//                    error_log(print_r("section: ".$id, true));
+            } else if($lecture[name]) {
+                $section = new stdClass();
+                $section->name = $lecture[name];
+                $section->course = $data->id;
+                $section->section  = $index;
+                $section->summary  = '';
+                $section->summaryformat = FORMAT_HTML;
+                $section->sequence = '';
+                $id = $DB->insert_record("course_sections", $section);
+            }
+        }
+
+        redirect("/moodle/koolsoft/course/?action=show&id=$data->id");
     }
 
     public function delete($id){
         delete_course($id, false);
 
         redirect("/moodle/koolsoft/course");
+    }
+
+    public function deleteSection($id){
+        global $DB;
+
+        $section = $DB->get_record('course_sections', array('id' => $id), '*', MUST_EXIST);
+        $course = $DB->get_record('course', array('id' => $section->course), '*', MUST_EXIST);
+        $sectionnum = $section->section;
+        $sectioninfo = get_fast_modinfo($course)->get_section_info($sectionnum);
+
+        if (course_can_delete_section($course, $sectioninfo)) {
+            course_delete_section($course, $sectioninfo, true, true);
+        }
+
+        redirect("/moodle/koolsoft/course?action=edit&id=$course->id");
     }
 
     //    PRIVATE ----------------------------------------------- PRIVATE

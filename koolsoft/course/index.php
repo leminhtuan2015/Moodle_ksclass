@@ -48,4 +48,8 @@ if($action == "index"){
     $id = $_GET['id'];
 
     $controller->delete($id);
+} else if($action == "deleteSection"){
+    $id = $_GET['id'];
+
+    $controller->deleteSection($id);
 }
