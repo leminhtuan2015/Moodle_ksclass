@@ -43,4 +43,9 @@ if($action == "index"){
 
 } else if($action == "update"){
     $controller->update();
+
+} else if($action == "delete"){
+    $id = $_GET['id'];
+
+    $controller->delete($id);
 }
