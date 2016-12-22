@@ -29,7 +29,6 @@ require_once($CFG->dirroot . '/question/editlib.php');
 
 list($thispageurl, $contexts, $cmid, $cm, $module, $pagevars) =
         question_edit_setup('questions', '/question/edit.php');
-
 $url = new moodle_url($thispageurl);
 if (($lastchanged = optional_param('lastchanged', 0, PARAM_INT)) !== 0) {
     $url->param('lastchanged', $lastchanged);
@@ -54,3 +53,4 @@ $questionbank->display('questions', $pagevars['qpage'], $pagevars['qperpage'],
 echo "</div>\n";
 
 echo $OUTPUT->footer();
+

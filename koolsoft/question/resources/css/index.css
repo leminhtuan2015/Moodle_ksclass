@@ -1,0 +1,18 @@
+.answerText{
+    display: inline-block;
+}
+.answerLable{
+     display: inline-block;
+}
+.answerDiv{
+     display: inline-block;
+}
+.questionText{
+      display: inline-block;
+}
+.questionLable{
+       display: inline-block;
+}
+.questionDiv{
+       display: inline-block;
+}
