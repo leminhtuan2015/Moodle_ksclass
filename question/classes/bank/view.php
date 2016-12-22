@@ -593,7 +593,6 @@ class view {
                 'action' => new \moodle_url($scriptpath), 'id' => 'displayoptions'));
         echo \html_writer::start_div();
         echo \html_writer::input_hidden_params($this->baseurl, array('recurse', 'showhidden', 'qbshowtext'));
-
         foreach ($this->searchconditions as $searchcondition) {
             echo $searchcondition->display_options($this);
         }
@@ -937,4 +936,5 @@ class view {
     public function add_searchcondition($searchcondition) {
         $this->searchconditions[] = $searchcondition;
     }
+
 }
