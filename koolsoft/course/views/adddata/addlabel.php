@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="../../../resources/css/adddata.css">
+
     <!--include font awesome-->
     <link rel="stylesheet" href="../../../resources/css/fontawesome/css/font-awesome.min.css">
     <!--include editor style-->
@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="../../../resources/css/froalaeditor/css/plugins/quick_insert.css">
     <link rel="stylesheet" href="../../../resources/css/froalaeditor/css/plugins/table.css">
     <link rel="stylesheet" href="../../../resources/css/froalaeditor/css/plugins/video.css">
+
+    <link rel="stylesheet" href="../../../resources/css/adddata.css">
 
     <script type="text/javascript">
         function back(id) {
@@ -50,16 +52,15 @@ if(isset($_GET['id'])) {
 if($_SERVER['REQUEST_METHOD'] == "POST") {
     if(!empty($_POST["label"])) {
         $content = $_POST['label'];
-        var_dump($content);
         $courseid = $_POST['courseid'];
         $section = $_POST['section'];
         $id = $_POST['id'];
         $label = new Label();
         $label->addData($courseid,$section,$content);
-//        echo '<script type="text/javascript">
-//            back('.$id.');
-//        </script>'
-//        ;
+        echo '<script type="text/javascript">
+            back('.$id.');
+        </script>'
+        ;
     }
 }
 ?>
@@ -72,9 +73,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
             <div class="panel panel-default">
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseGeneral">General</a>
                 <div id="collapseGeneral" class="panel-collapse collapse in">
-                    Label Add
-                    <input type="text" class="form-control" name="label">
-                    <textarea id="edit" name="labexl"></textarea>
+                    <p>Label Add</p>
+                    <textarea id="edit" name="label"></textarea>
                 </div>
             </div>
             <div class="panel panel-default">
@@ -92,6 +92,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseRestrict">Restrict access</a>
                 <div id="collapseRestrict" class="panel-collapse collapse in">
                     Access restrictions
+                    <div id="divAccessRestriction">
+                        <p>None</p>
+                        <button type="button" class="btn btn-default">Add restriction...</button>
+                    </div>
                 </div>
             </div>
             <div class="panel panel-default">
@@ -105,8 +109,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div id="collapseCompetencies" class="panel-collapse collapse in">
                 </div>
             </div>
-
-
             <input type="hidden" class="form-control" name="courseid" value="<?php echo $course_id;?>" >
             <input type="hidden" class="form-control" name="section" value="<?php echo $lecture_id;?>">
             <input type="hidden" class="form-control" name="id" value="<?php echo $id;?>">

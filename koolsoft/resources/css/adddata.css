@@ -21,6 +21,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.fr-box.fr-basic .fr-element{
+    min-height: 200px;
+}
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */

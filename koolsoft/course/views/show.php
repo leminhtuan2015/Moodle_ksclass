@@ -119,7 +119,7 @@ if(isset($_POST['typeadd'])){
                 <h2>Add an activity or resource</h2>
             </div>
             <form action="/moodle/koolsoft/course/?action=show&id=<?php echo $id ?>" method="post" id="mainForm" name="mainForm">
-                <div class="modal-body">
+                <div  class="modal-body">
                         <div class="radio">
                             <label><input type="radio" name="optradio" class="radioButton" value="assigment">Assigment</label>
                         </div>
@@ -145,7 +145,10 @@ if(isset($_POST['typeadd'])){
                             <label><input type="radio" name="optradio" value="url">Url</label>
                         </div>
                         <input type="hidden" id="typeadd" name="typeadd" value="typeadd">
+                    <p id="radioContent"></p>
+
                 </div>
+
                 <div class="modal-footer">
                     <button id="btnAdd" type="button" name="submit" class="btn btn-primary">Add</button>
                     <button id="btnCancel" type="button" class="btn btn-default">Cancel</button>
@@ -196,6 +199,36 @@ if(isset($_POST['typeadd'])){
     $('#mainForm input').on('change', function() {
         selectedValue = $('input[name=optradio]:checked', '#mainForm').val();
         document.getElementById("typeadd").value = selectedValue;
+        switch(selectedValue){
+            case "assigment":
+                document.getElementById("radioContent").innerHTML = "Choose assigment not supports";
+                break;
+            case "chat":
+                document.getElementById("radioContent").innerHTML = "Choose chat not support";
+                break;
+            case "choise":
+                document.getElementById("radioContent").innerHTML = "Choose choise not support";
+                break;
+            case "extenaltool":
+                document.getElementById("radioContent").innerHTML = "Choose extenaltool not support";
+                break;
+            case "label":
+                document.getElementById("radioContent").innerHTML = "Choose label ok nhe";
+                break;
+            case "folder":
+                document.getElementById("radioContent").innerHTML = "Choose folder not support";
+                break;
+            case "file":
+                document.getElementById("radioContent").innerHTML = "Choose file not support";
+                break;
+            case "url":
+                document.getElementById("radioContent").innerHTML = "Choose url not support";
+                break;
+
+        }
+        if(selectedValue == "label"){
+
+        }
     });
 
     function hideDialog() {
