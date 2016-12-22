@@ -16,6 +16,13 @@ class HomeController extends ApplicationController {
     }
 
     public function index(){
+        $this->myCourse();
+    }
+
+    private function myCourse(){
+        global $USER;
+        $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
+
         require_once(__DIR__.'/views/index.php');
     }
 
