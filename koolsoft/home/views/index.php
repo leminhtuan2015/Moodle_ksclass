@@ -52,7 +52,7 @@
                     <div class="navbar navbar-default" role="navigation">
                         <div class="navbar-collapse collapse sidebar-navbar-collapse">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="#">My Courses</a></li>
+                                <li class="active"><a href="#">My Classes</a></li>
 
                                 <ul class="nav nav-pills brand-pills nav-stacked" role="tablist">
                                     <?php foreach ($courses as $course){ ?>
@@ -75,7 +75,7 @@
             <div class="col-sm-9">
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active">
-                        <?php require_once (__DIR__."/create_message_box.php");?>
+                        <?php require_once (__DIR__."/../../shared/views/create_message_box.php");?>
                     </div>
 
                     <?php foreach ($courses as $course){ ?>

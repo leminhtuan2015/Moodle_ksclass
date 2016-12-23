@@ -12,9 +12,7 @@
 <div class="container">
     <div class="panel panel-primary" style="width: 960px">
         <div class="panel-heading">
-            <h3 class="panel-title pull-left">Courses</h3>
-
-<!--            <button class="btn btn-default pull-right">New</button>-->
+            <h3 class="panel-title pull-left">Classes</h3>
             <div class="clearfix"></div>
         </div>
         <div class="panel-body center">
