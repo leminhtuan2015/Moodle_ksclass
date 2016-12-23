@@ -32,7 +32,7 @@ class LectureResourceController extends ApplicationController {
         $sectionId = $_POST['sectionId'];
 
         $label = new Label();
-        $label->addData($courseId, $section, $labelContent);
+        $moduleinfo = $label->addData($courseId, $section, $labelContent);
 
         redirect("/moodle/koolsoft/lecture/?action=show&id=$sectionId&courseId=$courseId");
     }

@@ -41,7 +41,9 @@ class Label extends  stdClass {
         $data = $this->buildLabelObject($courseId, $section, $labelContent);
         $course = $DB->get_record('course', array('id'=>$courseId), '*', MUST_EXIST);
         error_log(print_r($data, true));
-        add_moduleinfo($data, $course);
+        $moduleinfo = add_moduleinfo($data, $course);
+
+        return $moduleinfo;
     }
 
     private function buildLabelObject($courseId, $section, $labelContent){
