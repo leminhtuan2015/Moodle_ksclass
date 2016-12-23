@@ -85,29 +85,6 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                                placeholder="Lecture Name" required
                                value="<?php echo "$section->name"?>">
                     </div>
-
-                    <?php
-                        $content = "";
-
-                        foreach ($section->modinfo->cms as $cms) {
-                            if ($cms->section == $section->id) {
-                                if ($cms->content) {
-                                    $content = "$cms->content";
-                                }
-                                if ($cms->url) {
-//                                    echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)</li>";
-                                }
-                            }
-                        }
-                    ?>
-
-                    <div class="form-group">
-                        <label for="inputName" class="control-label" >Lecture Content</label>
-                        <input form="createCourseForm" type="text"
-                               name="lectures[<?php echo $index ?>][content]" class="form-control"
-                               placeholder="Lecture Content" required
-                               value="<?php echo $section->section ?>">
-                    </div>
                 </div>
             </div>
         <?php } ?>
@@ -144,10 +121,6 @@ require_once(__DIR__."/../../shared/views/confirm.php");
             "<div class=\"form-group\"> " +
             "<label for=\"inputName\" class=\"control-label\" >Lecture Name</label> " +
             "<input form='createCourseForm' type='text' name='lectures" + "[" + index + "]" + "[name]' class='form-control' placeholder='Lecture Name'> " +
-            "</div> " +
-            "<div class=\"form-group\"> " +
-            "<label for=\"inputName\" class=\"control-label\" >Lecture Content</label> " +
-            "<input form='createCourseForm' type='text' name='lectures" + "[" + index + "]" + "[content]' class='form-control' placeholder='Lecture Content'> " +
             "</div> " +
             "</div>" +
             "</div>";

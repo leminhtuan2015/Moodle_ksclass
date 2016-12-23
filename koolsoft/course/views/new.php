@@ -50,13 +50,8 @@
 
             <div id="courseDetail" class="panel-collapse collapse in">
                 <div class="form-group">
-                    <label for="inputName" class="control-label" >Lecture Name</label>
+                    <label for="inputName" class="control-label" >Name</label>
                     <input form="createCourseForm" type="text" name="lectures[0][name]" class="form-control" placeholder="Lecture Name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="control-label" >Lecture Content</label>
-                    <input form="createCourseForm" type="text" name="lectures[0][content]" class="form-control" placeholder="Lecture Content" required>
                 </div>
             </div>
         </div>
@@ -95,10 +90,6 @@
             "<div class=\"form-group\"> " +
             "<label for=\"inputName\" class=\"control-label\" >Lecture Name</label> " +
             "<input form='createCourseForm' type='text' name='lectures" + "[" + index + "]" + "[name]' class='form-control' placeholder='Lecture Name'> " +
-            "</div> " +
-            "<div class=\"form-group\"> " +
-            "<label for=\"inputName\" class=\"control-label\" >Lecture Content</label> " +
-            "<input form='createCourseForm' type='text' name='lectures" + "[" + index + "]" + "[content]' class='form-control' placeholder='Lecture Content'> " +
             "</div> " +
             "</div>" +
             "</div>";
