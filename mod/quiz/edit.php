@@ -197,7 +197,6 @@ $numberoflisteners = $DB->get_field_sql("
     SELECT COALESCE(MAX(page), 1)
       FROM {quiz_slots}
      WHERE quizid = ?", array($quiz->id));
-
 for ($pageiter = 1; $pageiter <= $numberoflisteners; $pageiter++) {
     $quizeditconfig->dialoglisteners[] = 'addrandomdialoglaunch_' . $pageiter;
 }

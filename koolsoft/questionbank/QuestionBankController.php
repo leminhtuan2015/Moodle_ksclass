@@ -28,15 +28,8 @@ class QuestionBankController extends ApplicationController {
         if($categoryid == all){
             // TODO
         }else {
-            $thiscontext = context_course::instance($courseid);
-            if ($thiscontext) {
-                $contexts = new question_edit_contexts($thiscontext);
-            }else {
-                $contexts = null;
-            }
-            $urlEdit = "/ksclass/koolsoft/question/?action=edit&category=".$categoryid;
-            $catmenu = question_category_options($contexts->all(), false, 0, true);
-            $questions = $this->load_questions($categoryid);
+            $catmenu = $this->load_context($courseid);
+            $urlEdit = "/moodle/koolsoft/question/?action=edit&category=".$categoryid;
         }
         require_once(__DIR__.'/views/show.php');
     }
@@ -47,6 +40,18 @@ class QuestionBankController extends ApplicationController {
         $param = array();
         $questions = $DB->get_records_sql($sql, $param);
         return $questions;
+    }
+
+    public function load_context($courseid){
+        $thiscontext = context_course::instance($courseid);
+        if ($thiscontext) {
+            $contexts = new question_edit_contexts($thiscontext);
+        }else {
+            $contexts = null;
+        }
+        $catmenu = question_category_options($contexts->all(), false, 0, true);
+//        $questions = $this->load_questions($categoryid);
+        return $catmenu;
     }
 
 }

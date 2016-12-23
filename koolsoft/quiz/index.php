@@ -24,6 +24,6 @@ if($action == "index"){
     $course = optional_param('course', 0, PARAM_INT);
     $section = optional_param('section', 0, PARAM_INT);
     $id = optional_param('id', 0, PARAM_INT);
-    $isSave = optional_param('isSave', 0, PARAM_INT);
-    $controller->edit($course, $section, $id, $isSave);
+    $saveAction = optional_param('saveAction', 0, PARAM_TEXT);
+    $controller->edit($course, $section, $id, $saveAction);
 }
