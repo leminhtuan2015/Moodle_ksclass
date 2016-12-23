@@ -25,7 +25,7 @@ $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
 ?>
 
 <div class="col-sm-14">
-    <h2>Course: <?php echo $course->fullname ?></h2>
+    <h2>Class: <span class="text-primary"><?php echo $course->fullname ?></span></h2>
     <div class="btn-group pull-right" role="group">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -92,14 +92,6 @@ $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
         </div>
         <div id="<?php echo $course->id ?>members" class="tab-pane fade">
             <br>
-<!--            <ul class="list-group">-->
-<!--                --><?php //foreach ($enrolledUsers as $enrolledUser) { ?>
-<!---->
-<!--                    <li class="list-group-item">-->
-<!--                        <a href="../../user/profile.php?id=--><?php //echo $enrolledUser->id ?><!--"> --><?php //echo "$enrolledUser->username ($enrolledUser->email)" ?><!--</a>-->
-<!--                    </li>-->
-<!--                --><?php //} ?>
-<!--            </ul>-->
 
             <div class="">
                 <table class="table table-hover">
