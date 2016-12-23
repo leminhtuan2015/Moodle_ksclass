@@ -36,6 +36,7 @@ if(isset($_POST['typeadd'])){
                     <a data-toggle="modal" data-target="#confirm-delete"
                        data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a>
                 </li>
+                <li><a href="/moodle/koolsoft/questionbank/?action=show&courseid=<?php echo $course->id ?>">Question bank</a></li>
             </ul>
         </div>
     </div>
@@ -45,7 +46,6 @@ if(isset($_POST['typeadd'])){
         <li><a data-toggle="tab" href="#menu1">Document</a></li>
         <li><a data-toggle="tab" href="#menu2">Posts</a></li>
         <li><a data-toggle="tab" href="#members">Members</a></li>
-        <li><a data-toggle="tab" href="#questionBank">Bank Question</a></li>
     </ul>
 
     <div class="tab-content">
