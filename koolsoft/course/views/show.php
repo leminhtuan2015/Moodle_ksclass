@@ -51,18 +51,35 @@ if(isset($_POST['typeadd'])){
         <div id="home" class="tab-pane fade in active">
             <br>
 
-            <div class="list-group ">
-                <?php foreach ($sections as $section) { ?>
+            <div class="">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Last modified</td>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                    <?php
-                        if($section->section == 0){
-                            continue;
-                        }
-                    ?>
+                    <?php foreach ($sections as $section) { ?>
+                        <?php if($section->section == 0){continue;} ?>
 
-                    <?php echo "<a class='list-group-item' 
-                        href='/moodle/koolsoft/lecture/?action=show&id=$section->id&courseId=$course->id'>$section->name</a>" ?>
-                <?php } ?>
+                        <tr style="height: 50px">
+                            <td>
+                                <a href='/moodle/koolsoft/lecture/?action=show&id=<?php echo $section->id; ?>&courseId=<?php echo $course->id; ?>'>
+                                    <?php echo $section->name; ?>
+                                </a>
+                                <br>
+                                <p class='small lead'>Create by: <cite><a href="#">Owner</a></cite></p>
+                            </td>
+                            <td>
+                                <p class='small lead'>2016/11/12</p>
+                            </td>
+                        </tr>
+
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
 
         </div>
@@ -75,15 +92,33 @@ if(isset($_POST['typeadd'])){
             <?php include (__DIR__."/../../shared/views/create_message_box.php"); ?>
         </div>
         <div id="members" class="tab-pane fade">
-            <h3>Members</h3>
-            <ul class="list-group">
-                <?php foreach ($enrolledUsers as $enrolledUser) { ?>
+            <br>
+            <div class="">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Progress</td>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                    <li class="list-group-item">
-                        <a href="../../user/profile.php?id=<?php echo $enrolledUser->id ?>"> <?php echo "$enrolledUser->username ($enrolledUser->email)" ?></a>
-                    </li>
-                <?php } ?>
-            </ul>
+                    <?php foreach ($enrolledUsers as $enrolledUser) { ?>
+                        <tr style="height: 50px">
+                            <td>
+                                <a href="../../user/profile.php?id=<?php echo $enrolledUser->id ?>">
+                                    <?php echo "$enrolledUser->username ($enrolledUser->email)" ?>
+                                </a>
+                            </td>
+                            <td>
+                                <p class='small lead'>progress...</p>
+                            </td>
+                        </tr>
+
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

@@ -10,18 +10,32 @@
 ?>
 
 <div class="container">
-    <div class="panel panel-primary" style="width: 960px">
-        <div class="panel-heading">
-            <h3 class="panel-title pull-left">Classes</h3>
-            <div class="clearfix"></div>
-        </div>
-        <div class="panel-body center">
-            <!-- List group -->
-            <div class="list-group ">
-                <?php foreach ($courses as $c) { ?>
-                    <?php echo "<a class='list-group-item' href='../course/?action=show&id=$c->id'>$c->fullname</a>" ?>
+        <div class="">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Last modified</td>
+                </tr>
+                </thead>
+                <tbody>
+
+                <?php foreach ($courses as $course) { ?>
+                    <tr style="height: 50px">
+                        <td>
+                            <a href='/moodle/koolsoft/course/?action=show&id=<?php echo $course->id; ?>'>
+                                <?php echo $course->fullname; ?>
+                            </a>
+                            <br>
+                            <p class='small lead'>Create by: <cite><a href="#">Owner</a></cite></p>
+                        </td>
+                        <td>
+                            <p class='small lead'>2016/11/12</p>
+                        </td>
+                    </tr>
+
                 <?php } ?>
-            </div>
+                </tbody>
+            </table>
         </div>
-    </div>
 </div>
