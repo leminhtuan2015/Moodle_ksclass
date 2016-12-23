@@ -26,26 +26,36 @@ class QuestionController extends ApplicationController {
 
         require_once(__DIR__.'/views/show.php');
     }
+
     public function edit($idCategory) {
         global $PAGE, $COURSE;
         $save = $_POST["save"];
+        $returnUrl = optional_param("returnUrl", "", PARAM_TEXT);
+        if($returnUrl == ""){
+            $returnUrl = $_POST["returnUrl"];
+        }
+
         if($save == "true"){
             $this->save_question();
-        }
-        $questionInDatabase = $this->load_questions($idCategory);
-        get_question_options($questionInDatabase, true);
+//            if($returnUrl){
+            echo "<script type='text/javascript'> window.location.replace('".urldecode($returnUrl)."')</script>";
+//            }
+        }else {
+            $questionInDatabase = $this->load_questions($idCategory);
+            get_question_options($questionInDatabase, true);
 
-        $listQuestion = array();
-        foreach ($questionInDatabase as $question){
-            array_push($listQuestion, $question);
-        }
+            $listQuestion = array();
+            foreach ($questionInDatabase as $question){
+                array_push($listQuestion, $question);
+            }
 
-        $questionHtml = "";
-        $numberQuestion = count($listQuestion);
-        for($i = 0 ; $i < count($listQuestion); $i++){
-            $questionHtml = $questionHtml.$this->generateQuestion($listQuestion[$i], $i);
+            $questionHtml = "";
+            $numberQuestion = count($listQuestion);
+            for($i = 0 ; $i < count($listQuestion); $i++){
+                $questionHtml = $questionHtml.$this->generateQuestion($listQuestion[$i], $i);
+            }
+            require_once(__DIR__.'/views/edit.php');
         }
-        require_once(__DIR__.'/views/edit.php');
     }
 
     public function save_question() {

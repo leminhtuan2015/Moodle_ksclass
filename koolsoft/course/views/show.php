@@ -45,7 +45,7 @@ if(isset($_POST['typeadd'])){
         <li><a data-toggle="tab" href="#menu1">Document</a></li>
         <li><a data-toggle="tab" href="#menu2">Posts</a></li>
         <li><a data-toggle="tab" href="#members">Members</a></li>
-        <li><a data-toggle="tab" href="#questionBank">Members</a></li>
+        <li><a data-toggle="tab" href="#questionBank">Bank Question</a></li>
     </ul>
 
     <div class="tab-content">
@@ -119,8 +119,10 @@ if(isset($_POST['typeadd'])){
                     <?php } ?>
                     </tbody>
                 </table>
+
             </div>
 
         </div>
     </div>
 </div>
+<

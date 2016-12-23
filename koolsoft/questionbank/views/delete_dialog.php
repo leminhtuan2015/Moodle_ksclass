@@ -16,14 +16,14 @@
             <div class="modal-body">
                 <p>Are you absolutely sure you want to delete the following questions?</p>
                 <div id="nameQuestions"></div>
-                <form id="deleteQuestionForm" method="post" action="?action=show&courseid=<?php echo $courseid?>&cat=<?php echo $cat?>">
+<!--                <form id="deleteQuestionForm" method="post" action="?action=show&courseid=--><?php //echo $courseid?><!--&cat=--><?php //echo $cat?><!--">-->
                     <input style="display: none" id="idQuestions" name="idQuestions">
                     <span id="nameQuestions"></span>
                     <input style="display: none" name="idDelete" value="true">
-                </form>
+<!--                </form>-->
             </div>
             <div class="modal-footer">
-                <button type="button submit" class="btn btn-danger" form="deleteQuestionForm">Delete</button>
+                <button type="button submit" class="btn btn-danger" id="deleteQuestionBtn">Delete</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

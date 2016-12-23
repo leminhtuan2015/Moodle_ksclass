@@ -25,8 +25,12 @@ class QuizController extends ApplicationController{
         global $DB;
         if($saveAction && $saveAction == "saveQuiz"){
             $quizObject = $this->getData();
-            $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
-            $quiz = add_moduleinfo($quizObject, $course, null);
+            if(!$quizObject->id){
+                $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
+                $quiz = add_moduleinfo($quizObject, $course, null);
+            }else {
+                $quiz = $DB->get_record('quiz', array('id'=> $quizObject->id), '*', MUST_EXIST);
+            }
             $idQuestions = explode( ',', $_POST["idQuestions"]);
             if(count($idQuestions) > 0){
                 foreach ($idQuestions as $idQuestion){
@@ -34,7 +38,10 @@ class QuizController extends ApplicationController{
                 }
             }
         }
-
+        $currentQuiz = null;
+        if($id){
+            $currentQuiz = $DB->get_record('quiz', array('id'=> $id), '*', MUST_EXIST);
+        }
         //load category question bank
         $thiscontext = context_course::instance($courseid);
         if ($thiscontext) {

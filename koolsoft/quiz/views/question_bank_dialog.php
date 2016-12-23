@@ -17,13 +17,10 @@
                 <p>Select question in question bank</p>
                 <?php echo \html_writer::select($catmenu, 'category', null, array(), array('class' => 'searchoptions custom-select', 'id' => 'id_selectacategory')); ?>
                 <div id="nameQuestions"></div>
-<!--                <form id="addQuestionForm" method="post" action="?action=addQuestion">-->
-<!--                    <input style="display: none" id="idQuestions" name="idQuestions">-->
-<!--                </form>-->
                 <table class='table' style="width: 100%">
                     <thead>
                         <tr>
-                            <th><input type='checkbox' value='' id='idCheckBoxAll' idQuestion='' nameQuestion=''></th>
+                            <th><input type='checkbox' value='' id='idCheckBoxQuestionBankAll' idQuestion='' nameQuestion=''></th>
                             <th>Question</th>
                         </tr>
                     </thead>

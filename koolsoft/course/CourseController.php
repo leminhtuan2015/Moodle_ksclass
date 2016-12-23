@@ -8,8 +8,11 @@
 require_once("../../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
+require_once(__DIR__.'/../../question/editlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once (__DIR__."/../category/CategoryController.php");
+require_once (__DIR__."/../questionbank/QuestionBankController.php");
+require_once (__DIR__."/../shared/dao/dao.php");
 
 class CourseController extends ApplicationController {
 
@@ -44,6 +47,10 @@ class CourseController extends ApplicationController {
         $context = context_COURSE::instance($course->id);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
         $enrolledUsers = $this->enrolledUsers($course->id);
+
+        //load catmenu for questionBank
+        $question_bank_controler = new QuestionBankController();
+        $catmenu = $question_bank_controler->load_context($course->id, false, 0, true);
 
         require_once(__DIR__.'/views/show.php');
     }

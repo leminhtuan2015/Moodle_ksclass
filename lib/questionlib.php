@@ -338,6 +338,7 @@ function question_category_in_use($categoryid, $recursive = false) {
  * @param object $question  The question being deleted
  */
 function question_delete_question($questionid) {
+    error_log("delete xxxx : ".$questionid);
     global $DB;
 
     $question = $DB->get_record_sql('
@@ -349,11 +350,13 @@ function question_delete_question($questionid) {
         // In some situations, for example if this was a child of a
         // Cloze question that was previously deleted, the question may already
         // have gone. In this case, just do nothing.
+        error_log("In some situations");
         return;
     }
 
     // Do not delete a question if it is used by an activity module
     if (questions_in_use(array($questionid))) {
+        error_log("In use");
         return;
     }
 
@@ -380,6 +383,7 @@ function question_delete_question($questionid) {
     // Finally delete the question record itself
     $DB->delete_records('question', array('id' => $questionid));
     question_bank::notify_question_edited($questionid);
+    error_log("ffffffffff");
 }
 
 /**

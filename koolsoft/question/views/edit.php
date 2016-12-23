@@ -12,6 +12,7 @@
 <div class="container">
     <form data-toggle="validator" role="form" action="?action=edit&category=<?php echo $idCategory?>" method="post" id="formQuestion">
         <?php echo "<input style='display: none' name='category' value='".$idCategory."'>"; ?>
+        <?php echo "<input style='display: none' name='returnUrl' value='".$returnUrl."'>"; ?>
         <?php echo "<input style='display: none' name='save' value='true'>"; ?>
         <?php echo "<input style='display: none' name='numberQuestion' id='numberQuestion' value='".$numberQuestion."'>"; ?>
         <?php

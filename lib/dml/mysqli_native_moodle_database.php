@@ -952,7 +952,6 @@ class mysqli_native_moodle_database extends moodle_database {
             } else if (is_float($param)) {
                 $return .= $param;
             } else {
-                error_log("xxxx".$param);
                 $param = $this->mysqli->real_escape_string($param);
                 $return .= "'$param'";
             }
