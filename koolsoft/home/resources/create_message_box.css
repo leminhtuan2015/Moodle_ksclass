@@ -1,0 +1,20 @@
+﻿
+
+/*=======================================
+TWEET FEED STYLES
+==================================================*/
+.sm-wrapper .panel {
+    border-radius:0px;
+}
+.sm-wrapper .panel-body {
+    max-height:650px;
+    overflow:auto;
+}
+.sm-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+}
+.sm-wrapper .media-list .media {
+    margin-bottom:25px;
+}

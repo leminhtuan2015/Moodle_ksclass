@@ -7,6 +7,7 @@
  */
 global $CFG;
 
+require_once(__DIR__."/../../shared/views/confirm.php");
 require_once(__DIR__."/../../../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
@@ -54,26 +55,10 @@ $sections = $modinfo->get_section_info_all();
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section->id ?>">
+                                <a href="/moodle/koolsoft/lecture/?action=show&id=<?php echo $section->id ?>&courseId=<?php echo $course->id ?>">
                                     <?php echo "$section->name ($section->section)"?>
                                 </a>
                             </h4>
-                        </div>
-                        <div id="<?php echo $section->id ?>" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <?php
-                                foreach ($section->modinfo->cms as $cms) {
-                                    if ($cms->section == $section->id) {
-                                        if ($cms->content) {
-                                            echo "$cms->content";
-                                        }
-                                        if ($cms->url) {
-                                            echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)</li>";
-                                        }
-                                    }
-                                }
-                                ?>
-                            </div>
                         </div>
                     </div>
                 <?php } ?>
@@ -81,11 +66,11 @@ $sections = $modinfo->get_section_info_all();
         </div>
 
         <div id="<?php echo $course->id ?>menu1" class="tab-pane fade">
-            <h3>Menu 1</h3>
+            <h3>Document</h3>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
         <div id="<?php echo $course->id ?>menu2" class="tab-pane fade">
-            <h3>Menu 2</h3>
+            <h3>Posts</h3>
             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
         </div>
         <div id="<?php echo $course->id ?>members" class="tab-pane fade">

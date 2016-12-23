@@ -20,11 +20,6 @@ if(isset($_POST['typeadd'])){
     }
 }
 
-
-
-
-
-
 ?>
 <link rel="stylesheet" href="../../resources/css/adddata.css">
 
@@ -58,28 +53,10 @@ if(isset($_POST['typeadd'])){
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $section->section ?>">
+                                <a href="/moodle/koolsoft/lecture/?action=show&id=<?php echo $section->id ?>&courseId=<?php echo $course->id ?>">
                                     <?php echo "$section->name ($section->section)"?>
                                 </a>
-<!--                                <a id="addResource" type="button"  href="--><?php //echo "/moodle/koolsoft/course/?action=adddata&add=label&idcourse=".$course->id . "&lecture=" . $section->section ."&id=" .$_GET['id'] ?><!--">Add resource or activity</a>-->
                             </h4>
-                        </div>
-                        <button id="addResource" type="button" class="btn btn-default" onclick="functionAddResource(<?php echo $section->section?>)">Add resource</button>
-                        <div id="<?php echo $section->section ?>" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <?php
-                                    foreach ($section->modinfo->cms as $cms) {
-                                        if ($cms->section == $section->id) {
-                                            if ($cms->content) {
-                                                echo "$cms->content";
-                                            }
-                                            if ($cms->url) {
-                                                echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)</li>";
-                                            }
-                                        }
-                                    }
-                                ?>
-                            </div>
                         </div>
                     </div>
                 <?php } ?>
@@ -107,8 +84,6 @@ if(isset($_POST['typeadd'])){
         </div>
     </div>
 </div>
-
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
 
 <div id="myModal" class="modal">
 
@@ -168,10 +143,6 @@ if(isset($_POST['typeadd'])){
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal
-//    btn.onclick = function() {
-//        modal.style.display = "block";
-//    }
     var sectionId ;
     function functionAddResource(section){
         modal.style.display = "block";
@@ -182,7 +153,6 @@ if(isset($_POST['typeadd'])){
     btnCancel.onclick = function() {
         hideDialog();
     }
-
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
