@@ -21,6 +21,11 @@ class LectureResourceController extends ApplicationController {
         $courseId = optional_param('courseId', 0, PARAM_INT);
         $section = optional_param('section', 0, PARAM_INT);
         $sectionId = optional_param('sectionId', 0, PARAM_INT);
+        $moduleId = 96;
+
+        $courseModule = get_coursemodule_from_id('', $moduleId, 0, false, MUST_EXIST);
+
+        Logger::log($courseModule);
 
         require_once(__DIR__."/views/new.php");
     }

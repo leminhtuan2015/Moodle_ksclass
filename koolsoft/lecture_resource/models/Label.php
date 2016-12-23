@@ -51,6 +51,7 @@ class Label extends  stdClass {
         $arrayEditor['text'] = $labelContent;
         $arrayEditor['format'] = 1;
         $arrayEditor['itemid'] = 235401165;
+
         $data = new stdClass();
         $data->introeditor = $arrayEditor;
         $data->visible = 1;

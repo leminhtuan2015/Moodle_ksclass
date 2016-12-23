@@ -9,19 +9,20 @@
 ?>
 
 <div class="col-sm-14">
-    <h2>Class: <span class="text-primary"><?php echo "$course->fullname - ($section->name)" ?></span></h2>
-    <div class="btn-group pull-right" role="group">
+    <h2>Class:
+        <span class="text-primary">
+            <a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id ?>">
+                <?php echo "$course->fullname - ($section->name)" ?>
+            </a>
+        </span>
+    </h2>
 
+    <div class="btn-group pull-right" role="group">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="/moodle/koolsoft/lecture/?action=edit&id=<?php echo $section->id ?>">Edit</a></li>
-                <li>
-                    <a data-toggle="modal" data-target="#confirm-delete"
-                       data-href="/moodle/koolsoft/course/?action=deleteSection&id=<?php echo $section->id ?>">Remove</a>
-                </li>
                 <li>
                     <a href="/moodle/koolsoft/lecture_resource/?action=new&courseId=<?php echo $course->id ?>&section=<?php echo $section->section ?>&sectionId=<?php echo $section->id; ?>">
                         Add resource
@@ -31,6 +32,11 @@
                     <a href="/moodle/koolsoft/quiz/?action=edit&course=<?php echo $course->id ?>&section=<?php echo $section->id; ?>&lectureId=<?php echo $id; ?>">
                         Add quiz
                     </a>
+                    <a href="/moodle/koolsoft/lecture/?action=edit&id=<?php echo $section->id ?>">Edit</a>
+                </li>
+                <li>
+                    <a data-toggle="modal" data-target="#confirm-delete"
+                       data-href="/moodle/koolsoft/course/?action=deleteSection&id=<?php echo $section->id ?>">Remove</a>
                 </li>
             </ul>
         </div>

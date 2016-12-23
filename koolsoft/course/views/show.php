@@ -24,7 +24,13 @@ if(isset($_POST['typeadd'])){
 ?>
 
 <div class="container">
-    <h2>Class: <span class="text-primary"><?php echo $course->fullname ?></span></h2>
+    <h2>Class:
+        <span class="text-primary">
+            <a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id ?>">
+                <?php echo $course->fullname ?>
+            </a>
+        </span>
+    </h2>
     <div class="btn-group pull-right" role="group">
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">

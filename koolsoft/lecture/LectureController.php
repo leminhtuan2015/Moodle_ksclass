@@ -31,6 +31,17 @@ class LectureController extends ApplicationController {
         $mods = $modinfo->get_cms();
         $sections = $modinfo->get_section_info_all();
 
+        Logger::log($sections);
+
+//      sections[i] -> [section_info(id, name, section)] -> modinfo -> (course, userid, sections[], cms[cm_info], instances[forum, lable[cm_info]])
+
+//      NOTICE: cms[cm_info], array cms[] contain list of cm_info, cm_info contain all infomation about Section + Module of this section
+
+//      cm_info->id = the id of this module
+//      cm_info->section = the id of section
+//      cm_info->modname = name of module in this section
+//      cm_info->content  = the content of module (content of lable)
+
 
         require_once(__DIR__.'/views/show.php');
     }

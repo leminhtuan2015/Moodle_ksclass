@@ -6,6 +6,8 @@
  * Time: 9:21 PM
  */
 
+require_once (__DIR__."/../utility/Logger.php");
+
 class ApplicationController {
 
     function __construct() {
