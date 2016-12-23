@@ -9,6 +9,13 @@
 <script src="resources/javascript/quiz.js"></script>
 
 <div class="container">
+    <?php
+        if($currentQuiz){
+            echo "<h4>Edit quiz <span class='label label-default'></span></h4>";
+        }else {
+            echo "<h4>Create new quiz <span class='label label-default'></span></h4>";
+        }
+    ?>
     <form data-toggle="validator" role="form" action="?action=edit&course=<?php echo $courseid?>&section=<?php echo $section?>" method="post" id="formQuiz">
         <div style="display: none" class="form-group">
             <input id="idQuiz" name="idQuiz" value="<?php echo $id?>">
@@ -28,9 +35,9 @@
     <table class='table'>
         <thead>
         <tr>
-            <th>STT</th>
-            <th>Question</th>
-            <th>Action</th>
+            <th class="col-md-2"><input type='checkbox' value='' id='idCheckBoxQuestionAll'></th>
+            <th class="col-md-2">STT</th>
+            <th class="col-md-8">Question</th>
         </tr>
         </thead>
         <tbody id="bodyTableQuestion">
@@ -39,9 +46,10 @@
     </table>
     <div class="form-group">
         <button class="btn" id="btnAddQuestion">Add question</button>
+        <button class="btn" id="btnDeleteQuestion">Delete question</button>
     </div>
     <div class="form-group">
-        <button type="submit" form="formQuiz" class="btn btn-primary">Save</button>
+        <button type="submit" form="formQuiz" class="btn btn-primary" id="saveQuiz">Save</button>
     </div>
 </div>
 

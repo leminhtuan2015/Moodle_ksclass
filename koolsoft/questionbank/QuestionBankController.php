@@ -25,13 +25,12 @@ class QuestionBankController extends ApplicationController {
     }
     public function show($categoryid, $courseid, $cat) {
         global $USER;
-        if($categoryid == all){
+        if($courseid){
             // TODO
-        }else {
             $catmenu = $this->load_context($courseid);
             $urlEdit = "/moodle/koolsoft/question/?action=edit&category=".$categoryid;
+            require_once(__DIR__.'/views/show.php');
         }
-        require_once(__DIR__.'/views/show.php');
     }
 
     public function load_questions($categoryId){
@@ -50,7 +49,6 @@ class QuestionBankController extends ApplicationController {
             $contexts = null;
         }
         $catmenu = question_category_options($contexts->all(), false, 0, true);
-//        $questions = $this->load_questions($categoryid);
         return $catmenu;
     }
 

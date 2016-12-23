@@ -4,25 +4,12 @@
  * Created by PhpStorm.
  * User: dddd
  * Date: 12/23/16
- * Time: 9:01 AM
+ * Time: 10:03 PM
  */
-//require_once("../../../config.php");
 global $CFG;
 require_once($CFG->dirroot."/config.php");
-class dao
+class ks_quiz
 {
-    function __construct() {
-
-    }
-
-    public function load_questions($categoryId){
-        global $DB;
-        $sql = 'SELECT * FROM question WHERE category ='.$categoryId;
-        $param = array();
-        $questions = $DB->get_records_sql($sql, $param);
-        return $questions;
-    }
-
     public function remove_slot($slotId){
         global $DB;
         $DB->delete_records('quiz_slots', array('id' => $slotId));

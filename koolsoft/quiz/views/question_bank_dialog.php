@@ -20,8 +20,8 @@
                 <table class='table' style="width: 100%">
                     <thead>
                         <tr>
-                            <th><input type='checkbox' value='' id='idCheckBoxQuestionBankAll' idQuestion='' nameQuestion=''></th>
-                            <th>Question</th>
+                            <th class="col-md-1"><input type='checkbox' value='' id='idCheckBoxQuestionBankAll' idQuestion='' nameQuestion=''></th>
+                            <th class="col-md-11">Question</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableQuestionBank">
