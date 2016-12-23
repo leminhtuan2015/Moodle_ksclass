@@ -125,4 +125,4 @@ if(isset($_POST['typeadd'])){
         </div>
     </div>
 </div>
-<
+
