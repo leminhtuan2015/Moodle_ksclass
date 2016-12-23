@@ -34,7 +34,7 @@ class QuestionBankController extends ApplicationController {
             }else {
                 $contexts = null;
             }
-            $urlEdit = "/ksclass/koolsoft/question/?action=edit&category=".$categoryid;
+            $urlEdit = "/moodle/koolsoft/question/?action=edit&category=".$categoryid;
             $catmenu = question_category_options($contexts->all(), false, 0, true);
             $questions = $this->load_questions($categoryid);
         }

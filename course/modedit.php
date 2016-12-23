@@ -158,8 +158,6 @@ if ($mform->is_cancelled()) {
     if (!empty($fromform->update)) {
         list($cm, $fromform) = update_moduleinfo($cm, $fromform, $course, $mform);
     } else if (!empty($fromform->add)) {
-        error_log(print_r("Heheheeheh",true));
-        error_log(print_r($fromform, true));
         $fromform = add_moduleinfo($fromform, $course, $mform);
     } else {
         print_error('invaliddata');
