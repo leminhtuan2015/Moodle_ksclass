@@ -19,18 +19,24 @@ $modnamesused = $modinfo->get_used_module_names();
 $mods = $modinfo->get_cms();
 $sections = $modinfo->get_section_info_all();
 
-//$context = context_COURSE::instance($course->id);
-//$enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
-//$enrolledUsers = $this->enrolledUsers($course->id);
+$context = context_COURSE::instance($course->id);
+$enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
 
 ?>
 
 <div class="col-sm-14">
     <h2>Course: <?php echo $course->fullname ?></h2>
     <div class="btn-group pull-right" role="group">
-        <a type="button" class="btn btn-secondary" href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a>
-        <a type="button" class="btn btn-secondary" data-toggle="modal" data-target="#confirm-delete"
-           data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a></li>
+                <li><a data-toggle="modal" data-target="#confirm-delete"
+                       data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a></li>
+            </ul>
+        </div>
     </div>
 
     <ul class="nav nav-tabs">
@@ -42,25 +48,16 @@ $sections = $modinfo->get_section_info_all();
 
     <div class="tab-content">
         <div id="<?php echo $course->id ?>home" class="tab-pane fade in active">
-            <h4>Lectures</h4>
-
-            <div class="panel-group" id="accordion">
+            <br>
+            <div class="list-group ">
                 <?php foreach ($sections as $section) { ?>
-                    <?php
-                    if($section->section == 0){
-                        continue;
-                    }
-                    ?>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a href="/moodle/koolsoft/lecture/?action=show&id=<?php echo $section->id ?>&courseId=<?php echo $course->id ?>">
-                                    <?php echo "$section->name ($section->section)"?>
-                                </a>
-                            </h4>
-                        </div>
-                    </div>
+                    <?php
+                        if($section->section == 0){
+                            continue;
+                        }
+                    ?>
+                    <?php echo "<a class='list-group-item' href='/moodle/koolsoft/lecture/?action=show&id=$section->id&courseId=$course->id'>$section->name</a>" ?>
                 <?php } ?>
             </div>
         </div>
@@ -70,8 +67,8 @@ $sections = $modinfo->get_section_info_all();
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
         <div id="<?php echo $course->id ?>menu2" class="tab-pane fade">
-            <h3>Posts</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            <br>
+            <?php include (__DIR__."/../../shared/views/create_message_box.php"); ?>
         </div>
         <div id="<?php echo $course->id ?>members" class="tab-pane fade">
             <h3>Members</h3>

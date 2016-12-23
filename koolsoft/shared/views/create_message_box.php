@@ -7,8 +7,6 @@
  */
 
 ?>
-<link rel="stylesheet" type="text/css" href="/moodle/koolsoft/home/resources/create_message_box.css">
-
 
 <div class="row">
     <div class="">
@@ -20,7 +18,7 @@
                     <textarea class="form-control" placeholder="Write your message..." rows="3"></textarea>
                     <hr />
                     <a href="#" class="btn btn-primary pull-right">
-                        <i class="glyphicon glyphicon-share"></i> &nbsp; SEND MESSAGE
+                        <i class="glyphicon glyphicon-share"></i> SEND
                     </a>
                     <div class="clearfix"></div>
                     <hr>
@@ -28,7 +26,7 @@
                     <ul class="media-list">
                         <li class="media">
                             <a href="#" class="pull-left">
-                                <img src="/moodle/koolsoft/home/resources/img/2.png" alt="" class="img-rounded">
+                                <img src="/moodle/koolsoft/resources/images/2.png" alt="" class="img-rounded">
                             </a>
                             <div class="media-body">
 

@@ -26,9 +26,18 @@ if(isset($_POST['typeadd'])){
 <div class="container">
     <h2>Course: <?php echo $course->fullname ?></h2>
     <div class="btn-group pull-right" role="group">
-        <a type="button" class="btn btn-secondary" href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a>
-        <a type="button" class="btn btn-secondary" data-toggle="modal" data-target="#confirm-delete"
-           data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a></li>
+                <li>
+                    <a data-toggle="modal" data-target="#confirm-delete"
+                       data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <ul class="nav nav-tabs">
@@ -40,35 +49,30 @@ if(isset($_POST['typeadd'])){
 
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
-            <h4>Lectures</h4>
+            <br>
 
-            <div class="panel-group" id="accordion">
+            <div class="list-group ">
                 <?php foreach ($sections as $section) { ?>
+
                     <?php
                         if($section->section == 0){
                             continue;
                         }
                     ?>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a href="/moodle/koolsoft/lecture/?action=show&id=<?php echo $section->id ?>&courseId=<?php echo $course->id ?>">
-                                    <?php echo "$section->name ($section->section)"?>
-                                </a>
-                            </h4>
-                        </div>
-                    </div>
+                    <?php echo "<a class='list-group-item' 
+                        href='/moodle/koolsoft/lecture/?action=show&id=$section->id&courseId=$course->id'>$section->name</a>" ?>
                 <?php } ?>
             </div>
+
         </div>
         <div id="menu1" class="tab-pane fade">
-            <h3>Menu 1</h3>
+            <h3>Document</h3>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
         <div id="menu2" class="tab-pane fade">
-            <h3>Menu 2</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            <br>
+            <?php include (__DIR__."/../../shared/views/create_message_box.php"); ?>
         </div>
         <div id="members" class="tab-pane fade">
             <h3>Members</h3>

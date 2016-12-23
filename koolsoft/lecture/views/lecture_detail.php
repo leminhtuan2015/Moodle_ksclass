@@ -9,14 +9,26 @@
 ?>
 
 <div class="col-sm-14">
-    <h2>Course: <?php echo "$course->fullname ($section->name)" ?></h2>
+    <h2>Class: <?php echo "$course->fullname - ($section->name)" ?></h2>
     <div class="btn-group pull-right" role="group">
-        <a type="button" class="btn btn-secondary" href="/moodle/koolsoft/lecture/?action=edit&id=<?php echo $section->id ?>">Edit</a>
-        <a type="button" class='btn btn-secondary' data-toggle="modal" data-target="#confirm-delete"
-           data-href="/moodle/koolsoft/course/?action=deleteSection&id=<?php echo $section->id ?>">Remove</a>
-        <a id="addResource" type="button" class="btn btn-secondary"
-           onclick="functionAddResource(<?php echo $section->section?>)"> Add resource
-        </a>
+
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/moodle/koolsoft/lecture/?action=edit&id=<?php echo $section->id ?>">Edit</a></li>
+                <li>
+                    <a data-toggle="modal" data-target="#confirm-delete"
+                       data-href="/moodle/koolsoft/course/?action=deleteSection&id=<?php echo $section->id ?>">Remove</a>
+                </li>
+                <li>
+                    <a id="addResource" onclick="functionAddResource(<?php echo $section->section?>)">
+                        Add resource
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <ul class="nav nav-tabs">
@@ -49,8 +61,8 @@
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
         <div id="<?php echo $section->id ?>menu2" class="tab-pane fade">
-            <h3>Discussion</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            <br>
+            <?php include (__DIR__."/../../shared/views/create_message_box.php"); ?>
         </div>
     </div>
 </div>

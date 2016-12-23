@@ -2,7 +2,7 @@
     require_once(__DIR__.'/../../config.php');
 ?>
 
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap.3.3.7.min.css">
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/adddata.css">
 <script src="/moodle/koolsoft/resources/javascript/jquery.3.1.0.min.js"></script>
@@ -27,8 +27,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
-                <li><a href="/moodle/koolsoft/course">Courses</a></li>
-                <li><a href="/moodle/koolsoft/category">Category</a></li>
+                <li><a href="/moodle/koolsoft/course">Classes</a></li>
                 <li><a href="#">Document</a></li>
             </ul>
             <form class="navbar-form navbar-left" action="/moodle/koolsoft/search/?action=show" method="get">
@@ -49,8 +48,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Profile</a></li>
-                            <li><a href="/moodle/koolsoft/course/?action=myCourses">My course</a></li>
+                            <li><a href="/moodle/koolsoft/course/?action=myCourses">My classes</a></li>
                             <li><a href="#">Setting</a></li>
+                            <li><a href="/moodle/koolsoft/category">Category</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="/moodle/koolsoft/login/logout.php">Logout</a></li>
                         </ul>
@@ -60,7 +60,7 @@
                 <?php } ?>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=new">Create course</a></li></ul>
+            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=new">Create Classes</a></li></ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
