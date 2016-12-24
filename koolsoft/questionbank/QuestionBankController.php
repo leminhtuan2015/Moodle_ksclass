@@ -24,21 +24,14 @@ class QuestionBankController extends ApplicationController {
         require_once(__DIR__.'/views/index.php');
     }
     public function show($categoryid, $courseid, $cat) {
-        global $USER;
+        global $USER, $DB;
         if($courseid){
             // TODO
             $catmenu = $this->load_context($courseid);
+            $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
             $urlEdit = "/moodle/koolsoft/question/?action=edit&category=".$categoryid;
             require_once(__DIR__.'/views/show.php');
         }
-    }
-
-    public function load_questions($categoryId){
-        global $DB;
-        $sql = 'SELECT * FROM question WHERE category ='.$categoryId;
-        $param = array();
-        $questions = $DB->get_records_sql($sql, $param);
-        return $questions;
     }
 
     public function load_context($courseid){

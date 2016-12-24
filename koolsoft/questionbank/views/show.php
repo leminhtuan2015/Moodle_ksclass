@@ -8,7 +8,7 @@
 ?>
 <script src="/moodle/koolsoft/questionbank/resources/javascript/questionbank.js"></script>
 <div class="container">
-    <h4>Question bank<span class='label label-default'></span></h4>
+    <h2><a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id;?>">Class: <?php echo $course->fullname;?> </a>/ <span class='text-primary'>Question bank</span></h2>
     <input id="numberQuestion" style="display: none" value="<?php echo count($questions) ?>">
     <input id="category" style="display: none" value="<?php echo "".$categoryid; ?>">
     <input id='courseid' style='display: none' value='<?php echo $courseid; ?>'>

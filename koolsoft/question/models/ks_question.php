@@ -17,7 +17,7 @@ class ks_question
 
     public function load_questions($categoryId){
         global $DB;
-        $sql = 'SELECT * FROM question WHERE category ='.$categoryId;
+        $sql = 'SELECT * FROM ks_question WHERE category ='.$categoryId;
         $param = array();
         $questions = $DB->get_records_sql($sql, $param);
         return $questions;

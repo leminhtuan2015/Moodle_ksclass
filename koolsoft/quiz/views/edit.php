@@ -11,9 +11,13 @@
 <div class="container">
     <?php
         if($currentQuiz){
-            echo "<h4>Edit quiz <span class='label label-default'></span></h4>";
+            echo "<h2><a href='/moodle/koolsoft/course/?action=show&id=".$course->id."'>Class: ".$course->fullname."</a>/"
+                ."<a href='/moodle/koolsoft/lecture/?action=show&courseId=".$course->id."&id=".$currentSection->id."'>".$currentSection->name."</a>/"
+                ." <span class='text-primary'>".$currentQuiz->name."</span></h2>";
         }else {
-            echo "<h4>Create new quiz <span class='label label-default'></span></h4>";
+            echo "<h2><a href='/moodle/koolsoft/course/?action=show&id=".$course->id."'>Class: ".$course->fullname."</a>/"
+                ."<a href='/moodle/koolsoft/lecture/?action=show&courseId=".$course->id."&id=".$currentSection->id."'>".$currentSection->name."</a>/"
+                ." <span class='text-primary'>Create new quiz</span></h2>";
         }
     ?>
     <form data-toggle="validator" role="form" action="?action=edit&course=<?php echo $courseid?>&section=<?php echo $section?>" method="post" id="formQuiz">
