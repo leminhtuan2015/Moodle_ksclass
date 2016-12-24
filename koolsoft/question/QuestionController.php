@@ -28,7 +28,7 @@ class QuestionController extends ApplicationController {
     }
 
     public function edit($idCategory) {
-        global $PAGE, $COURSE;
+        global $PAGE, $COURSE, $DB;
         $save = $_POST["save"];
         $returnUrl = optional_param("returnUrl", "", PARAM_TEXT);
         if($returnUrl == ""){
@@ -41,6 +41,7 @@ class QuestionController extends ApplicationController {
             echo "<script type='text/javascript'> window.location.replace('".urldecode($returnUrl)."')</script>";
 //            }
         }else {
+            $category = $DB->get_record("question_categories", array("id"=>$idCategory));
             $questionInDatabase = $this->load_questions($idCategory);
             get_question_options($questionInDatabase, true);
 

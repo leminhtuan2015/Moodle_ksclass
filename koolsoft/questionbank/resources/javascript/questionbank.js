@@ -74,7 +74,11 @@ Ks.questionBank.handler = function () {
         $.ajax({url: "/moodle/koolsoft/questionbank/rest/questionbank_rest.php?idDeletes=" + idQuestions, success: function(result){
             if(result == true){
                 Ks.questionBank.getQuestions();
+            }else {
+                $("#alertDialog").modal();
+                $("#alertContent").html("Can not delete question! Some question in use!");
             }
+            console.log(result);
         }});
         $("#deleteQuestionDialog").modal('hide');
     });

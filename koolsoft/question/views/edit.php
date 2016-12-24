@@ -10,6 +10,7 @@
 <script src="resources/javascript/question.js"></script>
 
 <div class="container">
+    <h4>Edit question in category : <?php echo $category->name;?></h4>
     <form data-toggle="validator" role="form" action="?action=edit&category=<?php echo $idCategory?>" method="post" id="formQuestion">
         <?php echo "<input style='display: none' name='category' value='".$idCategory."'>"; ?>
         <?php echo "<input style='display: none' name='returnUrl' value='".$returnUrl."'>"; ?>
