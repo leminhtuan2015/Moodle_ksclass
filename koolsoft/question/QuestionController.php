@@ -12,6 +12,7 @@ require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/formslib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once(__DIR__."/../../question/type/questiontypebase.php");
+require_once(__DIR__."/models/ks_question.php");
 
 class QuestionController extends ApplicationController {
 
@@ -28,7 +29,7 @@ class QuestionController extends ApplicationController {
     }
 
     public function edit($idCategory) {
-        global $PAGE, $COURSE;
+        global $PAGE, $COURSE, $DB;
         $save = $_POST["save"];
         $returnUrl = optional_param("returnUrl", "", PARAM_TEXT);
         if($returnUrl == ""){
@@ -41,7 +42,9 @@ class QuestionController extends ApplicationController {
             echo "<script type='text/javascript'> window.location.replace('".urldecode($returnUrl)."')</script>";
 //            }
         }else {
-            $questionInDatabase = $this->load_questions($idCategory);
+            $dao = new ks_question();
+            $category = $DB->get_record('question_categories', array('id'=> $idCategory), '*', MUST_EXIST);
+            $questionInDatabase = $dao->load_questions($idCategory);
             get_question_options($questionInDatabase, true);
 
             $listQuestion = array();
@@ -144,19 +147,16 @@ class QuestionController extends ApplicationController {
         }
         $htmlQuestion = "";
         $htmlQuestion = $htmlQuestion."<div id='question".$stt."' class='form-group'>"
-        ."<div class='questionDiv'>"
+        ."<div style='width: 50%;' class='questionDiv'>"
         ."<label class='control-label questionLable' for='questionText".$stt."'>Question :</label>"
         ."<input class='form-control questionText'  name='questionText".$stt."' placeholder='Question' required value='".$question->questiontext."'></input>"
         ."<input style='display: none' name='id".$stt."' value='".$question->id."'></input>"
         ."</div>"
-        ."<div class='answerDiv'>"
+        ."<div style='width: 50%;' class='answerDiv'>"
         ."<label class='control-label answerLable' for='answerText".$stt."'>Answer :</label>"
         ."<input class='form-control answerText' name='answerText".$stt."' placeholder='Answer' value='".$correctAnswer->answer."' required></input>"
         ."</div>"
-        ."<div class='closeDiv'>"
-        ."<input class='form-control answerText' name='answerText".$stt."' placeholder='Answer' value='".$correctAnswer->answer."' required></input>"
-        ."</div>"
-        ."<div id='divWrongAnswer".$stt."'>";
+        ."<div style='width: 50%;' id='divWrongAnswer".$stt."'>";
         if(count($wrongAnswer) > 0){
             for($j = 0 ; $j <  count($wrongAnswer); $j ++){
                 $htmlQuestion = $htmlQuestion."<input class='form-control' name='wrongAnswer".$stt."_".$j."' placeholder='Wrong Answer' value='".$wrongAnswer[$j]->answer."'required></input>";

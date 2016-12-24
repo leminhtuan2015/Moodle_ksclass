@@ -27,6 +27,11 @@
                         Add resource
                     </a>
                 </li>
+                <li>
+                    <a href="/moodle/koolsoft/quiz/?action=edit&course=<?php echo $course->id ?>&section=<?php echo $section->id; ?>&lectureId=<?php echo $id; ?>">
+                        Add quiz
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -48,7 +53,7 @@
                                 echo "$cms->content";
                             }
                             if ($cms->url) {
-                                echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)</li>";
+                                echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)<a href='/moodle/koolsoft/quiz/?action=edit&course=".$courseId."&section=".$section->id."&id=".$cms->instance."' > edit</a></li>";
                             }
                         }
                     }

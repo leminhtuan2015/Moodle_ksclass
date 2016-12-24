@@ -10,6 +10,7 @@
 <script src="resources/javascript/question.js"></script>
 
 <div class="container">
+    <h2>Edit question in category : <span class="text-primary"><?php echo $category->name;?></span></h2>
     <form data-toggle="validator" role="form" action="?action=edit&category=<?php echo $idCategory?>" method="post" id="formQuestion">
         <?php echo "<input style='display: none' name='category' value='".$idCategory."'>"; ?>
         <?php echo "<input style='display: none' name='returnUrl' value='".$returnUrl."'>"; ?>
@@ -20,7 +21,7 @@
         ?>
     </form>
     <div class="form-group">
-        <button id="addQuestion">Add question</button>
+        <button class="btn" id="addQuestion">Add question</button>
     </div>
     <div class="form-group">
         <button type="submit" form="formQuestion" class="btn btn-primary">Save</button>

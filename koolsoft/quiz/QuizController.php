@@ -7,9 +7,11 @@
  * Time: 8:35 AM
  */
 require_once("../../config.php");
+require_once("../../mod/quiz/locallib.php");
 require_once(__DIR__.'/../../course/modlib.php');
 require_once(__DIR__.'/../../question/editlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
+require_once(__DIR__.'/models/ks_quiz.php');
 
 class QuizController extends ApplicationController{
 
@@ -23,22 +25,48 @@ class QuizController extends ApplicationController{
 
     public function edit($courseid, $section, $id, $saveAction) {
         global $DB;
+        $course = null;
+        if($courseid){
+            $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
+        }
         if($saveAction && $saveAction == "saveQuiz"){
             $quizObject = $this->getData();
+            $idQuestions = explode( ',', $_POST["idQuestions"]);
+            $idSlotRemoves = explode( ',', $_POST["idSlotRemoves"]);
+
+            $quizObject->sumgrades = count($idQuestions);
+            $quizObject->grade = count($idQuestions);
+            $quizObject->course = $courseid;
+            $quizObject->section = $section;
             if(!$quizObject->id){
-                $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
                 $quiz = add_moduleinfo($quizObject, $course, null);
             }else {
                 $quiz = $DB->get_record('quiz', array('id'=> $quizObject->id), '*', MUST_EXIST);
             }
-            $idQuestions = explode( ',', $_POST["idQuestions"]);
+
+            $quizdao = new ks_quiz();
             if(count($idQuestions) > 0){
                 foreach ($idQuestions as $idQuestion){
-                    quiz_add_quiz_question($idQuestion, $quiz, 0);
+                    if($idQuestion){
+                        quiz_add_quiz_question($idQuestion, $quiz, 0);
+                    }
                 }
             }
+
+            if(count($idSlotRemoves) > 0){
+                foreach ($idSlotRemoves as $idSlotRemove){
+                    if($idSlotRemove){
+                        $quizdao->remove_slot($idSlotRemove);
+                    }
+                }
+            }
+
+            echo "<script type='text/javascript'> window.location.replace('"."/moodle/koolsoft/lecture/?action=show&id=".$section."&courseId=".$courseid."')</script>";
         }
-        $currentQuiz = null;
+        $currentSection = null;
+        if($section){
+            $currentSection = $DB->get_record('course_sections', array('id'=> $section), '*', MUST_EXIST);
+        }$currentQuiz = null;
         if($id){
             $currentQuiz = $DB->get_record('quiz', array('id'=> $id), '*', MUST_EXIST);
         }
@@ -50,7 +78,6 @@ class QuizController extends ApplicationController{
             $contexts = null;
         }
         $catmenu = question_category_options($contexts->all(), false, 0, true);
-
         require_once(__DIR__.'/views/edit.php');
     }
 
@@ -68,6 +95,7 @@ class QuizController extends ApplicationController{
         $quizObject->gradecat = 2;
 //    $quizObject->gradepass =
         $quizObject->grade = 10;
+        $quizObject->sumgrades = 10;
         $quizObject->attempts = 0;
         $quizObject->grademethod = 1;
         $quizObject->questionsperpage = 1;
