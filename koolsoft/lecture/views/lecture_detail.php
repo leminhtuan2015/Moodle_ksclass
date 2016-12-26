@@ -18,15 +18,15 @@
     </h2>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#<?php echo $section->id ?>home">Lecture</a></li>
-        <li><a data-toggle="tab" href="#<?php echo $section->id ?>menu1">Exercise</a></li>
-        <li><a data-toggle="tab" href="#<?php echo $section->id ?>menu2">Discussion</a></li>
+        <li class="active"><a data-toggle="tab" href="#<?php echo $section->id ?>lecture">Lecture</a></li>
+        <li><a data-toggle="tab" href="#<?php echo $section->id ?>document">Document</a></li>
+        <li><a data-toggle="tab" href="#<?php echo $section->id ?>exercise">Exercise</a></li>
+        <li><a data-toggle="tab" href="#<?php echo $section->id ?>discussion">Discussion</a></li>
     </ul>
 
     <div class="tab-content">
-        <div id="<?php echo $section->id ?>home" class="tab-pane fade in active">
+        <div id="<?php echo $section->id ?>lecture" class="tab-pane fade in active">
             <div class="panel-group" id="accordion">
-                <br>
                 <?php
                     foreach ($section->modinfo->cms as $cm) {
                         if ($cm->section == $section->id) {
@@ -37,11 +37,17 @@
             </div>
         </div>
 
-        <div id="<?php echo $section->id ?>menu1" class="tab-pane fade">
+        <div id="<?php echo $section->id ?>document" class="tab-pane fade">
+            <h3>Document</h3>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+
+        <div id="<?php echo $section->id ?>exercise" class="tab-pane fade">
             <h3>Exercise</h3>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
-        <div id="<?php echo $section->id ?>menu2" class="tab-pane fade">
+
+        <div id="<?php echo $section->id ?>discussion" class="tab-pane fade">
             <br>
             <?php include (__DIR__."/../../shared/views/create_message_box.php"); ?>
         </div>

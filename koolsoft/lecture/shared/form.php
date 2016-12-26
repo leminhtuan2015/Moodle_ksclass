@@ -13,7 +13,8 @@
     <script>
         function tinymceInitDoneCallback(inst){
             <?php if($labelContent){ ?>
-                var content = '<?php echo $labelContent ?>';
+                var content = '<?php echo (string)$labelContent ?>';
+
                 tinymce.activeEditor.setContent(content);
             <?php } ?>
         }
@@ -23,7 +24,7 @@
         tinymce.init({
             selector: '#textEditor',
             init_instance_callback: "tinymceInitDoneCallback",
-            height: 500,
+            height: 400,
             theme: 'modern',
             plugins: [
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
@@ -49,13 +50,20 @@
 
 <div class="container">
     <form action="<?php echo $formAction; ?>" method="POST">
-        <div class="form-group">
 
-            <div class="container">
-                <div>
-                    <textarea id="textEditor" name="labelContent"></textarea>
-                </div>
-            </div>
+        <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" placeholder="Lecture name" name="name" value="<?php echo $courseSection->name ?>">
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" placeholder="Description" rows="3" name="description"><?php echo $courseSection->summary ?></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="textEditor">Content</label>
+            <textarea id="textEditor" name="labelContent"></textarea>
 
             <input type="hidden" class="form-control" name="courseId" value="<?php echo $courseId; ?>" >
             <input type="hidden" class="form-control" name="section" value="<?php echo $section; ?>">

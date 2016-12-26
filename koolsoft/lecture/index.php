@@ -21,4 +21,20 @@ if($action == "show"){
 
     $controller->show($id, $courseId);
 
+} else if ($action == "new") {
+    $controller->newResouce();
+
+} else if($action == "create"){
+    $controller->create();
+
+} else if($action == "edit"){
+    $controller->edit();
+
+} else if($action == "update"){
+    $controller->update();
+
+}  else if($action == "delete"){
+    $id = $_GET['id'];
+
+    $controller->delete($id);
 }

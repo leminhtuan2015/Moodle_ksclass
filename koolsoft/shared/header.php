@@ -26,8 +26,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
-                <li><a href="/moodle/koolsoft/course">Classes</a></li>
-                <li><a href="#">Document</a></li>
+                <li><a href="#">Library</a></li>
             </ul>
             <form class="navbar-form navbar-left" action="/moodle/koolsoft/search/?action=show" method="get">
                 <div class="form-group">
@@ -50,6 +49,8 @@
                             <li><a href="/moodle/koolsoft/course/?action=myCourses">My classes</a></li>
                             <li><a href="#">Setting</a></li>
                             <li><a href="/moodle/koolsoft/category">Category</a></li>
+                            <li><a href="/moodle/koolsoft/course">Classes</a></li>
+                            <li><a href="/moodle/koolsoft/course/?action=new">Create Classes</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="/moodle/koolsoft/login/logout.php">Logout</a></li>
                         </ul>
@@ -58,8 +59,6 @@
                     <li><a href="/moodle/login/index.php">Login</a></li>
                 <?php } ?>
             </ul>
-
-            <ul class="nav navbar-nav navbar-right"><li><a href="/moodle/koolsoft/course/?action=new">Create Classes</a></li></ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

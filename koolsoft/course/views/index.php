@@ -27,10 +27,10 @@
                                 <?php echo $course->fullname; ?>
                             </a>
                             <br>
-                            <p class='small lead'>Create by: <cite><a href="#">Owner</a></cite></p>
+                            <p class='small'>Create by: <cite><a href="#">Owner</a></cite></p>
                         </td>
                         <td>
-                            <p class='small lead'>2016/11/12</p>
+                            <p class='small'>2016/11/12</p>
                         </td>
                     </tr>
 
