@@ -12,41 +12,40 @@ require_once(__DIR__.'/../../../course/modlib.php');
 
 class Label extends  stdClass {
 
+    public function get($coursemoduleId){
+        global $DB;
 
-    public $visible =0;
-    public $tags = "";
-    public $course = 0;
-    public $coursemodule = 0;
-    public $section =0;
-    public $module = 0;
-    public $modulename = "label";
-    public $instance = 0;
-    public $add = "label";
-    public $update = 0;
-    public $return = 0;
-    public $sr = 0;
-    public $competency_rule = 0;
-    public $submitbutton2 = "Save and return to course";
-    public $arrayEditor = array();
-    public $introeditor;
+        $courseModule = get_coursemodule_from_id('', $coursemoduleId, 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_id('', $coursemoduleId, 0, false, MUST_EXIST);
+        $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
 
-    function __construct(){
-        $this->arrayEditor['format'] = 1;
-        $this->arrayEditor['itemid'] = 235401165;
-        $this->introeditor = $this->arrayEditor;
+        list($cm, $context, $module, $data, $cw) = get_moduleinfo_data($cm, $course);
+
+        return $data;
     }
 
     public function addData($courseId, $section, $labelContent){
         global $DB;
+
         $data = $this->buildLabelObject($courseId, $section, $labelContent);
         $course = $DB->get_record('course', array('id'=>$courseId), '*', MUST_EXIST);
-        error_log(print_r($data, true));
         $moduleinfo = add_moduleinfo($data, $course);
 
         return $moduleinfo;
     }
 
-    private function buildLabelObject($courseId, $section, $labelContent){
+    public function update($courseId, $section, $labelContent, $coursemoduleId){
+        global $DB;
+
+        $courseModule = get_coursemodule_from_id('', $coursemoduleId, 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_id('', $coursemoduleId, 0, false, MUST_EXIST);
+        $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+        $data = $this->buildLabelObject($courseId, $section, $labelContent, $coursemoduleId);
+
+        update_moduleinfo($cm, $data, $course);
+    }
+
+    private function buildLabelObject($courseId, $section, $labelContent, $coursemodule=0){
         $arrayEditor = array();
         $arrayEditor['text'] = $labelContent;
         $arrayEditor['format'] = 1;
@@ -57,13 +56,13 @@ class Label extends  stdClass {
         $data->visible = 1;
         $data->tags = "";
         $data->course = $courseId;
-        $data->coursemodule = 0;
+        $data->coursemodule = $coursemodule;
         $data->section = $section;
         $data->module = 12;
         $data->modulename = "label";
         $data->instance = 0;
         $data->add = "label";
-        $data->update = 0;
+        $data->update = $coursemodule;
         $data->return = 0;
         $data->sr = 0;
         $data->competency_rule = 0;

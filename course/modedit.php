@@ -92,8 +92,6 @@ if (!empty($add)) {
     // Check the course module exists.
     $cm = get_coursemodule_from_id('', $update, 0, false, MUST_EXIST);
 
-    error_log(print_r($cm, true));
-
     // Check the course exists.
     $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
 

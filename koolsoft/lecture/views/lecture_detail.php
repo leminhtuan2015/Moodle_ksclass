@@ -17,31 +17,6 @@
         </span>
     </h2>
 
-    <div class="btn-group pull-right" role="group">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="/moodle/koolsoft/lecture_resource/?action=new&courseId=<?php echo $course->id ?>&section=<?php echo $section->section ?>&sectionId=<?php echo $section->id; ?>">
-                        Add resource
-                    </a>
-                </li>
-                <li>
-                    <a href="/moodle/koolsoft/quiz/?action=edit&course=<?php echo $course->id ?>&section=<?php echo $section->id; ?>&lectureId=<?php echo $id; ?>">
-                        Add quiz
-                    </a>
-                    <a href="/moodle/koolsoft/lecture/?action=edit&id=<?php echo $section->id ?>">Edit</a>
-                </li>
-                <li>
-                    <a data-toggle="modal" data-target="#confirm-delete"
-                       data-href="/moodle/koolsoft/course/?action=deleteSection&id=<?php echo $section->id ?>">Remove</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#<?php echo $section->id ?>home">Lecture</a></li>
         <li><a data-toggle="tab" href="#<?php echo $section->id ?>menu1">Exercise</a></li>
@@ -53,14 +28,9 @@
             <div class="panel-group" id="accordion">
                 <br>
                 <?php
-                    foreach ($section->modinfo->cms as $cms) {
-                        if ($cms->section == $section->id) {
-                            if ($cms->content) {
-                                echo "$cms->content";
-                            }
-                            if ($cms->url) {
-                                echo "<li><a href='$cms->url' > - $cms->name </a> ($cms->section)<a href='/moodle/koolsoft/quiz/?action=edit&course=".$courseId."&section=".$section->id."&id=".$cms->instance."' > edit</a></li>";
-                            }
+                    foreach ($section->modinfo->cms as $cm) {
+                        if ($cm->section == $section->id) {
+                            include (__DIR__."/lecture_content.php");
                         }
                     }
                 ?>

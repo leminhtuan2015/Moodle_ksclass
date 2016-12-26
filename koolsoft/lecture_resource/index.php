@@ -20,4 +20,10 @@ if ($action == "new") {
 
 } else if($action == "create"){
     $controller->create();
+
+} else if($action == "edit"){
+    $controller->edit();
+
+} else if($action == "update"){
+    $controller->update();
 }

@@ -18,16 +18,26 @@ class LectureResourceController extends ApplicationController {
     }
 
     function newResouce() {
+        global $DB;
+
         $courseId = optional_param('courseId', 0, PARAM_INT);
         $section = optional_param('section', 0, PARAM_INT);
         $sectionId = optional_param('sectionId', 0, PARAM_INT);
-        $moduleId = 96;
-
-        $courseModule = get_coursemodule_from_id('', $moduleId, 0, false, MUST_EXIST);
-
-        Logger::log($courseModule);
 
         require_once(__DIR__."/views/new.php");
+    }
+
+    function edit(){
+        $courseId = optional_param('courseId', 0, PARAM_INT);
+        $section = optional_param('section', 0, PARAM_INT);
+        $sectionId = optional_param('sectionId', 0, PARAM_INT);
+        $moduleId = optional_param('moduleId', 0, PARAM_INT);
+
+        $label = new Label();
+        $lableData = $label->get($moduleId);
+        $labelContent = "$lableData->intro";
+
+        require_once(__DIR__."/views/edit.php");
     }
 
     function create(){
@@ -40,5 +50,18 @@ class LectureResourceController extends ApplicationController {
         $moduleinfo = $label->addData($courseId, $section, $labelContent);
 
         redirect("/moodle/koolsoft/lecture/?action=show&id=$sectionId&courseId=$courseId");
+    }
+
+    function update(){
+        $labelContent = $_POST['labelContent'];
+        $courseId = $_POST['courseId'];
+        $section = $_POST['section'];
+        $sectionId = $_POST['sectionId'];
+        $moduleId = $_POST['moduleId'];
+
+        Logger::log("Update: $labelContent : $courseId : $section: $sectionId : $moduleId");
+
+        $label = new Label();
+        $label->update($courseId, $section, $labelContent, $moduleId);
     }
 }
