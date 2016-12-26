@@ -28,8 +28,6 @@ class SearchController extends ApplicationController {
 
         $courses = coursecat::search_courses($search);
 
-        error_log(print_r($courses, true));
-
         require_once(__DIR__.'/views/show.php');
     }
 
