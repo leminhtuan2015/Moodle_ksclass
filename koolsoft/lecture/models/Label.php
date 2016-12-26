@@ -24,7 +24,7 @@ class Label extends  stdClass {
         return $data;
     }
 
-    public function addData($courseId, $section, $labelContent){
+    public function create($courseId, $section, $labelContent){
         global $DB;
 
         $data = $this->buildLabelObject($courseId, $section, $labelContent);

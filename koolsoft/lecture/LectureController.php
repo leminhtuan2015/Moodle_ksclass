@@ -117,7 +117,7 @@ class LectureController extends ApplicationController {
         update_course((object)array('id' => $courseId, 'numsections' => $courseformatoptions['numsections']));
 
         $label = new Label();
-        $moduleinfo = $label->addData($courseId, $section->section, $labelContent);
+        $moduleinfo = $label->create($courseId, $section->section, $labelContent);
 
         redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
     }
@@ -131,7 +131,7 @@ class LectureController extends ApplicationController {
         $sectionId = $_POST['sectionId'];
         $moduleId = $_POST['moduleId'];
         $name = $_POST["name"];
-        $summary = $_POST["summary"];
+        $summary = $_POST["description"];
         $description = $_POST["description"];
 
         // UPDATE SECTIONS

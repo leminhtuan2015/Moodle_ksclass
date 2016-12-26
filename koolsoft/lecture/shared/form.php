@@ -24,7 +24,7 @@
         tinymce.init({
             selector: '#textEditor',
             init_instance_callback: "tinymceInitDoneCallback",
-            height: 400,
+            height: 300,
             theme: 'modern',
             plugins: [
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
