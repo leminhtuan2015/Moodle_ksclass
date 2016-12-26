@@ -16,12 +16,11 @@ if (isset($_GET['action'])) {
 }
 
 if($action == "index"){
-    // Index
     $controller->index();
+
 } else if($action == "show"){
-    // Show
     $id = $_GET['id'];
 
 } else if($action == "myCourses"){
-    // My course
+
 }

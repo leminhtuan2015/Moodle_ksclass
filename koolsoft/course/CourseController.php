@@ -22,9 +22,6 @@ class CourseController extends ApplicationController {
 
         $courses = get_courses($categoryid);
 
-//        error_log(print_r($USER->sesskey, true));
-//        $SESSION->sesskey = $USER->sesskey;
-
         require_once(__DIR__.'/views/index.php');
     }
 
@@ -40,6 +37,8 @@ class CourseController extends ApplicationController {
         $modnamesused = $modinfo->get_used_module_names();
         $mods = $modinfo->get_cms();
         $sections = $modinfo->get_section_info_all();
+
+        Logger::log($sections);
 
         $context = context_COURSE::instance($course->id);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
@@ -68,36 +67,10 @@ class CourseController extends ApplicationController {
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
-//        $data->numsections = 0;
-        $lectures = $_POST["lectures"];
-//        error_log(print_r($lectures, true));
+        $data->numsections = 0;
         $course = create_course($data);
 
-        if($course){
-//            $DB->delete_records('course_sections', array('course' => $course->id, 'section' => 0));
-            $numberSections = 0;
-
-            foreach ($lectures as $index => $lecture) {
-                if ($lecture[name]) {
-//                    error_log(print_r($lecture[name], true));
-//                    error_log(print_r($course->id, true));
-                    $section = new stdClass();
-                    $section->name = $lecture[name];
-                    $section->course = $course->id;
-                    $section->section  = $index + 1;
-                    $section->summary  = '';
-                    $section->summaryformat = FORMAT_HTML;
-                    $section->sequence = '';
-                    $id = $DB->insert_record("course_sections", $section);
-                    $numberSections ++;
-//                    error_log(print_r("section: ".$id, true));
-                }
-            }
-
-            update_course((object)array('id' => $course->id, 'numsections' => $numberSections));
-
-            redirect("/moodle/koolsoft/course/?action=show&id=$course->id");
-        }
+        redirect("/moodle/koolsoft/course/?action=show&id=$course->id");
     }
 
     public function myCourse(){
@@ -117,7 +90,6 @@ class CourseController extends ApplicationController {
             $categoryController = new CategoryController();
             $categories = $categoryController->getAllCategories();
             $categoriesName = $categoryController->getPathCategory($categories);
-//            error_log(print_r($sections, true));
         }
 
         require_once(__DIR__.'/views/edit.php');
@@ -125,8 +97,6 @@ class CourseController extends ApplicationController {
 
     public function update(){
         global $DB;
-
-        error_log(print_r($_POST, true));
 
         $data = new stdClass();
         $data->id = $_POST["id"];
@@ -136,42 +106,6 @@ class CourseController extends ApplicationController {
         $data->visible = $_POST["visible"];
         update_course($data);
 
-        $lectures = $_POST["lectures"];
-
-        $newNumberSections = 0;
-
-        foreach ($lectures as $index => $lecture) {
-            if ($lecture[name] && $lecture[sectionId]) {
-                // UPDATE SECTIONS
-//              error_log(print_r($lecture[name], true));
-//              error_log(print_r($course->id, true));
-                $section = new stdClass();
-                $section->id = $lecture[sectionId];
-                $section->name = $lecture[name];
-                $id = $DB->update_record("course_sections", $section);
-//              error_log(print_r("section: ".$id, true));
-            } else if($lecture[name]) {
-                // CREATE NEW SECTIONS
-                $section = new stdClass();
-                $section->name = $lecture[name];
-                $section->course = $data->id;
-                $section->section  = $index;
-                $section->summary  = '';
-                $section->summaryformat = FORMAT_HTML;
-                $section->sequence = '';
-                $id = $DB->insert_record("course_sections", $section);
-                $newNumberSections ++;
-            }
-        }
-
-        if($newNumberSections) {
-            $course = get_course($_POST["id"]);
-            $courseformatoptions = course_get_format($course)->get_format_options();
-
-            $courseformatoptions['numsections'] += $newNumberSections;
-            update_course((object)array('id' => $course->id, 'numsections' => $courseformatoptions['numsections']));
-        }
-
         redirect("/moodle/koolsoft/course/?action=show&id=$data->id");
     }
 
@@ -179,21 +113,6 @@ class CourseController extends ApplicationController {
         delete_course($id, false);
 
         redirect("/moodle/koolsoft/course");
-    }
-
-    public function deleteSection($id){
-        global $DB;
-
-        $section = $DB->get_record('course_sections', array('id' => $id), '*', MUST_EXIST);
-        $course = $DB->get_record('course', array('id' => $section->course), '*', MUST_EXIST);
-        $sectionnum = $section->section;
-        $sectioninfo = get_fast_modinfo($course)->get_section_info($sectionnum);
-
-        if (course_can_delete_section($course, $sectioninfo)) {
-            course_delete_section($course, $sectioninfo, true, true);
-        }
-
-        redirect("/moodle/koolsoft/course?action=edit&id=$course->id");
     }
 
     //    PRIVATE ----------------------------------------------- PRIVATE
