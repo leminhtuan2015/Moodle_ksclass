@@ -48,4 +48,10 @@ if($action == "index"){
 
     $controller->delete($id);
 
+} else if($action == "selfEnrol"){
+    $controller->selfEnrol();
+
+} else if($action == "unEnrol"){
+    $controller->unEnrol();
+
 }
