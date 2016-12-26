@@ -22,6 +22,8 @@ class CourseController extends ApplicationController {
 
         $courses = get_courses($categoryid);
 
+        Logger::log($courses);
+
         require_once(__DIR__.'/views/index.php');
     }
 
@@ -42,7 +44,7 @@ class CourseController extends ApplicationController {
 
         $context = context_COURSE::instance($course->id);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
-        $enrolledUsers = $this->enrolledUsers($course->id);
+        $enrolledUsers = CourseUtil::enrolledUsers($course->id);
 
         require_once(__DIR__.'/views/show.php');
     }
@@ -115,10 +117,23 @@ class CourseController extends ApplicationController {
         redirect("/moodle/koolsoft/course");
     }
 
-    //    PRIVATE ----------------------------------------------- PRIVATE
-    private function enrolledUsers($courseId){
-        $context = context_COURSE::instance($courseId);
-        $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
-        return $enrolledUsers;
+    public function selfEnrol(){
+        global $USER;
+
+        $id = $_GET['id'];
+
+        CourseUtil::selfEnrol($id, $USER->id);
+
+        redirect("/moodle/koolsoft/course");
+    }
+
+    public function unEnrol(){
+        global $USER;
+
+        $id = $_GET['id'];
+
+        CourseUtil::unEnrol($id, $USER->id);
+
+        redirect("/moodle/koolsoft/course");
     }
 }
