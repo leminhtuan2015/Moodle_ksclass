@@ -24,7 +24,6 @@
                                 } else {
                                     echo "<option value='$key'> $categoryName </option>";
                                 }
-
                             }
                             ?>
                         </select>
