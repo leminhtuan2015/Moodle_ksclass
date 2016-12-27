@@ -22,8 +22,6 @@ class CourseController extends ApplicationController {
 
         $courses = get_courses($categoryid);
 
-        Logger::log($courses);
-
         require_once(__DIR__.'/views/index.php');
     }
 
@@ -40,7 +38,7 @@ class CourseController extends ApplicationController {
         $mods = $modinfo->get_cms();
         $sections = $modinfo->get_section_info_all();
 
-        Logger::log($sections);
+//        Logger::log($sections);
 
         $context = context_COURSE::instance($course->id);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
@@ -72,6 +70,10 @@ class CourseController extends ApplicationController {
         $data->numsections = 0;
         $course = create_course($data);
 
+        if($course){
+            $this->setSelfEnrolment($course->id, $_POST["payment"]);
+        }
+
         redirect("/moodle/koolsoft/course/?action=show&id=$course->id");
     }
 
@@ -92,6 +94,7 @@ class CourseController extends ApplicationController {
             $categoryController = new CategoryController();
             $categories = $categoryController->getAllCategories();
             $categoriesName = $categoryController->getPathCategory($categories);
+            $isFree = CourseUtil::isFree($id);
         }
 
         require_once(__DIR__.'/views/edit.php');
@@ -107,6 +110,8 @@ class CourseController extends ApplicationController {
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
         update_course($data);
+
+        $this->setSelfEnrolment($data->id, $_POST["payment"]);
 
         redirect("/moodle/koolsoft/course/?action=show&id=$data->id");
     }
@@ -135,5 +140,20 @@ class CourseController extends ApplicationController {
         CourseUtil::unEnrol($id, $USER->id);
 
         redirect("/moodle/koolsoft/course");
+    }
+
+    private function setSelfEnrolment($courseId, $payment){
+        $isFree = false;
+
+        if($payment == "0"){
+            $isFree = true;
+        } else {
+            $isFree = false;
+        }
+
+        Logger::log($courseId);
+        Logger::log($payment);
+
+        CourseUtil::enableSelfEnrol($courseId, $isFree);
     }
 }

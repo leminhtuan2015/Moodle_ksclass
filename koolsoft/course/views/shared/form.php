@@ -37,6 +37,14 @@
                             <option value="0">Hide</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="inputName" class="control-label">Payment</label>
+                        <select class="form-control" id="sel2" name="payment">
+                            <option value="0" <?php if($isFree){ echo "selected";} ?>> Free</option>
+                            <option value="1" <?php if(!$isFree){ echo "selected";} ?>>Cost</option>
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>
