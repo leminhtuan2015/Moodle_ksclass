@@ -25,6 +25,9 @@ class CourseUtil {
     }
 
     public static function isFree($courseId){
+        // GET ALL Enrol instance in ks_enrol table with status = 0 (0 is enable)
+        // => If exist an instance with enrol=self => this course is enable self-enrol => free
+
         $enrolinstances = enrol_get_instances($courseId, true);
 
         foreach ($enrolinstances as $courseenrolinstance) {
@@ -55,6 +58,23 @@ class CourseUtil {
         $context = context_COURSE::instance($courseId);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
         return $enrolledUsers;
+    }
+
+    public static function enableSelfEnrol($courseId, $enable){
+        $enrol = enrol_get_plugin("self");
+        $instances = enrol_get_instances($courseId, false);
+
+        foreach ($instances as $instance) {
+            if($instance->enrol != "self"){
+                continue;
+            }
+
+            if($enable){
+                $enrol->update_status($instance, ENROL_INSTANCE_ENABLED);
+            } else {
+                $enrol->update_status($instance, ENROL_INSTANCE_DISABLED);
+            }
+        }
     }
 
     public static function selfEnrol($courseId, $userId){
