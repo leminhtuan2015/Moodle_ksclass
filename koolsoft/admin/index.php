@@ -17,4 +17,6 @@ if($action == "index") {
     $controller->index();
 }else if($action == "listuser") {
     $controller->show_list_user();
+}else if($action == "adduser") {
+    $controller->add_new_user();
 }

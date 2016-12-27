@@ -6,12 +6,11 @@
  * Time: 14:17
  */
 
-require_once(__DIR__.'/../../../config.php');
-
-require_once(__DIR__.'/../../../lib/adminlib.php');
-require_once(__DIR__.'/../../../lib/authlib.php');
-require_once(__DIR__.'/../../../user/filters/lib.php');
-require_once(__DIR__.'/../../../user/lib.php');
+//require_once(__DIR__.'/../../../config.php');
+//require_once(__DIR__.'/../../../lib/adminlib.php');
+//require_once(__DIR__.'/../../../lib/authlib.php');
+//require_once(__DIR__.'/../../../user/filters/lib.php');
+//require_once(__DIR__.'/../../../user/lib.php');
 
 
 
@@ -68,9 +67,7 @@ foreach ($usernames as $name) {
     // Use the link from $$column for sorting on the user's name.
     $fullnamedisplay[] = ${$name};
 }
-// All of the names are in one column. Put them into a string and separate them with a /.
 $fullnamedisplay = implode(' / ', $fullnamedisplay);
-// If $sort = name then it is the default for the setting and we should use the first name to sort by.
 if ($sort == "name") {
     // Use the first item in the array.
     $sort = reset($usernames);
@@ -82,34 +79,12 @@ $users = get_users_listing($sort, $dir, $page*$perpage, $perpage, '', '', '',
 $usercount = get_users(false);
 $usersearchcount = get_users(false, '', false, null, "", '', '', '', '', '*', $extrasql, $params);
 
-if ($extrasql !== '') {
-    echo $OUTPUT->heading("$usersearchcount / $usercount ".get_string('users'));
-    $usercount = $usersearchcount;
-} else {
-    echo $OUTPUT->heading("$usercount ".get_string('users'));
-}
 
 $strall = get_string('all');
 
-$baseurl = new moodle_url('/admin/user.php', array('sort' => $sort, 'dir' => $dir, 'perpage' => $perpage));
-echo $OUTPUT->paging_bar($usercount, $page, $perpage, $baseurl);
 
 flush();
-
-if (!$users) {
-    $match = array();
-    echo $OUTPUT->heading(get_string('nousersfound'));
-
-    $table = NULL;
-
-} else {
-
     $countries = get_string_manager()->get_list_of_countries(false);
-    if (empty($mnethosts)) {
-        error_log(print_r("xxxxxxx", true));
-        $mnethosts = $DB->get_records('mnet_host', null, 'id', 'id,wwwroot,name');
-    }
-
     foreach ($users as $key => $user) {
         if (isset($countries[$user->country])) {
             error_log(print_r("yyyyyyyy", true));
@@ -147,53 +122,6 @@ if (!$users) {
     foreach ($users as $user) {
         $buttons = array();
         $lastcolumn = '';
-
-        // delete button
-        if (has_capability('moodle/user:delete', $sitecontext)) {
-            error_log(print_r("11111111", true));
-            if (is_mnet_remote_user($user) or $user->id == $USER->id or is_siteadmin($user)) {
-                error_log(print_r("11111111xxxxx", true));
-                // no deleting of self, mnet accounts or admins allowed
-            } else {
-                $buttons[] = html_writer::link(new moodle_url($returnurl, array('delete'=>$user->id, 'sesskey'=>sesskey())), html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/delete'), 'alt'=>$strdelete, 'class'=>'iconsmall')), array('title'=>$strdelete));
-            }
-        }
-
-        // suspend button
-        if (has_capability('moodle/user:update', $sitecontext)) {
-            error_log(print_r("222222222", true));
-            if (is_mnet_remote_user($user)) {
-                error_log(print_r("222222222xxxxxxxxx", true));
-                // mnet users have special access control, they can not be deleted the standard way or suspended
-                $accessctrl = 'allow';
-                if ($acl = $DB->get_record('mnet_sso_access_control', array('username'=>$user->username, 'mnet_host_id'=>$user->mnethostid))) {
-                    $accessctrl = $acl->accessctrl;
-                }
-                $changeaccessto = ($accessctrl == 'deny' ? 'allow' : 'deny');
-                $buttons[] = " (<a href=\"?acl={$user->id}&amp;accessctrl=$changeaccessto&amp;sesskey=".sesskey()."\">".get_string($changeaccessto, 'mnet') . " access</a>)";
-
-            } else {
-                error_log(print_r("222222222yyyyyyyyyy", true));
-                if ($user->suspended) {
-                    $buttons[] = html_writer::link(new moodle_url($returnurl, array('unsuspend'=>$user->id, 'sesskey'=>sesskey())), html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/show'), 'alt'=>$strunsuspend, 'class'=>'iconsmall')), array('title'=>$strunsuspend));
-                } else {
-                    error_log(print_r("222222222vvvvvvvvv", true));
-                    if ($user->id == $USER->id or is_siteadmin($user)) {
-                        // no suspending of admins or self!
-                    } else {
-                        error_log(print_r("222222222nnnnnnnnnn", true));
-                        $buttons[] = html_writer::link(new moodle_url($returnurl, array('suspend'=>$user->id, 'sesskey'=>sesskey())), html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/hide'), 'alt'=>$strsuspend, 'class'=>'iconsmall')), array('title'=>$strsuspend));
-                    }
-                }
-
-                if (login_is_lockedout($user)) {
-                    $buttons[] = html_writer::link(new moodle_url($returnurl, array('unlock'=>$user->id, 'sesskey'=>sesskey())), html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('t/unlock'), 'alt'=>$strunlock, 'class'=>'iconsmall')), array('title'=>$strunlock));
-                }
-            }
-        }
-
-
-
         if ($user->lastaccess) {
             error_log(print_r("666666666", true));
             $strlastaccess = format_time(time() - $user->lastaccess);
@@ -219,7 +147,6 @@ if (!$users) {
         $row[] = $lastcolumn;
         $table->data[] = $row;
     }
-}
 error_log(print_r($table, true));
 echo html_writer::table($table);
 ?>
@@ -227,6 +154,6 @@ echo html_writer::table($table);
 <script>
     var btnAddNew = document.getElementById('btnAddNew');
     btnAddNew.onclick = function () {
-        location.href = "/moodle/koolsoft/admin/createuser.php";
+        location.href = "/moodle/koolsoft/admin/?action=adduser";
     }
 </script>
