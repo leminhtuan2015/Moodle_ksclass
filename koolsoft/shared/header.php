@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Library</a></li>
+                <li><a href="/moodle/koolsoft/files/">Library</a></li>
             </ul>
             <form class="navbar-form navbar-left" action="/moodle/koolsoft/search/?action=show" method="get">
                 <div class="form-group">
