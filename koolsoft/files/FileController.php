@@ -21,6 +21,8 @@ class FileController extends ApplicationController {
     }
 
     public function index(){
+        require_login();
+
         require_once("./views/index.php");
     }
 
