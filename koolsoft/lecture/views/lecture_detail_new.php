@@ -17,6 +17,10 @@
         </span>
     </h2>
 
+    <div class="alert alert-success">
+        <a href="#" class="alert-link">Join this class</a>.
+    </div>
+
     <hr>
     <div class="tab-content">
         <div id="<?php echo $section->id ?>lecture" class="tab-pane fade in active">
