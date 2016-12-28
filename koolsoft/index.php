@@ -6,4 +6,4 @@
  * Time: 10:11 PM
  */
 
-require_once(__DIR__.'/home/index.php');
+require_once(__DIR__.'/frontend/index.php');

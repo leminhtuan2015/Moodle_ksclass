@@ -70,6 +70,10 @@
             <input type="hidden" class="form-control" name="sectionId" value="<?php echo $sectionId; ?>" >
             <input type="hidden" class="form-control" name="moduleId" value="<?php echo $moduleId; ?>" >
         </div>
-        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+        <button type="submit" class="btn btn-primary pull-right">Save</button>
     </form>
 </div>
+
+<br>
+<br>
+<br>

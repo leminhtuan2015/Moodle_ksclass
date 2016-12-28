@@ -8,7 +8,7 @@
 
 ?>
 <br>
-<div class="btn-group pull-right" role="group">
+<div class="btn-group pull-right" role="group" style="margin-top: -80px">
     <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -26,9 +26,6 @@
         </ul>
     </div>
 </div>
-
-<br>
-<br>
 
 <div>
     <?php
