@@ -7,10 +7,12 @@
  * Time: 1:47 PM
  */
 
-require_once(__DIR__."/../application/ApplicationController.php");
-require_once("../../config.php");
+require_once(__DIR__."/../../config.php");
+
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
+
+require_once(__DIR__."/../application/ApplicationController.php");
 require_once(__DIR__."/models/Label.php");
 
 class LectureController extends ApplicationController {
@@ -144,7 +146,7 @@ class LectureController extends ApplicationController {
         $label = new Label();
         $label->update($courseId, $section, $labelContent, $moduleId);
 
-        redirect("/moodle/koolsoft/lecture/?action=show&id=$sectionId&courseId=$courseId");
+        redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
     }
 
     public function delete($id){

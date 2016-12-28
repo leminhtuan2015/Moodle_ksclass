@@ -37,9 +37,9 @@
                             <p class='small'>2016/11/12</p>
                         </td>
                         <td>
-                            <?php if(CourseUtil::isEnrolled1($course->id)){ ?>
+                            <?php if($course->isEnroled){ ?>
                                 <a type="button" href="/moodle/koolsoft/course/?action=unEnrol&id=<?php echo "$course->id"?>" class="btn btn-warning">Leave</a>
-                            <?php } else if(CourseUtil::isFree($course->id)) { ?>
+                            <?php } else if($course->isFree) { ?>
                                 <a type="button" href="/moodle/koolsoft/course/?action=selfEnrol&id=<?php echo "$course->id"?>" class="btn btn-primary">Join (Free)</a>
                             <?php } else { ?>
                                 <button type="button" class="btn btn-primary">Buy (99$)</button>

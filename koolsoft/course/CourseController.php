@@ -5,9 +5,8 @@
  * Date: 12/15/16
  * Time: 9:41 PM
  */
-require_once("../../config.php");
-require_once($CFG->dirroot. '/course/lib.php');
-require_once($CFG->libdir. '/coursecatlib.php');
+require_once(__DIR__."/../../config.php");
+
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once (__DIR__."/../category/CategoryController.php");
 require_once (__DIR__."/models/CourseUtil.php");
@@ -19,15 +18,35 @@ class CourseController extends ApplicationController {
     }
 
     public function index($categoryid) {
-        global $USER;
+        $courses = CourseUtil::getCourses($categoryid);
 
-        $courses = get_courses($categoryid);
+        foreach ($courses as $course) {
+            if(CourseUtil::isEnrolled1($course->id)){
+                $course->isEnroled = true;
+            }
+
+            if(CourseUtil::isFree($course->id)){
+                $course->isFree = true;
+            }
+        }
 
         require_once(__DIR__.'/views/index.php');
     }
 
     public function show($id) {
         global $DB;
+
+        if(!CourseUtil::isEnrolled1($id)){
+            if(CourseUtil::isFree($id)){
+                // FREE
+                redirect("/moodle/koolsoft/course/?action=enrolCourse&method=free&courseId=$id");
+            } else {
+                redirect("/moodle/koolsoft/course/?action=enrolCourse&method=paid&courseId=$id");
+                // PAID
+            }
+
+            return;
+        }
 
         $params = array('id' => $id);
         $course = $DB->get_record('course', $params, '*', MUST_EXIST);
@@ -80,9 +99,19 @@ class CourseController extends ApplicationController {
 
     public function myCourse(){
         global $USER;
-        $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
+        $courses = CourseUtil::getMyCourses();
 
-        require_once(__DIR__.'/views/myCourse.php');
+        foreach ($courses as $course) {
+            if(CourseUtil::isEnrolled1($course->id)){
+                $course->isEnroled = true;
+            }
+
+            if(CourseUtil::isFree($course->id)){
+                $course->isFree = true;
+            }
+        }
+
+        require_once(__DIR__.'/views/my_course.php');
     }
 
     public function edit($id){
@@ -123,6 +152,15 @@ class CourseController extends ApplicationController {
         redirect("/moodle/koolsoft/course");
     }
 
+    public function enrolCourse(){
+        global $USER;
+
+        $id = $_GET['courseId'];
+        $method = $_GET['method'];
+
+        require_once (__DIR__."/views/enrol_course.php");
+    }
+
     public function selfEnrol(){
         global $USER;
 
@@ -130,17 +168,16 @@ class CourseController extends ApplicationController {
 
         CourseUtil::selfEnrol($id, $USER->id);
 
-        redirect("/moodle/koolsoft/course");
+        redirect("/moodle/koolsoft/course/?action=show&id=$id");
     }
 
     public function unEnrol(){
         global $USER;
 
         $id = $_GET['id'];
-
         CourseUtil::unEnrol($id, $USER->id);
 
-        redirect("/moodle/koolsoft/course");
+        redirect("/moodle/koolsoft/");
     }
 
     private function setSelfEnrolment($courseId, $payment){
@@ -152,8 +189,8 @@ class CourseController extends ApplicationController {
             $isFree = false;
         }
 
-        Logger::log($courseId);
-        Logger::log($payment);
+//        Logger::log($courseId);
+//        Logger::log($payment);
 
         CourseUtil::enableSelfEnrol($courseId, $isFree);
     }

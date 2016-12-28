@@ -6,7 +6,28 @@
  * Date: 12/27/16
  * Time: 1:07 AM
  */
+
+require_once(__DIR__."/../../../config.php");
+
+require_once($CFG->dirroot. '/course/lib.php');
+require_once($CFG->libdir. '/coursecatlib.php');
+
 class CourseUtil {
+
+    public static function getCourses($categoryid){
+        $courses = get_courses($categoryid);
+
+        return $courses;
+    }
+
+    public static function getMyCourses(){
+        global $USER;
+
+        $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
+
+        return $courses;
+    }
+
     public static function isEnrolled($courseId){
         global $USER;
         $coursecontext = context_course::instance($courseId);
