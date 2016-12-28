@@ -29,8 +29,12 @@
 
 <div>
     <?php
-        if ($cm->content) {
-            echo "$cm->content ($cm->id)";
+        if(!$section->visible){
+            echo "This lecture is not visible: <a href='#'>Pay</a>";
+        } else {
+            if ($cm->content) {
+                echo "$cm->content ($cm->id)";
+            }
         }
     ?>
 </div>

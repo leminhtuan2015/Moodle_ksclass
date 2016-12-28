@@ -3,6 +3,8 @@
     <form id="createCourseForm" data-toggle="validator" role="form"
           action="<?php echo "$formAction"; ?>" method="post">
 
+        <input type="hidden" name="id" value="<?php echo $course->id ?>">
+
         <div class="form-group">
             <label for="inputName" class="control-label" >Name</label>
             <input type="text" name="name" class="form-control"
@@ -13,20 +15,6 @@
             <label>Description</label>
             <textarea class="form-control" placeholder="Description" rows="3" name="description"><?php echo $courseSection->summary ?></textarea>
         </div>
-
-        <div class="form-group">
-            <label>Privacy</label>
-            <br>
-            <label class="radio-inline">
-                <input type="radio" name="visible" value="1" checked>Public
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="visible" value="0">Private
-            </label>
-        </div>
-
-
-        <input type="hidden" name="id" value="<?php echo $course->id ?>">
 
         <div class="form-group">
             <label for="inputName" class="control-label">Category</label>
@@ -44,11 +32,14 @@
         </div>
 
         <div class="form-group">
-            <label for="inputName" class="control-label">Payment</label>
-            <select class="form-control" id="sel2" name="payment">
-                <option value="0" <?php if($isFree){ echo "selected";} ?>> Free</option>
-                <option value="1" <?php if(!$isFree){ echo "selected";} ?>>Cost</option>
-            </select>
+            <label>Privacy</label>
+            <br>
+            <label class="radio-inline">
+                <input type="radio" name="visible" value="1" <?php if($course->visible){ echo "checked";} ?>>Public
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="visible" value="0" <?php if(!$course->visible){ echo "checked";} ?>>Private
+            </label>
         </div>
 
         <div class="form-group">
@@ -69,10 +60,10 @@
                     <div class="form-group">
                         <label for="inputName" class="control-label">Start date</label>
                         <div class='input-group date' id='startDate'>
-                            <input type='text' class="form-control" placeholder="Start date"/>
+                            <input type='text' class="form-control" placeholder="Start date" name="startDate"/>
                             <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -86,10 +77,10 @@
                     <div class="form-group">
                         <label for="inputName" class="control-label">End date</label>
                         <div class='input-group date' id='endDate'>
-                            <input type='text' class="form-control" placeholder="End date"/>
+                            <input type='text' class="form-control" placeholder="End date" name="endDate"/>
                             <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                 </div>

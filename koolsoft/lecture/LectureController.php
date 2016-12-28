@@ -99,6 +99,7 @@ class LectureController extends ApplicationController {
         $labelContent = $_POST['labelContent'];
         $name = $_POST["name"];
         $description = $_POST["description"];
+        $visible = $_POST["visible"];
 
         $course = $DB->get_record('course', array('id' => $courseId), '*', MUST_EXIST);
         $courseformatoptions = course_get_format($course)->get_format_options();
@@ -111,6 +112,7 @@ class LectureController extends ApplicationController {
         $section->course = $courseId;
         $section->section  = $courseformatoptions['numsections'] + 1;
         $section->summary  = $description;
+        $section->visible  = $visible;
         $section->summaryformat = FORMAT_HTML;
         $section->sequence = '';
         $id = $DB->insert_record("course_sections", $section);
@@ -133,14 +135,15 @@ class LectureController extends ApplicationController {
         $sectionId = $_POST['sectionId'];
         $moduleId = $_POST['moduleId'];
         $name = $_POST["name"];
-        $summary = $_POST["description"];
+        $visible = $_POST["visible"];
         $description = $_POST["description"];
 
         // UPDATE SECTIONS
         $courseSection = new stdClass();
         $courseSection->id = $sectionId;
         $courseSection->name = $name;
-        $courseSection->summary = $summary;
+        $courseSection->summary = $description;
+        $courseSection->visible  = $visible;
         $id = $DB->update_record("course_sections", $courseSection);
 
         $label = new Label();

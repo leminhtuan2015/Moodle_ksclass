@@ -57,6 +57,17 @@
         </div>
 
         <div class="form-group">
+            <label>Privacy</label>
+            <br>
+            <label class="radio-inline">
+                <input type="radio" name="visible" value="1" <?php if($courseSection->visible){ echo "checked";} ?>>Public
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="visible" value="0" <?php if(!$courseSection->visible){ echo "checked";} ?>>Private
+            </label>
+        </div>
+
+        <div class="form-group">
             <label>Description</label>
             <textarea class="form-control" placeholder="Description" rows="3" name="description"><?php echo $courseSection->summary ?></textarea>
         </div>
