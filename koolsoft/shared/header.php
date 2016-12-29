@@ -66,7 +66,7 @@
                             <li><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
                             <?php
                                 if(is_siteadmin()){
-                                    echo "<li><a href=\"/moodle/koolsoft/admin/?action=listuser\">Manager User</a></li>";
+                                    echo "<li><a href=\"/moodle/koolsoft/admin/user/?action=listuser\">Manager User</a></li>";
                                 }
                             ?>
                             <li role="separator" class="divider"></li>

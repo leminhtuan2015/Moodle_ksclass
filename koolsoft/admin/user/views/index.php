@@ -7,4 +7,4 @@
  */
 
 
-echo "Index admin";
+echo "Index user admin";

@@ -5,10 +5,9 @@
  * Date: 27/12/2016
  * Time: 14:07
  */
-require_once(__DIR__.'/AdminController.php');
-$controller = new AdminController();
+require_once('UserController.php');
+$controller = new UserController();
 $action = 'index';
-
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }

@@ -11,7 +11,7 @@
 </head>
 
 <div id="divContent">
-    <form method="post" action="/moodle/koolsoft/admin/?action=editrole&id=<?php echo $id ?>">
+    <form method="post" action="/moodle/koolsoft/admin/user/?action=editrole&id=<?php echo $id ?>">
         <br>
         <p id="text_alert"><?php echo $message ?></p>
         <div class="form-group">

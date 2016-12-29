@@ -16,7 +16,7 @@
     </style>
 </head>
 <div id="divFrom">
-    <form action="/moodle/koolsoft/admin/?action=adduser"  method="post" autocomplete="off">
+    <form action="/moodle/koolsoft/admin/user/?action=adduser"  method="post" autocomplete="off">
         <p id="text_alert"><?php echo $message ?></p>
         <div class="form-group" aria-autocomplete="none">
             <label for="usr"> Username:</label>

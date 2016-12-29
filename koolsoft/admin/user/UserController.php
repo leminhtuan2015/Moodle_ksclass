@@ -2,24 +2,22 @@
 /**
  * Created by PhpStorm.
  * User: xuan
- * Date: 27/12/2016
- * Time: 14:07
+ * Date: 29/12/2016
+ * Time: 15:52
  */
-require_once(__DIR__."/../application/ApplicationController.php");
-require_once('../../config.php');
-require_once(__DIR__.'/../../lib/adminlib.php');
-require_once(__DIR__.'/../../lib/authlib.php');
-require_once(__DIR__.'/../../user/filters/lib.php');
-require_once(__DIR__.'/../../user/lib.php');
-require_once(__DIR__.'/../../lib/outputrenderers.php');
-require_once(__DIR__.'/../../lib/gdlib.php');
-require_once(__DIR__.'/../../lib/adminlib.php');
-require_once(__DIR__ . '/../../admin/roles/lib.php');
 
+require_once(__DIR__."/../../application/ApplicationController.php");
+require_once('../../../config.php');
+require_once(__DIR__.'/../../../lib/adminlib.php');
+require_once(__DIR__.'/../../../lib/authlib.php');
+require_once(__DIR__.'/../../../user/filters/lib.php');
+require_once(__DIR__.'/../../../user/lib.php');
+require_once(__DIR__.'/../../../lib/outputrenderers.php');
+require_once(__DIR__.'/../../../lib/gdlib.php');
+require_once(__DIR__.'/../../../lib/adminlib.php');
+require_once(__DIR__ . '/../../../admin/roles/lib.php');
 
-
-class AdminController extends  ApplicationController {
-
+class UserController extends  ApplicationController {
 
     function __construct() {
         parent::__construct();
@@ -50,9 +48,9 @@ class AdminController extends  ApplicationController {
             }
             if (!empty($_POST["text_filter"])) {
                 $search = $_POST["text_filter"];
-                redirect("/moodle/koolsoft/admin/?action=listuser&search=$search&filter=$filter");
+                redirect("/moodle/koolsoft/admin/user/?action=listuser&search=$search&filter=$filter");
             }else{
-                redirect("/moodle/koolsoft/admin/?action=listuser&filter=$filter");
+                redirect("/moodle/koolsoft/admin/user/?action=listuser&filter=$filter");
             }
         }
         $all_select = "";
@@ -104,7 +102,7 @@ class AdminController extends  ApplicationController {
                         $user->password = AUTH_PASSWORD_NOT_CACHED;
                     }
                     user_create_user($user, false, false);
-                    redirect("/moodle/koolsoft/admin/?action=listuser");
+                    redirect("/moodle/koolsoft/admin/user/?action=listuser");
                 }
             }else{
                 $message = $arrayCheck->message;
@@ -195,7 +193,7 @@ class AdminController extends  ApplicationController {
                     }
                 }
                 user_update_user($userdata, false, false);
-                redirect("/moodle/koolsoft/admin/?action=listuser");
+                redirect("/moodle/koolsoft/admin/user/?action=listuser");
             }else{
                 $message = $arrayCheck->message;
             }
@@ -211,7 +209,7 @@ class AdminController extends  ApplicationController {
         if($id_delete && $tag){
             global $OUTPUT;
 //    error_log(print_r(md5($id_delete), true));
-            $returnurl = "/koolsoft/admin/?action=listuser";
+            $returnurl = "/koolsoft/admin/user/?action=listuser";
             $fullname = "Delete test";
             $optionsyes = array('delete'=>$id_delete, 'confirm'=>md5($id_delete), 'sesskey'=>sesskey());
             $deleteurl = new moodle_url($returnurl, $optionsyes);
@@ -461,20 +459,20 @@ class AdminController extends  ApplicationController {
                 $arrayCheck->check = "false";
                 $arrayCheck->message = "Bạn chưa nhập lastname";
                 return $arrayCheck;
-             }else if (is_null($email) || strlen($email) == 0) {
+            }else if (is_null($email) || strlen($email) == 0) {
                 $arrayCheck->check = "false";
                 $arrayCheck->message = "Bạn chưa nhập email";
                 return $arrayCheck;
-             }else if (preg_match('/[A-Z]/', $username)) {
-                 $arrayCheck->check = "false";
-                 $arrayCheck->message = "Username chỉ được để chữ thường";
-              }else if (!preg_match('/[A-Z]/', $password) || !preg_match('/[!@#$%^&*()]/', $password) || !preg_match('/[0-9]/', $password)) {
-                 $arrayCheck->check = "false";
-                 $arrayCheck->message = "Password phải có ít nhất 8 ký tự,ít nhất một số,it nhất một từ viết hoa và ít nhất 1 ký tự đặc biệt như !,@,#,$";
-             }else if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-                 $arrayCheck->check = "false";
-                 $arrayCheck->message = "Email không đúng định dạng";
-              }
+            }else if (preg_match('/[A-Z]/', $username)) {
+                $arrayCheck->check = "false";
+                $arrayCheck->message = "Username chỉ được để chữ thường";
+            }else if (!preg_match('/[A-Z]/', $password) || !preg_match('/[!@#$%^&*()]/', $password) || !preg_match('/[0-9]/', $password)) {
+                $arrayCheck->check = "false";
+                $arrayCheck->message = "Password phải có ít nhất 8 ký tự,ít nhất một số,it nhất một từ viết hoa và ít nhất 1 ký tự đặc biệt như !,@,#,$";
+            }else if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+                $arrayCheck->check = "false";
+                $arrayCheck->message = "Email không đúng định dạng";
+            }
 
         return $arrayCheck;
     }

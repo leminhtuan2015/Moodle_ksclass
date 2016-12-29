@@ -13,7 +13,7 @@
 
 <div id="divBody">
     <div>
-        <form method="post" action="/moodle/koolsoft/admin/?action=listuser">
+        <form method="post" action="/moodle/koolsoft/admin/user/?action=listuser">
             <div class="form-group">
                 <label for="usr">Type text:</label>
                 <input type="text" class="form-control" name="text_filter" value="<?php echo $search?>">
@@ -139,10 +139,10 @@
 <script>
     var btnAddNew = document.getElementById('btnAddNew');
     btnAddNew.onclick = function () {
-        location.href = "/moodle/koolsoft/admin/?action=adduser";
+        location.href = "/moodle/koolsoft/admin/user/?action=adduser";
     }
     function onclickEdit(id){
-        location.href = "/moodle/koolsoft/admin/?action=editrole&id=" +id;
+        location.href = "/moodle/koolsoft/admin/user/?action=editrole&id=" +id;
     }
     function onclickDelete(id){
 //        location.href = "/moodle/koolsoft/admin/?action=listuser&id=" +id+"&tag=delete";
