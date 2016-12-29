@@ -8,12 +8,14 @@
         <div class="form-group">
             <label for="inputName" class="control-label" >Name</label>
             <input type="text" name="name" class="form-control"
-                   id="inputName" placeholder="Class name" value="<?php echo $course->fullname ?>" required>
+                   id="name" placeholder="Class name" value="<?php echo $course->fullname ?>" required>
         </div>
 
         <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" placeholder="Description" rows="3" name="description"><?php echo $courseSection->summary ?></textarea>
+            <textarea class="form-control" placeholder="Description" rows="3" name="description">
+                <?php echo $courseSection->summary ?>
+            </textarea>
         </div>
 
         <div class="form-group">
@@ -59,36 +61,29 @@
                 <div class='col-sm-3'>
                     <div class="form-group">
                         <label for="inputName" class="control-label">Start date</label>
-                        <div class='input-group date' id='startDate'>
-                            <input type='text' class="form-control" placeholder="Start date" name="startDate"/>
+                        <div class='input-group date'>
+                            <input type='text' class="form-control" placeholder="Start date"
+                                   name="startDate" id='startDate' value="<?php echo $course->startdate ?>" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#startDate').datetimepicker();
-                    });
-                </script>
 
                 <div class='col-sm-3'>
                     <div class="form-group">
                         <label for="inputName" class="control-label">End date</label>
-                        <div class='input-group date' id='endDate'>
-                            <input type='text' class="form-control" placeholder="End date" name="endDate"/>
+                        <div class='input-group date'>
+                            <input type='text' class="form-control" placeholder="End date"
+                                   name="endDate" id="endDate" value="<?php echo $course->enddate ?>" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
+                    <label id="error_date" class="control-label text-danger"</label>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#endDate').datetimepicker();
-                    });
-                </script>
             </div>
         </div>
 
@@ -99,5 +94,7 @@
     </div>
 </div>
 
+
+<script src="/moodle/koolsoft/course/resources/course.js"></script>
 
 

@@ -19,9 +19,15 @@
     a.disable {
         color: gray;
     }
+
+    a.out_of_date {
+        color: red;
+    }
+
 </style>
 
-<a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id ?>" class="<?php if(!$course->visible){echo "disable";}?>">
+<a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id ?>"
+   class="<?php if(!$course->visible){echo "disable";} else if(!$course->isPresent){ echo "out_of_date"; }?>">
     <div class="rcorners col-sm-6">
         <div class="truncate"> Class: <b><?php echo $course->fullname ?></b></div>
         <div>Description: <?php echo $course->startdate ?></div>

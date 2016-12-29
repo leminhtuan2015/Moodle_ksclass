@@ -54,7 +54,4 @@ if($action == "index"){
 } else if($action == "unEnrol"){
     $controller->unEnrol();
 
-} else if($action == "enrolCourse"){
-    $controller->enrolCourse();
-
 }
