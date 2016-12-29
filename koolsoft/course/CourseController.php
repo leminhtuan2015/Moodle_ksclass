@@ -20,36 +20,13 @@ class CourseController extends ApplicationController {
     public function index($categoryid) {
         $courses = CourseUtil::getCourses($categoryid);
 
-        foreach ($courses as $course) {
-            if(CourseUtil::isEnrolled1($course->id)){
-                $course->isEnroled = true;
-            }
-
-            if(CourseUtil::isFree($course->id)){
-                $course->isFree = true;
-            }
-        }
-
         require_once(__DIR__.'/views/index.php');
     }
 
     public function show($id) {
         global $DB;
 
-        if(!CourseUtil::isEnrolled1($id)){
-            if(CourseUtil::isFree($id)){
-                // FREE
-                redirect("/moodle/koolsoft/course/?action=enrolCourse&method=free&courseId=$id");
-            } else {
-                redirect("/moodle/koolsoft/course/?action=enrolCourse&method=paid&courseId=$id");
-                // PAID
-            }
-
-            return;
-        }
-
-        $params = array('id' => $id);
-        $course = $DB->get_record('course', $params, '*', MUST_EXIST);
+        $course = CourseUtil::getCourse($id);
 
         $modinfo = get_fast_modinfo($course);
         $modnames = get_module_types_names();
@@ -82,12 +59,18 @@ class CourseController extends ApplicationController {
     public function create(){
         global $DB;
 
+        $humanStartDate = $_POST["startDate"];
+        $humanEndDate = $_POST["endDate"];
+
         $data = new stdClass();
         $data->fullname = $_POST["name"];
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
         $data->numsections = 0;
+        $data->startdate = DateUtil::getTimestamp($humanStartDate);
+        $data->enddate = DateUtil::getTimestamp($humanEndDate);
+
         $course = create_course($data);
 
         if($course){
@@ -100,16 +83,6 @@ class CourseController extends ApplicationController {
     public function myCourse(){
         global $USER;
         $courses = CourseUtil::getMyCourses();
-
-        foreach ($courses as $course) {
-            if(CourseUtil::isEnrolled1($course->id)){
-                $course->isEnroled = true;
-            }
-
-            if(CourseUtil::isFree($course->id)){
-                $course->isFree = true;
-            }
-        }
 
         require_once(__DIR__.'/views/my_course.php');
     }
@@ -125,6 +98,9 @@ class CourseController extends ApplicationController {
             $categories = $categoryController->getAllCategories();
             $categoriesName = $categoryController->getPathCategory($categories);
             $isFree = CourseUtil::isFree($id);
+
+            $course->startdate = DateUtil::getHumanDate($course->startdate);
+            $course->enddate = DateUtil::getHumanDate($course->enddate);
         }
 
         require_once(__DIR__.'/views/edit.php');
@@ -133,12 +109,19 @@ class CourseController extends ApplicationController {
     public function update(){
         global $DB;
 
+        $humanStartDate = $_POST["startDate"];
+        $humanEndDate = $_POST["endDate"];
+
         $data = new stdClass();
         $data->id = $_POST["id"];
         $data->fullname = $_POST["name"];
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
+
+        $data->startdate = DateUtil::getTimestamp($humanStartDate);
+        $data->enddate = DateUtil::getTimestamp($humanEndDate);
+
         update_course($data);
 
         $this->setSelfEnrolment($data->id, $_POST["payment"]);
@@ -150,15 +133,6 @@ class CourseController extends ApplicationController {
         delete_course($id, false);
 
         redirect("/moodle/koolsoft/course");
-    }
-
-    public function enrolCourse(){
-        global $USER;
-
-        $id = $_GET['courseId'];
-        $method = $_GET['method'];
-
-        require_once (__DIR__."/views/enrol_course.php");
     }
 
     public function selfEnrol(){

@@ -60,35 +60,27 @@
                     <div class="form-group">
                         <label for="inputName" class="control-label">Start date</label>
                         <div class='input-group date' id='startDate'>
-                            <input type='text' class="form-control" placeholder="Start date" name="startDate"/>
+                            <input type='text' class="form-control" placeholder="Start date"
+                                   name="startDate" value="<?php echo $course->startdate ?>" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#startDate').datetimepicker();
-                    });
-                </script>
 
                 <div class='col-sm-3'>
                     <div class="form-group">
                         <label for="inputName" class="control-label">End date</label>
                         <div class='input-group date' id='endDate'>
-                            <input type='text' class="form-control" placeholder="End date" name="endDate"/>
+                            <input type='text' class="form-control" placeholder="End date"
+                                   name="endDate" value="<?php echo $course->enddate ?>" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#endDate').datetimepicker();
-                    });
-                </script>
             </div>
         </div>
 
@@ -99,5 +91,15 @@
     </div>
 </div>
 
+
+<script type="text/javascript">
+    function initDatePicker(id) {
+        var dateTimeFormat = "<?php echo DateUtil::$DATE_FORMAT_HTML ?>"
+        $(id).datetimepicker({format : dateTimeFormat});
+    };
+
+    initDatePicker("#startDate");
+    initDatePicker("#endDate");
+</script>
 
 

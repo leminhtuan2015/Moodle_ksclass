@@ -11,15 +11,21 @@
 <div class="col-sm-14">
     <h2>
         <span class="text-primary">
-<!--            <a href="/moodle/koolsoft/course/?action=show&id=--><?php //echo $course->id ?><!--">-->
-                <?php echo "$section->name" ?>
-<!--            </a>-->
+            <?php echo "$section->name" ?>
         </span>
     </h2>
 
-    <div class="alert alert-success">
-        <a href="#" class="alert-link">Join this class</a>.
-    </div>
+    <?php if(!$course->isEnroled){ ?>
+        <?php if($course->isFree){ ?>
+            <div class="alert alert-success">
+                <a href="/moodle/koolsoft/course/?action=selfEnrol&id=<?php echo $course->id ?>" class="alert-link">Join this class</a>.
+            </div>
+        <?php } else { ?>
+            <div class="alert alert-warning">
+                <a href="#" class="alert-link">Pay this class</a>.
+            </div>
+        <?php } ?>
+    <?php } ?>
 
     <hr>
     <div class="tab-content">

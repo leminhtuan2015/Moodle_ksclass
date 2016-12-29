@@ -20,19 +20,6 @@ class FrontendController extends ApplicationController {
         $courses = CourseUtil::getCourses();
         $myCourses = CourseUtil::getMyCourses();
 
-        foreach ($courses as $course) {
-            if(CourseUtil::isFree($course->id)){
-                $course->isFree = true;
-            }
-        }
-
-        foreach ($myCourses as $myCourse) {
-            if(CourseUtil::isFree($myCourse->id)){
-                $myCourse->isFree = true;
-            }
-        }
-
         require_once("views/index.php");
     }
-
 }
