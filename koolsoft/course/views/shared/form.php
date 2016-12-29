@@ -13,9 +13,7 @@
 
         <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" placeholder="Description" rows="3" name="description">
-                <?php echo $courseSection->summary ?>
-            </textarea>
+            <textarea class="form-control" placeholder="Description" rows="3" name="description"><?php echo $course->summary ?></textarea>
         </div>
 
         <div class="form-group">

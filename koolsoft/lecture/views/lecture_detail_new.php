@@ -9,13 +9,6 @@
 ?>
 
 <div class="col-sm-14">
-    <h2>
-        <span class="text-primary">
-            <?php echo "$section->name" ?>
-        </span>
-    </h2>
-
-    <hr>
     <div class="tab-content">
         <div id="<?php echo $section->id ?>lecture" class="tab-pane fade in active">
             <div class="panel-group" id="accordion">

@@ -67,6 +67,7 @@ class CourseController extends ApplicationController {
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
+        $data->summary = $_POST["description"];
         $data->numsections = 0;
         $data->startdate = DateUtil::getTimestamp($humanStartDate);
         $data->enddate = DateUtil::getTimestamp($humanEndDate);
@@ -118,6 +119,9 @@ class CourseController extends ApplicationController {
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
+        $data->summary = $_POST["description"];
+
+        Logger::log($_POST["description"]);
 
         $data->startdate = DateUtil::getTimestamp($humanStartDate);
         $data->enddate = DateUtil::getTimestamp($humanEndDate);
@@ -132,7 +136,7 @@ class CourseController extends ApplicationController {
     public function delete($id){
         delete_course($id, false);
 
-        redirect("/moodle/koolsoft/course");
+        redirect("/moodle/koolsoft/");
     }
 
     public function selfEnrol(){

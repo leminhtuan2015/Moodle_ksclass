@@ -41,7 +41,7 @@ class CourseUtil {
     public static function getMyCourses(){
         global $USER;
 
-        $courses = enrol_get_all_users_courses($USER->id, true, "startdate, enddate", 'visible DESC, sortorder ASC');
+        $courses = enrol_get_all_users_courses($USER->id, true, "startdate, enddate, summary", 'visible DESC, sortorder ASC');
 
         foreach ($courses as $course) {
             $course->isEnroled = CourseUtil::isEnrolled1($course->id);
