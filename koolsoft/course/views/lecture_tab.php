@@ -7,10 +7,6 @@
  */
 ?>
 
-<style>
-    @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
-</style>
-
 <script>
     $(document).ready(function()
     {
@@ -39,7 +35,7 @@
         <br>
         <div class="col-md-3">
             <ul class="nav nav-pills nav-stacked admin-menu">
-                <li class="active"><a href="#" data-target-id="home"><i class="fa fa-home fa-fw"></i>Home</a></li>
+                <li class="active"><a href="#" data-target-id="home"><i class="fa fa-home fa-fw"></i> Home</a></li>
 
                 <?php foreach ($sections as $section) { ?>
                     <?php if($section->section == 0){continue;} ?>

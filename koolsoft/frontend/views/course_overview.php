@@ -5,7 +5,7 @@
         padding-top: 5px;
         margin-left: 20px;
         margin-top: 20px;
-        width: 200px;
+        width: 260px;
         height: 150px;
     }
 
@@ -30,7 +30,7 @@
    class="<?php if(!$course->visible){echo "disable";} else if(!$course->isPresent){ echo "out_of_date"; }?>">
     <div class="rcorners col-sm-6">
         <div class="truncate"> Class: <b><?php echo $course->fullname ?></b></div>
-        <div>Description: <?php echo $course->startdate ?></div>
+        <div>Description: <?php echo $course->summary ?></div>
         <div>Complete: </div>
         <div>Members: </div>
         <div>Payment:

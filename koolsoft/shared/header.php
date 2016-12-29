@@ -3,6 +3,8 @@
 ?>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap.3.3.7.min.css">
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap-datetimepicker.min.css">
 
@@ -31,11 +33,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/moodle/koolsoft/files/">Library</a></li>
+                <li>
+                    <a href="/moodle/koolsoft/files/">
+                        <span class="glyphicon glyphicon-folder-close"></span> Library
+                    </a>
+                </li>
                 <li>
                     <a href="/moodle/koolsoft/course/?action=new">
-                        <span class="glyphicon glyphicon-plus "></span>
-                        Class
+                        <span class="glyphicon glyphicon-plus "></span> Class
                     </a>
                 </li>
             </ul>
