@@ -11,11 +11,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Question bank</h4>
+                <h4 class="modal-title">Question category</h4>
             </div>
             <div class="modal-body">
-                <p>Select question in question bank</p>
-                <?php echo \html_writer::select($catmenu, 'category', null, array(), array('class' => 'searchoptions custom-select', 'id' => 'id_selectacategory')); ?>
+                Choice exercise <select id="selectQuestionCategory"class="selectpicker">
+                    <option> ------Choice category-------- </option>
+                    <?php
+                        foreach ($categories as $category){
+                            echo "<option value='".$category->id."'>".$category->name."</option>";
+                        }
+                    ?>
+                </select>
                 <div id="nameQuestions"></div>
                 <table class='table' style="width: 100%">
                     <thead>

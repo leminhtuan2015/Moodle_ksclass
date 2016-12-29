@@ -78,7 +78,6 @@ Ks.questionBank.handler = function () {
                 $("#alertDialog").modal();
                 $("#alertContent").html("Can not delete question! Some question in use!");
             }
-            console.log(result);
         }});
         $("#deleteQuestionDialog").modal('hide');
     });

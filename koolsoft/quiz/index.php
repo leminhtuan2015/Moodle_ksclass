@@ -22,8 +22,9 @@ if($action == "index"){
 
 } else if($action == "edit"){
     $course = optional_param('course', 0, PARAM_INT);
+    $lectureId = optional_param('lectureId', 0, PARAM_INT);
     $section = optional_param('section', 0, PARAM_INT);
     $id = optional_param('id', 0, PARAM_INT);
     $saveAction = optional_param('saveAction', 0, PARAM_TEXT);
-    $controller->edit($course, $section, $id, $saveAction);
+    $controller->edit($course, $section, $lectureId, $id, $saveAction);
 }
