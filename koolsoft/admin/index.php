@@ -6,8 +6,8 @@
  * Time: 14:07
  */
 require_once(__DIR__.'/AdminController.php');
-$action = 'index';
 $controller = new AdminController();
+$action = 'index';
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];

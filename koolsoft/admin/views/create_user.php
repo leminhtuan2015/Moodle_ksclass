@@ -14,14 +14,9 @@
             color: red;
         }
     </style>
-    <script>
-        function back_to_list() {
-            location.href = "/moodle/koolsoft/admin/?action=listuser";
-        }
-    </script>
 </head>
 <div id="divFrom">
-    <form action="/moodle/koolsoft/admin/?action=adduser" method="post" autocomplete="off">
+    <form action="/moodle/koolsoft/admin/?action=adduser"  method="post" autocomplete="off">
         <p id="text_alert"><?php echo $message ?></p>
         <div class="form-group" aria-autocomplete="none">
             <label for="usr"> Username:</label>
@@ -49,9 +44,3 @@
 
     </form>
 </div>
-
-
-<?php
-
-
-?>

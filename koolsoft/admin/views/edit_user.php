@@ -8,22 +8,7 @@
             color: red;
         }
     </style>
-    <script>
-        function back_to_list() {
-            location.href = "/moodle/koolsoft/admin/?action=listuser";
-        }
-    </script>
 </head>
-<?php
-/**
- * Created by PhpStorm.
- * User: xuan
- * Date: 27/12/2016
- * Time: 20:47
- */
-//require_once(__DIR__ . '/../../../admin/roles/lib.php');
-
-?>
 
 <div id="divContent">
     <form method="post" action="/moodle/koolsoft/admin/?action=editrole&id=<?php echo $id ?>">
@@ -55,11 +40,6 @@
         </div>
         <label class="checkbox-inline"><input type="checkbox" name="suppend" value="" <?php echo $suspended?>>Suspended account</label> <br>
         <label class="checkbox-inline"><input type="checkbox" name="manager" value="" <?php echo $is_manager?>>Manager</label> <br>
-<!--        <select name="manager">-->
-<!--            <option value="action">Action</option>-->
-<!--            <option value="add">Assign manage</option>-->
-<!--            <option value="remove">Remove manager</option>-->
-<!--        </select><br>-->
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
