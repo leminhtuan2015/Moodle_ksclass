@@ -19,4 +19,6 @@ if($action == "index") {
     $controller->show_list_user();
 }else if($action == "adduser") {
     $controller->add_new_user();
+}else if($action == "editrole") {
+    $controller->edit_role();
 }

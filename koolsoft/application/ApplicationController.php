@@ -7,6 +7,8 @@
  */
 
 require_once (__DIR__."/../utility/Logger.php");
+require_once (__DIR__."/../utility/CourseUtil.php");
+require_once (__DIR__."/../utility/ClientUtil.php");
 
 class ApplicationController {
 

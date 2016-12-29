@@ -108,7 +108,6 @@ if ($roleid) {
 
             foreach ($userstoassign as $adduser) {
                 $allow = true;
-
                 if ($allow) {
                     role_assign($roleid, $adduser->id, $context->id);
                 }
