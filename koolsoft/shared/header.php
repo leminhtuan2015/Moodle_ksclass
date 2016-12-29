@@ -64,6 +64,11 @@
                             <li><a href="/moodle/koolsoft/course">Classes</a></li>
                             <li><a href="/moodle/koolsoft/course/?action=new">Create Classes</a></li>
                             <li><a href="/moodle/koolsoft/home">Home <span class="sr-only">(current)</span></a></li>
+                            <?php
+                                if(is_siteadmin()){
+                                    echo "<li><a href=\"/moodle/koolsoft/admin/user/?action=listuser\">Manager User</a></li>";
+                                }
+                            ?>
                             <li role="separator" class="divider"></li>
                             <li><a href="/moodle/koolsoft/login/logout.php">Logout</a></li>
                         </ul>

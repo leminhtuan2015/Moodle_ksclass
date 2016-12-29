@@ -82,7 +82,6 @@
             $optionsyes = array('delete'=>$delete, 'confirm'=>md5($delete), 'sesskey'=>sesskey());
             $deleteurl = new moodle_url($returnurl, $optionsyes);
             $deletebutton = new single_button($deleteurl, get_string('delete'), 'post');
-
             echo $OUTPUT->confirm(get_string('deletecheckfull', '', "'$fullname'"), $deletebutton, $returnurl);
             echo $OUTPUT->footer();
             die;
