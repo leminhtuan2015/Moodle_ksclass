@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap-datetimepicker.min.css">
 
 <script src="/moodle/koolsoft/resources/javascript/jquery.3.1.0.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap.3.3.7.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/validator.0.11.8.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/moment.min.js"></script>
