@@ -16,18 +16,17 @@ if (isset($_GET['action'])) {
 }
 
 if($action == "index"){
-    // Index
     $categoryid = optional_param('categoryid', "all", PARAM_INT);
 
     $controller->index($categoryid);
+
 } else if($action == "show"){
-    // Show
     $id = $_GET['id'];
 
     $controller->show($id);
 
 } else if($action == "new"){
-    $id = optional_param('id', 0, PARAM_INT); // Course id.
+    $id = optional_param('id', 0, PARAM_INT);
 
     $controller->newCourse($id);
 
@@ -49,8 +48,13 @@ if($action == "index"){
 
     $controller->delete($id);
 
-} else if($action == "deleteSection"){
-    $id = $_GET['id'];
+} else if($action == "selfEnrol"){
+    $controller->selfEnrol();
 
-    $controller->deleteSection($id);
+} else if($action == "unEnrol"){
+    $controller->unEnrol();
+
+} else if($action == "enrolCourse"){
+    $controller->enrolCourse();
+
 }

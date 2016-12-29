@@ -7,7 +7,7 @@
  * Time: 2:25 PM
  */
 
-require_once("../../config.php");
+require_once(__DIR__."/../../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");

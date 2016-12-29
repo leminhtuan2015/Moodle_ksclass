@@ -25,29 +25,52 @@ $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
 ?>
 
 <div class="col-sm-14">
-    <h2>Class: <span class="text-primary"><?php echo $course->fullname ?></span></h2>
-    <div class="btn-group pull-right" role="group">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a></li>
-                <li><a data-toggle="modal" data-target="#confirm-delete"
-                       data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a></li>
-            </ul>
+    <h2>Class:
+        <span class="text-primary">
+            <a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id ?>">
+                <?php echo $course->fullname ?>
+            </a>
+        </span>
+
+        <div class="btn-group pull-right" role="group">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>">Edit</a></li>
+                    <li><a data-toggle="modal" data-target="#confirm-delete"
+                           data-href="/moodle/koolsoft/course/?action=delete&id=<?php echo $course->id ?>">Delete</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </h2>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#<?php echo $course->id ?>home">Lectures</a></li>
-        <li><a data-toggle="tab" href="#<?php echo $course->id ?>menu1">Document</a></li>
-        <li><a data-toggle="tab" href="#<?php echo $course->id ?>menu2">Posts</a></li>
+        <li class="active"><a data-toggle="tab" href="#<?php echo $course->id ?>lectures">Lectures</a></li>
+        <li><a data-toggle="tab" href="#<?php echo $course->id ?>document">Document</a></li>
+        <li><a data-toggle="tab" href="#<?php echo $course->id ?>posts">Posts</a></li>
         <li><a data-toggle="tab" href="#<?php echo $course->id ?>members">Members</a></li>
     </ul>
 
     <div class="tab-content">
-        <div id="<?php echo $course->id ?>home" class="tab-pane fade in active">
+        <div id="<?php echo $course->id ?>lectures" class="tab-pane fade in active">
+
+            <div class="btn-group pull-right" role="group" style="margin-top: 20px">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/moodle/koolsoft/lecture/?action=new&courseId=<?php echo $course->id ?>&section=<?php echo $section->section ?>&sectionId=<?php echo $section->id; ?>">
+                                Add Lecture
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <br>
 
             <div class="">
@@ -69,10 +92,16 @@ $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
                                         <?php echo $section->name; ?>
                                     </a>
                                     <br>
-                                    <p class='small lead'>Create by: <cite><a href="#">Owner</a></cite></p>
+                                    <p class='small'>Create by: <cite><a href="#">Owner</a></cite></p>
                                 </td>
                                 <td>
-                                    <p class='small lead'>2016/11/12</p>
+                                    <p class='small'>2016/11/12</p>
+                                </td>
+                                <td>
+                                    <button class='btn btn-danger pull-right btn-xs' data-toggle="modal" data-target="#confirm-delete"
+                                       data-href="/moodle/koolsoft/lecture/?action=delete&id=<?php echo $section->id ?>">
+                                        <span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+                                    </button>
                                 </td>
                             </tr>
 
@@ -82,11 +111,11 @@ $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
             </div>
         </div>
 
-        <div id="<?php echo $course->id ?>menu1" class="tab-pane fade">
+        <div id="<?php echo $course->id ?>document" class="tab-pane fade">
             <h3>Document</h3>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
-        <div id="<?php echo $course->id ?>menu2" class="tab-pane fade">
+        <div id="<?php echo $course->id ?>posts" class="tab-pane fade">
             <br>
             <?php include (__DIR__."/../../shared/views/create_message_box.php"); ?>
         </div>
@@ -112,7 +141,7 @@ $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
                                 </a>
                             </td>
                             <td>
-                                <p class='small lead'>progress</p>
+                                <p class='small'>progress</p>
                             </td>
                         </tr>
 

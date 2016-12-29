@@ -6,10 +6,10 @@
  * Time: 10:13 PM
  */
 
-require_once(__DIR__.'/HomeController.php');
+require_once(__DIR__.'/FrontendController.php');
 
 $action = 'index';
-$controller = new HomeController();
+$controller = new FrontendController();
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
@@ -17,10 +17,4 @@ if (isset($_GET['action'])) {
 
 if($action == "index"){
     $controller->index();
-
-} else if($action == "show"){
-    $id = $_GET['id'];
-
-} else if($action == "myCourses"){
-
 }
