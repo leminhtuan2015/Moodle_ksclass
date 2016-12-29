@@ -48,6 +48,20 @@ require_once(__DIR__."/../../shared/views/confirm.php");
 </style>
 
 <div class="container">
+    <?php if(!$course->isEnroled){ ?>
+        <?php if($course->isFree){ ?>
+            <div class="alert alert-success">
+                <a href="/moodle/koolsoft/course/?action=selfEnrol&id=<?php echo $course->id ?>" class="alert-link">Join this class</a>.
+            </div>
+        <?php } else { ?>
+            <div class="alert alert-warning">
+                <a href="#" class="alert-link">Pay this class</a>.
+            </div>
+        <?php } ?>
+    <?php } ?>
+</div>
+
+<div class="container">
     <div class="row">
         <div role="tabpanel">
 
