@@ -65,10 +65,6 @@ Ks.quiz.handler = function () {
         }
     });
 
-    $("#formQuiz").submit(function (e) {
-        e.preventDefault();
-    });
-
     $("#endTimeText").change(function(){
         var date = new Date($(this).val());
         if(date){
