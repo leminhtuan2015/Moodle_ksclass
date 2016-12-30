@@ -35,7 +35,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/moodle/koolsoft/question_categories/?action=show">Library</a></li>
+                <li><a href="/moodle/koolsoft/library/">Library</a></li>
                 <li>
                     <a href="/moodle/koolsoft/course/?action=new">
                         <span class="glyphicon glyphicon-plus "></span> Class
