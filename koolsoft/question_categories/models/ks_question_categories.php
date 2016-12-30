@@ -34,7 +34,7 @@ class ks_question_categories
         $category->userid = $userId;
         $category->type = $type;
         $category->id = $DB->insert_record("question_categories", $category);
-        $category->result_text = "Success";
+        $category->resultText = "Success";
 
         return $category;
     }

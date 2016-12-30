@@ -69,7 +69,7 @@ class QuizController extends ApplicationController{
                 }
             }
 
-            echo "<script type='text/javascript'> window.location.replace('"."/moodle/koolsoft/lecture/?action=show&id=".$section."&courseId=".$courseid."')</script>";
+            redirect("/moodle/koolsoft/course/?action=show&id=".$courseid);
         }
         $currentSection = null;
         if($section){
