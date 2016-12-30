@@ -32,7 +32,6 @@
 
 <div class="container">
     <div class="row" style="height: 100%">
-        <br>
         <div class="col-md-3">
             <ul class="nav nav-pills nav-stacked admin-menu">
                 <li class="active"><a href="#" data-target-id="home"><i class="fa fa-home fa-fw"></i> Home</a></li>
@@ -49,6 +48,7 @@
 
             </ul>
         </div>
+
         <div class="col-md-8 well admin-content" id="home">
             <p>
             <h2>Wellcome to <span class="text-primary"><?php echo $course->fullname ?></span> class</h2>

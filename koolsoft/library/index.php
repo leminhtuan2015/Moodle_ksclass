@@ -6,10 +6,10 @@
  * Time: 1:26 PM
  */
 
-require_once(__DIR__.'/FileController.php');
+require_once(__DIR__.'/LibraryController.php');
 
 $action = 'index';
-$controller = new FileController();
+$controller = new LibraryController();
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];

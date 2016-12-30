@@ -27,6 +27,25 @@ require_once(__DIR__."/../../shared/views/confirm.php");
 
 </style>
 
+<script>
+    new Clipboard('.btn');
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+
+    $('body').on('click', function (e) {
+        //did not click a popover toggle or popover
+        if ($(e.target).data('toggle') !== 'popover'
+            && $(e.target).parents('.popover.in').length === 0) {
+            $('[data-toggle="popover"]').popover('hide');
+        }
+    });
+</script>
+
+
 <div class="container">
     <?php if(!$course->isEnroled){ ?>
         <?php if($course->isFree){ ?>
@@ -63,10 +82,42 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Leave
                         </a>
                     <?php } ?>
-                    <a type = "button" class = "btn btn-default"
-                       href="/moodle/koolsoft/lecture/?action=new&courseId=<?php echo $course->id ?>&section=&sectionId=">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add lecture
-                    </a>
+
+<!--                    <a type = "button" class = "btn btn-default btn-sm">-->
+<!--                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span> Share-->
+<!--                    </a>-->
+
+
+                    <button type="button" class="btn btn-default"
+                            data-container="body"
+                            data-html="true"
+                            data-toggle="popover"
+                            data-placement="bottom"
+                            title="Share with friends"
+                            data-content="
+                            <div class='row'>
+                                <div class='col-lg-12'>
+                                    <div class='input-group'>
+                                        <input type='text' id='classLink'
+                                               class='form-control' value='<?php echo "localhost/moodle/koolsoft/course/?action=show&id=$course->id"; ?>'>
+                                        <span class='input-group-btn'>
+                                            <button class='btn btn-default' type='button' data-clipboard-target='#classLink'>
+                                                <span class='glyphicon glyphicon-copy' aria-hidden='true'></span> Copy
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class='container'>
+                                    <div class='center btn-group' role='group'>
+                                        <button type='button' class='btn btn-default'><span class='text-primary'>Facebook</span></button>
+                                        <button type='button' class='btn btn-default'><span class='text-primary'>Email</span></button>
+                                    </div>
+                                </div>
+                            </div>">
+                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span> Share
+                    </button>
                 </div>
             </div>
 
@@ -97,6 +148,19 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                         </li>
                     </ul>
                     <div class="tab-content">
+
+                        <div class="pull-right">
+                            <div class = "btn-group btn-group-sm">
+                                <a type = "button" class = "btn btn-default"
+                                   href="/moodle/koolsoft/lecture/?action=new&courseId=<?php echo $course->id ?>&section=&sectionId=">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add lecture
+                                </a>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+
+
                         <div class="tab-pane active" id="lectures">
                             <?php require ("lecture_tab.php")?>
                         </div>
@@ -117,6 +181,9 @@ require_once(__DIR__."/../../shared/views/confirm.php");
     </div>
 </div>
 
+<br>
+<br>
+<br>
 
 <center>
     <strong>Powered by <a href="minhtuan.techno" target="_blank">LE MINH TUAN</a></strong>

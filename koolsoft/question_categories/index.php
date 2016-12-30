@@ -6,9 +6,11 @@
  * Time: 9:27 AM
  */
 
-require_once("./QuestionCategoryController.php");
+echo "s";
+require_once(__DIR__."/QuestionCategoryController.php");
+echo "s";
 
-$action = 'index';
+$action = 'show';
 $controller = new QuestionCategoryController();
 
 if (isset($_GET['action'])) {
