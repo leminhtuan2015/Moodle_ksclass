@@ -15,6 +15,7 @@
 <script src="/moodle/koolsoft/resources/javascript/validator.0.11.8.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/moment.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap-datetimepicker.min.js"></script>
+<script src="/moodle/koolsoft/resources/javascript/clipboard.min.js"></script>
 
 <nav class="navbar navbar-default">
     <div class="container">

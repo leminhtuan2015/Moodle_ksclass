@@ -63,10 +63,33 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Leave
                         </a>
                     <?php } ?>
-                    <a type = "button" class = "btn btn-default"
-                       href="/moodle/koolsoft/lecture/?action=new&courseId=<?php echo $course->id ?>&section=&sectionId=">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add lecture
-                    </a>
+
+<!--                    <a type = "button" class = "btn btn-default btn-sm">-->
+<!--                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span> Share-->
+<!--                    </a>-->
+
+                    <button type = "button" class = "btn btn-default btn-sm dropdown-toggle">
+                        <span class="dropdown" id="share">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#share">
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"></span> Share
+                            </a>
+
+                            <span class="dropdown-menu dropdown-menu-left" aria-labelledby="dLabel">
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="input-group">
+            <input type="text" id="classLink" class="form-control" value="https://github.com/zenorocha/clipboard.js.git">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button" data-clipboard-target="#classLink">Copy</button>
+      </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+                            </span>
+                        </span>
+                    </button>
+
                 </div>
             </div>
 
@@ -97,6 +120,19 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                         </li>
                     </ul>
                     <div class="tab-content">
+
+                        <div class="pull-right">
+                            <div class = "btn-group btn-group-sm">
+                                <a type = "button" class = "btn btn-default"
+                                   href="/moodle/koolsoft/lecture/?action=new&courseId=<?php echo $course->id ?>&section=&sectionId=">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add lecture
+                                </a>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+
+
                         <div class="tab-pane active" id="lectures">
                             <?php require ("lecture_tab.php")?>
                         </div>
@@ -117,7 +153,14 @@ require_once(__DIR__."/../../shared/views/confirm.php");
     </div>
 </div>
 
+<br>
+<br>
+<br>
 
 <center>
     <strong>Powered by <a href="minhtuan.techno" target="_blank">LE MINH TUAN</a></strong>
 </center>
+
+<script>
+    new Clipboard('.btn');
+</script>
