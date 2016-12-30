@@ -23,6 +23,9 @@
                 <a data-toggle="modal" data-target="#confirm-delete"
                    data-href="/moodle/koolsoft/lecture/?action=delete&id=<?php echo $section->id ?>">Delete</a>
             </li>
+            <li>
+                <a href="/moodle/koolsoft/quiz/?action=edit&course=<?php echo $course->id ?>&section=<?php echo $section->section ?> &lectureId=<?php echo $section->id ?>">Add quiz</a>
+            </li>
         </ul>
     </div>
 </div>

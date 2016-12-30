@@ -6,6 +6,8 @@
  * Time: 10:11
  */
 class ClientUtil {
+    public static $resourceTypeQuiz = 16;
+    public static $resourceTypeLable = 12;
     public static  function  is_manager(){
         global $USER;
         global  $DB;
