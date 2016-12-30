@@ -15,7 +15,11 @@
                 <?php
                     foreach ($section->modinfo->cms as $cm) {
                         if ($cm->section == $section->id) {
-                            include (__DIR__."/lecture_content.php");
+                            if($cm->module == 16){
+                                include (__DIR__."/lecture_content_quiz.php");
+                            }else if($cm->module == 12){
+                                include (__DIR__."/lecture_content.php");
+                            }
                         }
                     }
                 ?>
