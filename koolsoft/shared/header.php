@@ -15,6 +15,7 @@
 <script src="/moodle/koolsoft/resources/javascript/validator.0.11.8.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/moment.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap-datetimepicker.min.js"></script>
+<script src="/moodle/koolsoft/resources/javascript/clipboard.min.js"></script>
 
 <nav class="navbar navbar-default">
     <div class="container">
@@ -34,7 +35,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/moodle/koolsoft/question_categories/?action=show">Library</a></li>
+                <li><a href="/moodle/koolsoft/library/">Library</a></li>
                 <li>
                     <a href="/moodle/koolsoft/course/?action=new">
                         <span class="glyphicon glyphicon-plus "></span> Class

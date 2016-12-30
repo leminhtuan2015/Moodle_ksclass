@@ -14,7 +14,7 @@ require_once(__DIR__."/../application/ApplicationController.php");
 require_once(__DIR__."/models/FileUtil.php");
 require_once($CFG->dirroot.'/repository/upload/lib.php');
 
-class FileController extends ApplicationController {
+class LibraryController extends ApplicationController {
 
     function __construct() {
         parent::__construct();
