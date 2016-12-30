@@ -17,15 +17,61 @@ class CourseUtil {
     public static function getCourses($categoryid){
         $courses = get_courses($categoryid);
 
+        foreach ($courses as $course) {
+            $course->isEnroled = CourseUtil::isEnrolled1($course->id);
+            $course->isFree = CourseUtil::isFree($course->id);
+            $course->isPresent = CourseUtil::isPresent($course);
+        }
+
         return $courses;
+    }
+
+    public static function getCourse($id){
+        global $DB;
+
+        $params = array('id' => $id);
+        $course = $DB->get_record('course', $params, '*', MUST_EXIST);
+        $course->isEnroled = CourseUtil::isEnrolled1($id);
+        $course->isFree = CourseUtil::isFree($id);
+        $course->isPresent = CourseUtil::isPresent($course);
+
+        return $course;
     }
 
     public static function getMyCourses(){
         global $USER;
 
-        $courses = enrol_get_all_users_courses($USER->id, true, null, 'visible DESC, sortorder ASC');
+        $courses = enrol_get_all_users_courses($USER->id, true, "startdate, enddate, summary", 'visible DESC, sortorder ASC');
+
+        foreach ($courses as $course) {
+            $course->isEnroled = CourseUtil::isEnrolled1($course->id);
+            $course->isFree = CourseUtil::isFree($course->id);
+            $course->isPresent = CourseUtil::isPresent($course);
+        }
 
         return $courses;
+    }
+
+    public static function isPresent($course){
+        $todayTimeStamp = DateUtil::todayTimestamp();
+
+        if($course->startdate & $course->enddate){
+            $result = ($course->startdate <= $todayTimeStamp) & ($todayTimeStamp <= $course->enddate);
+
+            return $result;
+
+        } else if($course->startdate & !$course->enddate){
+
+            return $todayTimeStamp >= $course->startdate;
+
+        } else if(!$course->startdate & $course->enddate){
+
+            return $todayTimeStamp <= $course->enddate;
+
+        } else if(!$course->startdate & !$course->enddate){
+
+            return true;
+        }
     }
 
     public static function isEnrolled($courseId){

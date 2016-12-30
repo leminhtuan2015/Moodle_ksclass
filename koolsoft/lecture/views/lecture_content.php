@@ -7,11 +7,11 @@
  */
 
 ?>
-<br>
-<div class="btn-group pull-right" role="group" style="margin-top: -80px">
+
+<div class="btn-group pull-right" role="group" style="">
     <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-cog"  aria-hidden="true"></span>
         </button>
         <ul class="dropdown-menu">
             <li>
@@ -33,7 +33,8 @@
             echo "This lecture is not visible: <a href='#'>Pay</a>";
         } else {
             if ($cm->content) {
-                echo "$cm->content ($cm->id)";
+                echo "$cm->content";
+//                echo "($cm->id)";
             }
         }
     ?>

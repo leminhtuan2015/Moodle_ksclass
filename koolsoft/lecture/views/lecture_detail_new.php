@@ -9,15 +9,6 @@
 ?>
 
 <div class="col-sm-14">
-    <h2>
-        <span class="text-primary">
-<!--            <a href="/moodle/koolsoft/course/?action=show&id=--><?php //echo $course->id ?><!--">-->
-                <?php echo "$section->name" ?>
-<!--            </a>-->
-        </span>
-    </h2>
-
-    <hr>
     <div class="tab-content">
         <div id="<?php echo $section->id ?>lecture" class="tab-pane fade in active">
             <div class="panel-group" id="accordion">

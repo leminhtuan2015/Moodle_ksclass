@@ -10,7 +10,7 @@
 
 
 <div class="container">
-    <h4 class="marginTop">Favorist's classes</h4>
+    <h4 class="marginTop text-primary">Favorist's classes</h4>
     <hr>
     <div class="container">
         <div class="row">
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <h4 class="marginTop">All classes</h4>
+    <h4 class="marginTop text-primary">All classes</h4>
     <hr>
     <div class="container">
         <div class="row">
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <h4 class="marginTop">Recomment classes</h4>
+    <h4 class="marginTop text-primary">Recomment classes</h4>
     <hr>
     <div class="container">
         <div class="row">
