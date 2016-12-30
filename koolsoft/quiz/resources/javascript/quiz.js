@@ -7,9 +7,13 @@ Ks.quiz.numberQuestionInBank = 0;
 Ks.quiz.numberQuestion = 0;
 Ks.quiz.questions = [];
 Ks.quiz.questionDeletes = [];
+Ks.quiz.wrongAnswerInputId = "wrongAnserTxt";
 Ks.quiz.init = function () {
     Ks.quiz.getQuestionForBanks();
     Ks.quiz.getSlotForQuiz();
+
+    $('#datetimepickerStart').datetimepicker();
+    $('#datetimepickerEnd').datetimepicker();
 };
 
 Ks.quiz.renderQuestion = function () {
@@ -52,6 +56,28 @@ Ks.quiz.renderQuestion2 = function (questionDeletes) {
 };
 
 Ks.quiz.handler = function () {
+    $("#startTimeText").change(function(){
+        var date = new Date($(this).val());
+        if(date){
+            $("#startTime").val(date.getTime());
+        }else {
+            $("#startTime").val(0);
+        }
+    });
+
+    $("#formQuiz").submit(function (e) {
+        e.preventDefault();
+    });
+
+    $("#endTimeText").change(function(){
+        var date = new Date($(this).val());
+        if(date){
+            $("#endTime").val(date.getTime());
+        }else {
+            $("#endTime").val(0);
+        }
+    });
+
     $("#btnAddQuestion").click(function(){
         $("#questionBankDialog").modal();
     });
@@ -82,7 +108,7 @@ Ks.quiz.handler = function () {
             $("#alertDialog").modal();
             $("#alertContent").html("Some question exitting in quiz: " + questionExitting.toString());
         }
-        Ks.quiz.renderQuestion();
+        Ks.quiz.genQuestions();
         $("#questionBankDialog").modal('hide');
     });
 
@@ -110,7 +136,7 @@ Ks.quiz.handler = function () {
         }
     });
 
-    $("#id_selectacategory").change(function(){
+    $("#selectQuestionCategory").change(function(){
         Ks.quiz.getQuestionForBanks();
     });
 
@@ -127,30 +153,28 @@ Ks.quiz.handler = function () {
 };
 
 Ks.quiz.getQuestionForBanks = function () {
-    var cat = $("#id_selectacategory").val();
-    var category = cat.split(',')[0];
-    $.ajax({url: "/moodle/koolsoft/questionbank/rest/questionbank_rest.php?categoryid=" + category, success: function(questions){
-        var htmlTr = "";
-        console.log(questions);
-        var keys = Object.keys(questions);
-        for(var i = 0; i < keys.length; i++){
-            htmlTr += "<tr>"
-                + "<td><input type='checkbox' value='' id='idCheckBoxQuestionBank"+ i + "' idQuestion='"+ questions[keys[i]].id + "' nameQuestion='"+ questions[keys[i]].name + "'></td>"
-                + "<td>" + questions[keys[i]].name + "</td>"
-                +"</tr>";
-        }
-        $("#bodyTableQuestionBank").html(htmlTr);
-        Ks.quiz.numberQuestionInBank = keys.length;
-    }});
+    var category = $("#selectQuestionCategory").val();
+    if(category){
+        $.ajax({url: "/moodle/koolsoft/questionbank/rest/questionbank_rest.php?categoryid=" + category, success: function(questions){
+            var htmlTr = "";
+            var keys = Object.keys(questions);
+            for(var i = 0; i < keys.length; i++){
+                htmlTr += "<tr>"
+                    + "<td><input type='checkbox' value='' id='idCheckBoxQuestionBank"+ i + "' idQuestion='"+ questions[keys[i]].id + "' nameQuestion='"+ questions[keys[i]].name + "'></td>"
+                    + "<td>" + questions[keys[i]].name + "</td>"
+                    +"</tr>";
+            }
+            $("#bodyTableQuestionBank").html(htmlTr);
+            Ks.quiz.numberQuestionInBank = keys.length;
+        }});
+    }
 };
 
 Ks.quiz.getSlotForQuiz= function () {
     var quizId = $("#idQuiz").val();
-    console.log(quizId);
     if(quizId){
         $.ajax({url: "/moodle/koolsoft/quiz/rest/quiz_rest.php?quizId=" + quizId, success: function(slots){
             var keys = Object.keys(slots);
-            console.log(slots);
             for(var i = 0; i < keys.length; i++){
                 var question = {};
                 question.id = slots[keys[i]].id;
@@ -159,10 +183,79 @@ Ks.quiz.getSlotForQuiz= function () {
                 question.maxmark = slots[keys[i]].maxmark;
                 Ks.quiz.questions.push(question);
             }
-            Ks.quiz.renderQuestion();
+            Ks.quiz.genQuestions(Ks.quiz.questions);
         }});
     }
 };
+
+Ks.quiz.genQuestions = function () {
+    $("#listQuestion").html("");
+    var idQuestions = [];
+    for(var i=0; i < Ks.quiz.questions.length; i++){
+        var html = "";
+        var idQuestionBtn = new Date().getTime() + i;
+        html += "<li  role='presentation' class='brand-nav' id-question='" + Ks.quiz.questions[i].id + "' id='" + idQuestionBtn + "' tyle='height: 30px;'>";
+        html += "<a role='tab' data-toggle='tab'>Question " + (i + 1) + "</a>";
+        html += "</li>";
+        $("#listQuestion").append(html);
+        $("#" + idQuestionBtn).click(function (e){
+            $.ajax({url: "/moodle/koolsoft/question/rest/question.php?action=one&id=" + $(this).attr("id-question"), success: function(result){
+                Ks.quiz.genQuestion(JSON.parse(result));
+            }});
+        });
+        // if(i == (Ks.quiz.questions.length - 1)){
+        //     $("#" + idQuestionBtn).addClass("active");
+        // }
+
+        if(!Ks.quiz.questions[i].slotid){
+            idQuestions.push(Ks.quiz.questions[i].id);
+        }
+    }
+
+    Ks.quiz.numberQuestion = Ks.quiz.questions.length;
+    $("#idQuestions").val(idQuestions.toString());
+    // if(Ks.quiz.questions.length > 0){
+    //     Ks.question.genQuestion(Ks.question.questions[Ks.question.questions.length - 1]);
+    // }
+};
+
+Ks.quiz.genQuestion = function (question) {
+    $("#createQuestionErrorText").html("");
+    $("#createQuestionErrorText").css("display", "none");
+    Ks.quiz.currentQuestion = question;
+    var html = "";
+    html += "<div class='form-group' style='display: none'> "
+        + "<input class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
+    html += "<div class='form-group'> <label for='questionTxt'>Question</label>"
+        + "<input style='width: 95%'class='form-control' placeholder='question' id='questionTxt' value='" + question.questiontext + "'> </div>";
+    var answers = question.options.answers;
+    var keys = Object.keys(answers);
+
+
+    if(keys.length > 0){
+        html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input style='width: 95%' class='form-control' placeholder='answer' id='answerTxt' value='" + answers[keys[0]].answer + "'> </div>";
+    }
+
+    $("#questionDiv").html(html);
+    for(var i = 1; i < keys.length; i++){
+        var idDelWrongAnswer = "idDWA" + new Date().getTime() + i;
+        var htmlWrongAnswer = "<div class='form-group'> <label for='answerTxt'>Wrong Answer</label> "
+            +" <input style='display: inline-block; width: 95%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + (i - 1) +"' value='" + answers[keys[i]].answer + "'>"
+            + "<span stt-answer='" + i + "' id='" + idDelWrongAnswer + "' style='display: inline-block; width: 5%' class='glyphicon glyphicon-remove'></span> "
+            +" </div>";
+        $("#questionDiv").append(htmlWrongAnswer);
+        // $("#" + idDelWrongAnswer).click(function () {
+        //     var stt = $(this).attr("stt-answer");
+        //     var wrongAnswers = Ks.quiz.currentQuestion.options.answers;
+        //     var wrongAnswerKeys = Object.keys(wrongAnswers);
+        //     delete Ks.quiz.currentQuestion.options.answers[wrongAnswerKeys[stt]];
+        //     Ks.quiz.genQuestion(Ks.question.currentQuestion);
+        // });
+    }
+
+    // Ks.question.numberWrongAnswer = keys.length - 1;
+};
+
 $(function () {
     Ks.quiz.init();
     Ks.quiz.handler();

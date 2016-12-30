@@ -1,0 +1,2 @@
+ALTER TABLE ks_moodle.ks_question_categories ADD userid BIGINT(10);
+ALTER TABLE ks_moodle.ks_question_categories ADD type BIGINT(10);
