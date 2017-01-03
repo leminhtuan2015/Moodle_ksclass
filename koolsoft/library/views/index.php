@@ -27,7 +27,7 @@
                         <?php require_once ("files/index.php");?>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="profile">
-<!--                        --><?php //require_once (__DIR__."/../../question_categories/index.php");?>
+                        <?php require_once (__DIR__."/../../question_categories/index.php");?>
                     </div>
                 </div>
             </div>
