@@ -4,3 +4,5 @@ ALTER TABLE moodle.ks_question_categories ADD type BIGINT(10);
 ALTER TABLE moodle.ks_course ADD cost VARCHAR(255);
 ALTER TABLE moodle.ks_course ADD sequence TINYINT(1);
 ALTER TABLE moodle.ks_course ADD free_type TINYINT(1);
+
+ALTER TABLE moodle.ks_course_sections ADD parent_id BIGINT(10);
