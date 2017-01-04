@@ -1,3 +1,10 @@
+
+disableLecturesFree('#course_cost')
+handleLecturesFree('#course_cost')
+
+initDatePicker("#startDate");
+initDatePicker("#endDate");
+
 function initDatePicker(id) {
     var dateTimeFormat = "YYYY/MM/DD"
     $(id).datetimepicker({
@@ -6,10 +13,6 @@ function initDatePicker(id) {
         validateDate();
     });
 };
-
-
-initDatePicker("#startDate");
-initDatePicker("#endDate");
 
 function validateDate(){
     var startDate = $('#startDate').val()
@@ -68,3 +71,30 @@ $(document).ready(function () {
     });
 
 });
+
+function disableLecturesFree(id) {
+    cost = $(id).val()
+
+    if(cost){
+        disable_selectbox("#course_free_type_form_group", false)
+    } else {
+        disable_selectbox("#course_free_type_form_group", true)
+    }
+}
+
+function handleLecturesFree(id) {
+    $(id).on('input',function(e){
+        disableLecturesFree(id)
+    });
+}
+
+function disable_selectbox(id, isDisabled){
+    $(id).prop('disabled', isDisabled);
+
+    if(isDisabled){
+        $(id).hide()
+    } else {
+        $(id).show()
+    }
+
+}

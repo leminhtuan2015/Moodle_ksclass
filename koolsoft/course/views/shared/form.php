@@ -32,6 +32,17 @@
         </div>
 
         <div class="form-group">
+            <label>Frequency</label>
+            <br>
+            <label class="radio-inline">
+                <input type="radio" name="sequence" value="1" <?php if($course->sequence){ echo "checked";} ?>>Sequence
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="sequence" value="0" <?php if(!$course->sequence){ echo "checked";} ?>>Random
+            </label>
+        </div>
+
+        <div class="form-group">
             <label>Privacy</label>
             <br>
             <label class="radio-inline">
@@ -43,20 +54,36 @@
         </div>
 
         <div class="form-group">
-            <label>Payment</label>
-            <br>
-            <label class="radio-inline">
-                <input type="radio" name="payment" value="0" <?php if($isFree){ echo "checked";} ?>>Free
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="payment" value="1" <?php if(!$isFree){ echo "checked";} ?>>Paid
-            </label>
+            <div class="row">
+
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <label for="inputName" class="control-label">Cost</label>
+                        <input type="text" name="cost" class="form-control"
+                               id="course_cost" placeholder="0 (vnd)" value="<?php echo $course->cost ?>">
+                    </div>
+                </div>
+
+                <div class='col-sm-6'>
+                    <div class="form-group" id="course_free_type_form_group">
+                        <label for="inputName" class="control-label">Lectures Free</label>
+                        <div class='input-group col-sm-12'>
+                            <select class="form-control" id="course_free_type" name="free_type"
+                                    value="<?php echo $course->free_type ?>">
+                                <option value='0' <?php if($course->free_type == 0){echo "selected";};?>>No Free</option>
+                                <option value='1' <?php if($course->free_type == 1){echo "selected";};?>>1st</option>
+                                <option value='2' <?php if($course->free_type == 2){echo "selected";};?>>2nd</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
             <div class="row">
 
-                <div class='col-sm-3'>
+                <div class='col-sm-6'>
                     <div class="form-group">
                         <label for="inputName" class="control-label">Start date</label>
                         <div class='input-group date'>
@@ -69,7 +96,7 @@
                     </div>
                 </div>
 
-                <div class='col-sm-3'>
+                <div class='col-sm-6'>
                     <div class="form-group">
                         <label for="inputName" class="control-label">End date</label>
                         <div class='input-group date'>
