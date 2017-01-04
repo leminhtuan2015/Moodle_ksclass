@@ -35,6 +35,13 @@ class CourseController extends ApplicationController {
         $mods = $modinfo->get_cms();
         $sections = $modinfo->get_section_info_all();
 
+        foreach ($sections as $section){
+            Logger::log($section->id);
+
+            $courseSection = $DB->get_record('course_sections', array('id'=>$section->id));
+            $section->parent_id = $courseSection->parent_id;
+        }
+
 //        Logger::log($sections);
 
         $context = context_COURSE::instance($course->id);

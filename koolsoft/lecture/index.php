@@ -22,7 +22,7 @@ if($action == "show"){
     $controller->show($id, $courseId);
 
 } else if ($action == "new") {
-    $controller->newResouce();
+    $controller->newLecture();
 
 } else if($action == "create"){
     $controller->create();
@@ -37,4 +37,10 @@ if($action == "show"){
     $id = $_GET['id'];
 
     $controller->delete($id);
+
+} else if($action == "newChapter"){
+    $controller->newChapter();
+
+} else if($action == "createChapter"){
+    $controller->createChapter();
 }
