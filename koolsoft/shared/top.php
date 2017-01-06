@@ -57,7 +57,7 @@
                         </ul>
                     </li>
                 <?php } else { ?>
-                    <!--                    <li><a href="/moodle/login/index.php">Login</a></li>-->
+                    <!--                  <li><a href="/moodle/login/index.php">Login</a></li>-->
                     <li><a href="/moodle/koolsoft/login">Login</a></li>
                 <?php } ?>
             </ul>
