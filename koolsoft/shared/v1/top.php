@@ -20,9 +20,18 @@
 
 <div class="hearder-Home">
     <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-graduation-cap" style="color:black;width:45px;"></i></a>
-    <input type="text" placeholder="Search.." style="margin-left:3%;">
-    <a class='iconFont-Home' href="/moodle/koolsoft" style="margin-left:3%;"><i class="fa fa-home" style="color:black;width:45px;"></i></a>
-    <div style="display:inline-block;width:30%;float:right;">
+
+    <form style="display: inline-block; " class="navbar-form" action="/moodle/koolsoft/search/?action=show" method="get">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="search">
+        </div>
+    </form>
+
+    <a class='iconFont-Home' href="/moodle/koolsoft" style="margin-left:3%; vertical-align: middle">
+        <i class="fa fa-home" style="color:black;width:45px;"></i>
+    </a>
+
+    <div class="pull-right" style="display:inline-block;width:30%; vertical-align: middle; margin-top: 10px;">
         <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-book" style="color:black;width:45px;"></i></a>
         <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-user" style="color:black;width:45px;"></i></a>
         <?php if(isloggedin()) { ?>
