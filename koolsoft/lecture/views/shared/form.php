@@ -8,7 +8,7 @@
 ?>
 
 <head>
-<!--    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>-->
+    <script src="/moodle/koolsoft/resources/javascript/tinymce_v4.js"></script>
 
     <script>
         function tinymceInitDoneCallback(inst){

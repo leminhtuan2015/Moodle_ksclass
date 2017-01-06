@@ -16,6 +16,7 @@
 <script src="/moodle/koolsoft/resources/javascript/moment.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap-datetimepicker.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/clipboard.min.js"></script>
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 
 <nav class="navbar navbar-default">
     <div class="container">
