@@ -11,15 +11,15 @@
                 <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
             </a>
             <input style="color: #0c0c0c" type="text" name="name" value="<?php echo $sectionEdit->name ?>"/>
-            <a class='iconPanel iconRight' style="right:110px;" data-toggle="pill" href="">
+            <a class='iconPanel iconRight' style="right:130px;" data-toggle="pill" href="">
                 <i class="fa fa-cog" style="color:white;width:45px;"></i>
             </a>
-            <button type="submit" class='iconPanel iconRight' style="right:55px;">
+            <button type="submit" class='iconPanel iconRight' style="right:75px;background-color:transparent;border:none">
                 <i class="fa fa-floppy-o" style="color:white;width:45px;"></i>
-            </button>
+            </button> 
 <!--            <button type="submit" class="btn btn-primary">Save</button>-->
 
-            <a class='iconPanel iconRight' style="right:5px;" data-toggle="pill" href="">
+            <a class='iconPanel iconRight' style="right:25px;" data-toggle="pill" href="">
                 <i class="fa fa-angle-right" style="color:white;width:45px;"></i>
             </a>
         </h5>

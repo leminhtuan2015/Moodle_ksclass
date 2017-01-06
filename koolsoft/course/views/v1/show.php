@@ -5,7 +5,9 @@
 </script>
 
 <STYLE type="text/css">
-
+    body{
+        overflow: hidden;
+    }
     .panelContent {
         width: 90%;
         margin: 0 auto;
@@ -42,17 +44,13 @@
     }
 
     .listCategory {
-        width: 25%;
         vertical-align: top;
         background-color: #282828;
-        float: left;
         height: 100%;
         padding: 5px;
     }
 
     .rightPanel {
-        width: 65%;
-        display: inline-block;
         vertical-align: top;
         height: 100%;
     }
@@ -93,7 +91,7 @@
 
     .postionContent {
         position: absolute;
-        height: 100%;
+        height: calc(100% - 50px);
         width: 90%;
         margin: 0 auto;
     }
@@ -119,7 +117,6 @@
         color: white;
         background-color: black;
         margin-top: 0px;
-        top: 0px;
         width: 100%;
     }
 
@@ -148,6 +145,10 @@
         margin: 0 auto;
         vertical-align: middle;
     }
+    .panelClass-show{
+        width: calc(100% - 100px);
+        float: right;
+    }
 </STYLE>
 
 <?php require_once("new_lecture.php") ?>
@@ -157,7 +158,13 @@
 <DIV class='panelContent'>
     <DIV class='postionContent'>
         <?php require_once("column1.php") ?>
-        <?php require_once("column2.php") ?>
-        <?php require_once("column3.php")?>
+        <div class="panelClass-show">
+            <div class="col-xs-4 col-sm-4 col-md-4" style="padding:0px;">
+                <?php require_once("column2.php") ?>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8" style="padding:0px;">
+                <?php require_once("column3.php") ?>
+            </div>
+        </div>
     </DIV>
 </DIV>
