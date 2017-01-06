@@ -6,3 +6,13 @@ ALTER TABLE moodle.ks_course ADD sequence TINYINT(1);
 ALTER TABLE moodle.ks_course ADD free_type TINYINT(1);
 
 ALTER TABLE moodle.ks_course_sections ADD parent_id BIGINT(10);
+
+CREATE TABLE `moodle`.`ks_tag_new` (
+  `id` BIGINT(10) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+CREATE TABLE `moodle`.`ks_tag_question` (
+  `id` BIGINT(10) NOT NULL AUTO_INCREMENT,
+  `id_tag` BIGINT(10) NOT NULL,
+  `id_question` BIGINT(10) NOT NULL,
+  PRIMARY KEY (`id`));

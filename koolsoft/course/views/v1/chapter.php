@@ -8,6 +8,15 @@
                         <?php echo $sectionLecture->name ?>
                     </a>
                     <br>
+                    <?php
+                        foreach ($sectionLecture->modinfo->cms as $cm) {
+                            if ($cm->section == $sectionLecture->id) {
+                                if($cm->module == ClientUtil::$resourceTypeQuiz){
+                                    echo "<a class='btHTML' href='/moodle/koolsoft/test/?cmid=".$cm->id."' >".$cm->name."</a> <br>";
+                                }
+                            }
+                        }
+                    ?>
                 </h4>
             </div>
 

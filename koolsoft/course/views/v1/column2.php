@@ -17,6 +17,9 @@
             <h5 style="text-align: center;">
                 <a data-toggle="modal" data-target="#createLecture">Create lecture</a>
             </h5>
+            <h5 style="text-align: center;">
+                <a data-toggle="modal" data-target="#createQuizDialog">Create quiz</a>
+            </h5>
         </ul>
     </div>
 

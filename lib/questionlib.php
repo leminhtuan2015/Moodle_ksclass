@@ -697,6 +697,7 @@ function question_preview_popup_params() {
  * @return array partially complete question objects. You need to call get_question_options
  * on them before they can be properly used.
  */
+//dungdv customer for test
 function question_preload_questions($questionids = null, $extrafields = '', $join = '',
                                     $extraparams = array(), $orderby = '') {
     global $DB;
@@ -726,9 +727,8 @@ function question_preload_questions($questionids = null, $extrafields = '', $joi
         $orderby = 'ORDER BY ' . $orderby;
     }
 
-    $sql = "SELECT q.*, qc.contextid{$extrafields}
+    $sql = "SELECT q.*
               FROM {question} q
-              JOIN {question_categories} qc ON q.category = qc.id
               {$join}
              {$where}
           {$orderby}";
@@ -737,8 +737,11 @@ function question_preload_questions($questionids = null, $extrafields = '', $joi
     $questions = $DB->get_records_sql($sql, $extraparams + $params);
     foreach ($questions as $question) {
         $question->_partiallyloaded = true;
+        $question->contextid = 1;
+        $question->category = 0;
     }
 
+    error_log(json_encode($questions));
     return $questions;
 }
 

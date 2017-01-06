@@ -10,6 +10,18 @@ global $CFG;
 require_once($CFG->dirroot."/config.php");
 class ks_quiz
 {
+    public function loadAll(){
+        global $DB;
+        $quizs = $DB->get_records_sql("SELECT * FROM quiz", array());
+        return $quizs;
+    }
+
+    public function loadOne($id){
+        global $DB;
+        $quiz = $DB->get_records("quiz", array("id" => $id));
+        return $quiz;
+    }
+
     public function remove_slot($slotId){
         global $DB;
         $DB->delete_records('quiz_slots', array('id' => $slotId));
@@ -19,10 +31,9 @@ class ks_quiz
         global $DB;
         $slots = $DB->get_records_sql("
                 SELECT slot.id AS slotid, slot.slot, slot.questionid, slot.page, slot.maxmark,
-                        slot.requireprevious, q.*, qc.contextid
+                        slot.requireprevious, q.*
                   FROM {quiz_slots} slot
                   LEFT JOIN {question} q ON q.id = slot.questionid
-                  LEFT JOIN {question_categories} qc ON qc.id = q.category
                  WHERE slot.quizid = ?
               ORDER BY slot.slot", array($id));
         return $slots;

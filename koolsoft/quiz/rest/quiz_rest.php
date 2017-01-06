@@ -15,7 +15,12 @@ $quizid  = optional_param('quizId', 0, PARAM_INT);
 $action  = optional_param('action', 0, PARAM_INT);
 $idslot  = optional_param('idSlot', 0, PARAM_INT);
 $dao = new ks_quiz();
+//if($action == "loadAll"){
+//    $quizs = $dao->loadAll();
+//    echo json_encode($quizs);
+//}
 if($quizid){
     $slots = $dao->load_slots_in_quiz($quizid);
     echo json_encode($slots);
 }
+

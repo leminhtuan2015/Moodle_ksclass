@@ -12,6 +12,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__.'/../../../question/editlib.php');
 require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/formslib.php');
+require_once($CFG->dirroot . '/koolsoft/utility/DateUtil.php');
 require_once(__DIR__."/../../../question/type/questiontypebase.php");
 
 global $DB;
@@ -22,57 +23,69 @@ $action = optional_param('action', "", PARAM_TEXT);
 global $USER;
 switch ($action) {
     case "create":
-        $id = optional_param('id', "", PARAM_TEXT);
-        if ($id) {
-            if (!$question = $DB->get_record('question', array('id' => $id))) {
-                print_error('questiondoesnotexist', 'question', "");
+        $questionStrings = optional_param('questions', "", PARAM_TEXT);
+        $questions = (array) json_decode($questionStrings);
+
+        // validation
+        foreach ($questions as $question){
+            if(!$question->question){
+                $question->resultText = "Question is empty!";
+                echo json_encode($questions);
+                return;
+            }else if(!$question->answer){
+                $question->resultText = "Answer is empty!";
+                echo json_encode($questions);
+                return;
+            }else if(!$question->wrongAnswer || count($question->wrongAnswer) <= 0){
+                $question->resultText = "Wrong Answer is empty!";
+                echo json_encode($questions);
+                return;
+            }else {
+                foreach ($question->wrongAnswer as $wrongAnswer){
+                    if(!$wrongAnswer){
+                        $question->resultText = "Wrong Answer is empty!";
+                        echo json_encode($questions);
+                        return;
+                    }
+                }
             }
-            get_question_options($question, true);
-        } else {
-            $categoryId = optional_param('categoryId', "", PARAM_INT);
-            $question = new stdClass();
-            $question->category = $categoryId;
-            $question->qtype = "multichoice";
-            $question->createdby = $USER->id;
         }
 
-        $qtypeobj = question_bank::get_qtype($question->qtype);
-        $wrongAnswers = optional_param('wrongAnswer', "", PARAM_TEXT);
-        $questionText = optional_param('question', "", PARAM_TEXT);
-        $answer = optional_param('answer', "", PARAM_TEXT);
-        $categoryId = optional_param('categoryId', "", PARAM_INT);
-        if(!$questionText){
-            $question->resultText = "Question is empty!";
-            echo json_encode($question);
-        }else if(!$answer){
-            $question->resultText = "Answer is empty!";
-            echo json_encode($question);
-        }else if(!$wrongAnswers || count($wrongAnswers) <= 0){
-            $question->resultText = "Wrong Answer is empty!";
-            echo json_encode($question);
-        }else{
-            $formQuestion = $dao->getData($wrongAnswers, $questionText, $answer, $categoryId);
-            $question = $qtypeobj->save_question_no_context($question, $formQuestion);
+        // save
+        foreach ($questions as $question){
+            $dao->create($question);
             $question->resultText = "Success";
-            echo json_encode($question);
         }
+        echo json_encode($questions);
+        return;
         break;
     case "update":
         ;
         break;
-    case "list":
-        $categoryId = optional_param('categoryId', "", PARAM_INT);
-        $questions = $dao->load_questions($categoryId);
+    case "listByTag":
+        $tagStrings = optional_param('tag', "", PARAM_TEXT);
+        $tags = (array) json_decode($tagStrings);
+        $questions = $dao->loadByTag($tags);
+        foreach ($questions as $question){
+            $question->timemodified = DateUtil::getHumanDate($question->timemodified);
+        }
+        echo json_encode($questions);
+        break;
+    case "listByIds":
+        $idStrings = optional_param('id', "", PARAM_TEXT);
+        $ids = (array) json_decode($idStrings);
+        $questions = $dao->loadByIds($ids);
+
         echo json_encode($questions);
         break;
     case "one":
         $id = optional_param('id', "", PARAM_INT);
-        $question = $dao->load_question($id);
+        $question = $dao->loadOne($id);
         echo json_encode($question);
         break;
     case "delete":
         $id = optional_param('id', "", PARAM_TEXT);
-        $dao->delete_question($id);
+        $dao->delete($id);
         echo true;
         break;
 }

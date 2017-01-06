@@ -9,11 +9,52 @@ Ks.quiz.questions = [];
 Ks.quiz.questionDeletes = [];
 Ks.quiz.wrongAnswerInputId = "wrongAnserTxt";
 Ks.quiz.init = function () {
-    Ks.quiz.getQuestionForBanks();
     Ks.quiz.getSlotForQuiz();
-
+    Ks.quiz.loadLecture();
     $('#datetimepickerStart').datetimepicker();
     $('#datetimepickerEnd').datetimepicker();
+
+    $.ajax({url: "/moodle/koolsoft/question_tag/rest/question_tag.php?action=listAll",
+        success: function(results){
+            var tags = JSON.parse(results);
+            var keys = Object.keys(tags);
+            var tagSelects = [];
+            for(var i = 0 ;  i < keys.length; i ++ ){
+                var tag = {};
+                tag.id = tags[keys[i]].id;
+                tag.text = tags[keys[i]].name;
+                tagSelects.push(tag);
+            }
+
+            $("#selectTagSearch").select2({
+                data: tagSelects,
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
+        },
+        error: function () {
+            console.log("get tag error !!!!!");
+        }
+    });
+
+    $('#createQuizDialog').on('shown.bs.modal', function() {
+        Ks.quiz.clearDialog();
+    });
+
+};
+
+Ks.quiz.clearDialog = function () {
+    $("#listQuestion").html("");
+    Ks.quiz.numberQuestionInBank = 0;
+    Ks.quiz.numberQuestion = 0;
+    Ks.quiz.questions = [];
+    Ks.quiz.questionDeletes = [];
+    $("#nameQuiz").html("");
+    $("#nameQuiz").html("");
+    $("#startTimeText").html("");
+    $("#endTimeText").html("");
+    $("#startTime").html("");
+    $("#endTime").html("");
 };
 
 Ks.quiz.renderQuestion = function () {
@@ -56,6 +97,10 @@ Ks.quiz.renderQuestion2 = function (questionDeletes) {
 };
 
 Ks.quiz.handler = function () {
+    $("#chapterSelect").change(function(){
+        Ks.quiz.loadLecture();
+    });
+
     $("#startTimeText").change(function(){
         var date = new Date($(this).val());
         if(date){
@@ -132,8 +177,8 @@ Ks.quiz.handler = function () {
         }
     });
 
-    $("#selectQuestionCategory").change(function(){
-        Ks.quiz.getQuestionForBanks();
+    $("#selectTagSearch").change(function(){
+        Ks.quiz.loadQuestionByTag();
     });
 
     $("#idCheckBoxQuestionBankAll").change(function(){
@@ -146,24 +191,6 @@ Ks.quiz.handler = function () {
             $("#idCheckBoxQuestion" + i).prop('checked', $("#idCheckBoxQuestionAll").prop("checked"));
         }
     });
-};
-
-Ks.quiz.getQuestionForBanks = function () {
-    var category = $("#selectQuestionCategory").val();
-    if(category){
-        $.ajax({url: "/moodle/koolsoft/questionbank/rest/questionbank_rest.php?categoryid=" + category, success: function(questions){
-            var htmlTr = "";
-            var keys = Object.keys(questions);
-            for(var i = 0; i < keys.length; i++){
-                htmlTr += "<tr>"
-                    + "<td><input type='checkbox' value='' id='idCheckBoxQuestionBank"+ i + "' idQuestion='"+ questions[keys[i]].id + "' nameQuestion='"+ questions[keys[i]].name + "'></td>"
-                    + "<td>" + questions[keys[i]].name + "</td>"
-                    +"</tr>";
-            }
-            $("#bodyTableQuestionBank").html(htmlTr);
-            Ks.quiz.numberQuestionInBank = keys.length;
-        }});
-    }
 };
 
 Ks.quiz.getSlotForQuiz= function () {
@@ -221,23 +248,39 @@ Ks.quiz.genQuestion = function (question) {
     Ks.quiz.currentQuestion = question;
     var html = "";
     html += "<div class='form-group' style='display: none'> "
-        + "<input class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
+        + "<input ";
+    if(question.id){
+        html +="disabled ";
+    }
+    html += "class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
     html += "<div class='form-group'> <label for='questionTxt'>Question</label>"
-        + "<input style='width: 95%'class='form-control' placeholder='question' id='questionTxt' value='" + question.questiontext + "'> </div>";
+        + "<input ";
+    if(question.id){
+        html +="disabled ";
+    }
+    html += "style='width: 100%'class='form-control' placeholder='question' id='questionTxt' value='" + question.questiontext + "'> </div>";
     var answers = question.options.answers;
     var keys = Object.keys(answers);
 
 
     if(keys.length > 0){
-        html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input style='width: 95%' class='form-control' placeholder='answer' id='answerTxt' value='" + answers[keys[0]].answer + "'> </div>";
+        html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input";
+        if(question.id){
+            html += " disabled ";
+        }
+        html += " style='width: 100%' class='form-control' placeholder='answer' id='answerTxt' value='" + answers[keys[0]].answer + "'> </div>";
     }
 
     $("#questionDiv").html(html);
     for(var i = 1; i < keys.length; i++){
         var idDelWrongAnswer = "idDWA" + new Date().getTime() + i;
         var htmlWrongAnswer = "<div class='form-group'> <label for='answerTxt'>Wrong Answer</label> "
-            +" <input style='display: inline-block; width: 95%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + (i - 1) +"' value='" + answers[keys[i]].answer + "'>"
-            + "<span stt-answer='" + i + "' id='" + idDelWrongAnswer + "' style='display: inline-block; width: 5%' class='glyphicon glyphicon-remove'></span> "
+            +" <input ";
+        if(question.id){
+            htmlWrongAnswer +="disabled ";
+        }
+        htmlWrongAnswer += " style='display: inline-block; width: 100%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + (i - 1) +"' value='" + answers[keys[i]].answer + "'>"
+            // + "<span stt-answer='" + i + "' id='" + idDelWrongAnswer + "' style='display: inline-block; width: 5%' class='glyphicon glyphicon-remove'></span> "
             +" </div>";
         $("#questionDiv").append(htmlWrongAnswer);
         // $("#" + idDelWrongAnswer).click(function () {
@@ -252,7 +295,60 @@ Ks.quiz.genQuestion = function (question) {
     // Ks.question.numberWrongAnswer = keys.length - 1;
 };
 
+Ks.quiz.loadQuestionByTag = function () {
+    var tag = $("#selectTagSearch").val();
+    var data = {};
+    data.tag = JSON.stringify(tag);
+    data.action = "listByTag";
+    $.ajax({url: "/moodle/koolsoft/question/rest/question.php",
+        data: data,
+        success: function(results){
+            var questions = JSON.parse(results);
+            var keys = Object.keys(questions);
+            var htmlTr = "";
+            for(var i = 0; i < keys.length; i++){
+                if(questions[keys[i]].id){
+                    htmlTr += "<tr>"
+                        + "<td><input type='checkbox' value='' id='idCheckBoxQuestionBank"+ i + "' idQuestion='"+ questions[keys[i]].id + "' nameQuestion='"+ questions[keys[i]].name + "'></td>"
+                        + "<td>" + questions[keys[i]].name + "</td>"
+                        +"</tr>";
+                }
+            }
+            $("#bodyTableQuestionBank").html(htmlTr);
+            Ks.quiz.numberQuestionInBank = keys.length;
+        },
+        error: function () {
+            console.log("get question error !!!!!");
+        }
+    });
+};
+
+Ks.quiz.loadLecture = function () {
+    var data= {};
+    data.action = "listSectionChild";
+    data.idParent = $("#chapterSelect").val();
+    $.ajax({url: "/moodle/koolsoft/course/rest/course.php",
+        data: data,
+        success: function(results){
+            $("#lectureSelect").html("");
+            var sections = JSON.parse(results);
+            var keys = Object.keys(sections);
+            var htmlSelect = "";
+            for(var i = 0; i < keys.length; i++){
+                htmlSelect += "<option value='" + sections[keys[i]].section + "'> " + sections[keys[i]].name + "</option>";
+            }
+            $("#lectureSelect").html(htmlSelect);
+
+        },
+        error: function () {
+            $("#lectureSelect").html("");
+            console.log("get lecture error !!!!!");
+        }
+    });
+};
+
 $(function () {
+
     Ks.quiz.init();
     Ks.quiz.handler();
 

@@ -164,4 +164,11 @@ class CourseUtil {
         }
     }
 
+    public static function getSectionChild($idParent){
+        global $DB;
+        $sqlString = "SELECT * FROM ".$DB->get_prefix()."course_sections WHERE parent_id = ".$idParent;
+        $sections = $DB->get_records_sql($sqlString, array());
+        return $sections;
+    }
+
 }
