@@ -173,17 +173,19 @@ class LectureController extends ApplicationController {
         $sectionId = $_POST['sectionId'];
         $moduleId = $_POST['moduleId'];
         $name = $_POST["name"];
-        $visible = $_POST["visible"];
-        $description = $_POST["description"];
-        $parent_id = $_POST["parent_id"];
+
+//        $visible = $_POST["visible"];
+//        $description = $_POST["description"];
+//        $parent_id = $_POST["parent_id"];
 
         // UPDATE SECTIONS
         $courseSection = new stdClass();
         $courseSection->id = $sectionId;
         $courseSection->name = $name;
-        $courseSection->summary = $description;
-        $courseSection->visible  = $visible;
-        $courseSection->parent_id  = $parent_id;
+
+//        $courseSection->summary = $description;
+//        $courseSection->visible  = $visible;
+//        $courseSection->parent_id  = $parent_id;
 
         $id = $DB->update_record("course_sections", $courseSection);
 

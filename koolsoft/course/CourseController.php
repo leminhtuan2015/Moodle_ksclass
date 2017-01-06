@@ -48,7 +48,8 @@ class CourseController extends ApplicationController {
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
         $enrolledUsers = CourseUtil::enrolledUsers($course->id);
 
-        require_once(__DIR__.'/views/show.php');
+//        require_once(__DIR__.'/views/show.php');
+        require_once(__DIR__.'/views/v1/show.php');
     }
 
     public function newCourse($id){
