@@ -18,7 +18,8 @@ class LoginController extends ApplicationController{
             redirect("/moodle/koolsoft/login/logout.php");
         }
 
-        require_once ("./views/index.php");
+//        require_once ("./views/index.php");
+        require_once ("./views/v1/index.php");
     }
 
     function login(){
