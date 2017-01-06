@@ -131,11 +131,13 @@ class LectureController extends ApplicationController {
     function create(){
         global $DB;
 
+        $labelContent = "";
+
         $courseId = $_POST['courseId'];
-        $labelContent = $_POST['labelContent'];
         $name = $_POST["name"];
-        $description = $_POST["description"];
-        $visible = $_POST["visible"];
+//        $labelContent = $_POST['labelContent'];
+//        $description = $_POST["description"];
+//        $visible = $_POST["visible"];
         $parent_id = $_POST["parent_id"];
 
         $course = $DB->get_record('course', array('id' => $courseId), '*', MUST_EXIST);
@@ -149,8 +151,8 @@ class LectureController extends ApplicationController {
         $section->course = $courseId;
         $section->section  = $courseformatoptions['numsections'] + 1;
         $section->parent_id  = $parent_id;
-        $section->summary  = $description;
-        $section->visible  = $visible;
+//        $section->summary  = $description;
+//        $section->visible  = $visible;
         $section->summaryformat = FORMAT_HTML;
         $section->sequence = '';
         $id = $DB->insert_record("course_sections", $section);

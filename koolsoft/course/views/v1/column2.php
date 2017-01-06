@@ -9,13 +9,13 @@
         </a>
         <ul class="dropdown-menu menuCustom">
             <h5 style="text-align: center; font-weight: bold;">
-                Tao moi noi dung
+                New contents
             </h5>
             <h5 style="text-align: center;">
-                <a data-toggle="modal" data-target="#TaoBaiGiang">Tao moi bai giang</a>
+                <a data-toggle="modal" data-target="#createChapter">Create Chapter</a>
             </h5>
             <h5 style="text-align: center;">
-                <a data-toggle="modal" data-target="#TaoBaiTap">Tao moi bai tap</a>
+                <a data-toggle="modal" data-target="#createLecture">Create lecture</a>
             </h5>
         </ul>
     </div>
@@ -39,8 +39,6 @@
                     <div id="collapse_chapter<?php echo $sectionChapter->id?>" class="panel-collapse collapse in">
                         <?php include ("chapter.php");?>
                     </div>
-
-
                 <?php } ?>
             <?php } ?>
         </div>
