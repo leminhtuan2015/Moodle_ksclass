@@ -47,14 +47,26 @@ class LectureController extends ApplicationController {
         require_once(__DIR__.'/views/show.php');
     }
 
-    function newResouce() {
+    function newLecture() {
         global $DB;
 
         $courseId = optional_param('courseId', 0, PARAM_INT);
         $section = optional_param('section', 0, PARAM_INT);
         $sectionId = optional_param('sectionId', 0, PARAM_INT);
 
+        $chapters = $DB->get_records('course_sections', array('course'=>$courseId, "parent_id"=> 0));
+
+//        Logger::log($chapters);
+
         require_once(__DIR__."/views/new.php");
+    }
+
+    function newChapter() {
+        global $DB;
+
+        $courseId = optional_param('courseId', 0, PARAM_INT);
+
+        require_once(__DIR__."/views/new_chapter.php");
     }
 
     function edit(){
@@ -69,19 +81,16 @@ class LectureController extends ApplicationController {
         $modinfo = get_fast_modinfo($course);
         $sections = $modinfo->get_section_info_all();
 
-        $courseSection = null;
+//        $courseSection = null;
+//
+//        foreach ($sections as $s) {
+//            if($courseSection){break;}
+//            if($s->id == $sectionId){$courseSection = $s;}
+//        }
 
-        foreach ($sections as $s) {
-            if($courseSection){
-                break;
-            }
+        $courseSection = $DB->get_record('course_sections', array('id'=>$sectionId));
 
-            if($s->id == $sectionId){
-                $courseSection = $s;
-            }
-        }
-
-//        Logger::log($courseSection);
+        Logger::log($courseSection);
 
         $label = new Label();
         $lableData = $label->get($moduleId);
@@ -89,7 +98,34 @@ class LectureController extends ApplicationController {
 
         $labelContent = str_replace(array("\r", "\n"), '', $labelContent);
 
+        $chapters = $DB->get_records('course_sections', array('course'=>$courseId, "parent_id"=> 0));
+
         require_once(__DIR__."/views/edit.php");
+    }
+
+    function createChapter(){
+        global $DB;
+
+        $courseId = $_POST['courseId'];
+        $name = $_POST["name"];
+        $parent_id = 0;
+
+        $course = $DB->get_record('course', array('id' => $courseId), '*', MUST_EXIST);
+        $courseformatoptions = course_get_format($course)->get_format_options();
+
+        $section = new stdClass();
+        $section->name = $name;
+        $section->course = $courseId;
+        $section->section  = $courseformatoptions['numsections'] + 1;
+        $section->parent_id  = $parent_id;
+        $section->summaryformat = FORMAT_HTML;
+
+        $id = $DB->insert_record("course_sections", $section);
+
+        $courseformatoptions['numsections']++;
+        update_course((object)array('id' => $courseId, 'numsections' => $courseformatoptions['numsections']));
+
+        redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
     }
 
     function create(){
@@ -100,6 +136,7 @@ class LectureController extends ApplicationController {
         $name = $_POST["name"];
         $description = $_POST["description"];
         $visible = $_POST["visible"];
+        $parent_id = $_POST["parent_id"];
 
         $course = $DB->get_record('course', array('id' => $courseId), '*', MUST_EXIST);
         $courseformatoptions = course_get_format($course)->get_format_options();
@@ -111,6 +148,7 @@ class LectureController extends ApplicationController {
         $section->name = $name;
         $section->course = $courseId;
         $section->section  = $courseformatoptions['numsections'] + 1;
+        $section->parent_id  = $parent_id;
         $section->summary  = $description;
         $section->visible  = $visible;
         $section->summaryformat = FORMAT_HTML;
@@ -135,15 +173,20 @@ class LectureController extends ApplicationController {
         $sectionId = $_POST['sectionId'];
         $moduleId = $_POST['moduleId'];
         $name = $_POST["name"];
-        $visible = $_POST["visible"];
-        $description = $_POST["description"];
+
+//        $visible = $_POST["visible"];
+//        $description = $_POST["description"];
+//        $parent_id = $_POST["parent_id"];
 
         // UPDATE SECTIONS
         $courseSection = new stdClass();
         $courseSection->id = $sectionId;
         $courseSection->name = $name;
-        $courseSection->summary = $description;
-        $courseSection->visible  = $visible;
+
+//        $courseSection->summary = $description;
+//        $courseSection->visible  = $visible;
+//        $courseSection->parent_id  = $parent_id;
+
         $id = $DB->update_record("course_sections", $courseSection);
 
         $label = new Label();

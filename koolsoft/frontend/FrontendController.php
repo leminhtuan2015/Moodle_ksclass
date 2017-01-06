@@ -20,6 +20,7 @@ class FrontendController extends ApplicationController {
         $courses = CourseUtil::getCourses();
         $myCourses = CourseUtil::getMyCourses();
 
-        require_once("views/index.php");
+//        require_once("views/index.php");
+        require_once("views/v1/index.php");
     }
 }

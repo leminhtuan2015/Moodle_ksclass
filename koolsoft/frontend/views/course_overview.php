@@ -38,7 +38,7 @@
                 if($course->isFree) {
                     echo "<span class='text-success'>Free</span>";
                 } else {
-                    echo "<span class='text-danger'>99$</span>";
+                    echo "<span class='text-danger'>$course->cost</span>";
                 }?>
         </div>
     </div>

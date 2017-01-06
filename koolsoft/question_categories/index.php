@@ -6,9 +6,7 @@
  * Time: 9:27 AM
  */
 
-echo "s";
 require_once(__DIR__."/QuestionCategoryController.php");
-echo "s";
 
 $action = 'show';
 $controller = new QuestionCategoryController();

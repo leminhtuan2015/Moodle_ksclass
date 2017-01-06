@@ -83,11 +83,6 @@ require_once(__DIR__."/../../shared/views/confirm.php");
                         </a>
                     <?php } ?>
 
-<!--                    <a type = "button" class = "btn btn-default btn-sm">-->
-<!--                        <span class="glyphicon glyphicon-share" aria-hidden="true"></span> Share-->
-<!--                    </a>-->
-
-
                     <button type="button" class="btn btn-default"
                             data-container="body"
                             data-html="true"
@@ -151,6 +146,10 @@ require_once(__DIR__."/../../shared/views/confirm.php");
 
                         <div class="pull-right">
                             <div class = "btn-group btn-group-sm">
+                                <a type = "button" class = "btn btn-default"
+                                   href="/moodle/koolsoft/lecture/?action=newChapter&courseId=<?php echo $course->id ?>">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add chapter
+                                </a>
                                 <a type = "button" class = "btn btn-default"
                                    href="/moodle/koolsoft/lecture/?action=new&courseId=<?php echo $course->id ?>&section=&sectionId=">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add lecture

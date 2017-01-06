@@ -8,7 +8,7 @@
 ?>
 
 <head>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="/moodle/koolsoft/resources/javascript/tinymce_v4.js"></script>
 
     <script>
         function tinymceInitDoneCallback(inst){
@@ -50,6 +50,19 @@
 
 <div class="container">
     <form action="<?php echo $formAction; ?>" method="POST">
+
+        <div class="form-group">
+            <div class="form-group" id="course_free_type_form_group">
+                <label for="inputName" class="control-label">Chapter</label>
+                <div class='input-group col-sm-12'>
+                    <select class="form-control" name="parent_id">
+                        <?php foreach ($chapters as $chapter){ ?>
+                            <option value="<?php echo $chapter->id ?>" <?php if($chapter->id == $courseSection->parent_id){echo "selected";};?>><?php echo $chapter->name ?></option>
+                        <? } ?>
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
             <label>Name</label>

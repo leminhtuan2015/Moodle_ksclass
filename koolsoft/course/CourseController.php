@@ -35,13 +35,21 @@ class CourseController extends ApplicationController {
         $mods = $modinfo->get_cms();
         $sections = $modinfo->get_section_info_all();
 
+        foreach ($sections as $section){
+            Logger::log($section->id);
+
+            $courseSection = $DB->get_record('course_sections', array('id'=>$section->id));
+            $section->parent_id = $courseSection->parent_id;
+        }
+
 //        Logger::log($sections);
 
         $context = context_COURSE::instance($course->id);
         $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
         $enrolledUsers = CourseUtil::enrolledUsers($course->id);
 
-        require_once(__DIR__.'/views/show.php');
+//        require_once(__DIR__.'/views/show.php');
+        require_once(__DIR__.'/views/v1/show.php');
     }
 
     public function newCourse($id){
@@ -63,12 +71,17 @@ class CourseController extends ApplicationController {
         $humanEndDate = $_POST["endDate"];
 
         $data = new stdClass();
+
         $data->fullname = $_POST["name"];
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
         $data->summary = $_POST["description"];
+        $data->sequence  = $_POST["sequence"];
+        $data->cost  = $_POST["cost"];
+        $data->free_type  = $_POST["free_type"];
         $data->numsections = 0;
+
         $data->startdate = DateUtil::getTimestamp($humanStartDate);
         $data->enddate = DateUtil::getTimestamp($humanEndDate);
 
@@ -114,21 +127,32 @@ class CourseController extends ApplicationController {
         $humanEndDate = $_POST["endDate"];
 
         $data = new stdClass();
+
         $data->id = $_POST["id"];
         $data->fullname = $_POST["name"];
         $data->shortname = $_POST["name"];
         $data->category = $_POST["categoryId"];
         $data->visible = $_POST["visible"];
         $data->summary = $_POST["description"];
+        $data->sequence  = $_POST["sequence"];
+        $data->cost  = $_POST["cost"];
+        $data->free_type  = $_POST["free_type"];
 
-        Logger::log($_POST["description"]);
+//        Logger::log($data);
 
         $data->startdate = DateUtil::getTimestamp($humanStartDate);
         $data->enddate = DateUtil::getTimestamp($humanEndDate);
 
         update_course($data);
 
-        $this->setSelfEnrolment($data->id, $_POST["payment"]);
+//        $DB->update_record('course', $data);
+//        $DB->update_record('course', array('id' => $data->id, 'cost' => "123444555"));
+
+        if($data->cost){
+            $this->setSelfEnrolment($data->id, false);
+        } else {
+            $this->setSelfEnrolment($data->id, true);
+        }
 
         redirect("/moodle/koolsoft/course/?action=show&id=$data->id");
     }
@@ -158,14 +182,7 @@ class CourseController extends ApplicationController {
         redirect("/moodle/koolsoft/");
     }
 
-    private function setSelfEnrolment($courseId, $payment){
-        $isFree = false;
-
-        if($payment == "0"){
-            $isFree = true;
-        } else {
-            $isFree = false;
-        }
+    private function setSelfEnrolment($courseId, $isFree){
 
 //        Logger::log($courseId);
 //        Logger::log($payment);

@@ -36,14 +36,29 @@
             <ul class="nav nav-pills nav-stacked admin-menu">
                 <li class="active"><a href="#" data-target-id="home"><i class="fa fa-home fa-fw"></i> Home</a></li>
 
-                <?php foreach ($sections as $section) { ?>
-                    <?php if($section->section == 0){continue;} ?>
-                    <li>
-                        <a href="" data-target-id="sections<?php echo $section->id ?>">
-                            <i class="fa fa-file-o fa-fw"></i>
-                            <?php echo "$section->name"?>
-                        </a>
-                    </li>
+                <?php foreach ($sections as $sectionChapter) { ?>
+                    <?php if($sectionChapter->section == 0){continue;} ?>
+
+                    <?php if($sectionChapter->parent_id == 0){ ?>
+                        <li>
+                            <a href="" data-target-id="sections<?php echo $sectionChapter->id ?>">
+                                <i class="fa fa-file-o fa-fw"></i>
+                                <?php echo "$sectionChapter->name"?>
+                            </a>
+                            <?php foreach ($sections as $section) { ?>
+                                <?php if($section->parent_id == $sectionChapter->id){ ?>
+                                    <ul>
+                                        <li>
+                                            <a href="" data-target-id="sections<?php echo $section->id ?>">
+                                                <i class="fa fa-file-o fa-fw"></i>
+                                                <?php echo "$section->name"?>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                <?php } ?>
+                            <?php } ?>
+                        </li>
+                    <?php } ?>
                 <?php } ?>
 
             </ul>
