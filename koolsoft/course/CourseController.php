@@ -90,7 +90,7 @@ class CourseController extends ApplicationController {
         $course = create_course($data);
 
         if($course){
-            $this->setSelfEnrolment($course->id, $_POST["payment"]);
+            $this->setSelfEnrolment($course->id, $data->cost);
         }
 
         redirect("/moodle/koolsoft/course/?action=show&id=$course->id");
@@ -184,10 +184,16 @@ class CourseController extends ApplicationController {
         redirect("/moodle/koolsoft/");
     }
 
-    private function setSelfEnrolment($courseId, $isFree){
+    private function setSelfEnrolment($courseId, $cost){
 
 //        Logger::log($courseId);
 //        Logger::log($payment);
+
+        $isFree = true;
+
+        if($cost){
+            $isFree = false;
+        }
 
         CourseUtil::enableSelfEnrol($courseId, $isFree);
     }

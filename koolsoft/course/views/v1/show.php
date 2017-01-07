@@ -161,6 +161,20 @@
     require_once ($CFG->dirroot."/koolsoft/quiz/views/question_category_dialog.php");
 ?>
 
+<div class="container">
+    <?php if(!$course->isEnroled){ ?>
+        <?php if($course->isFree){ ?>
+            <div class="alert alert-success">
+                <a href="/moodle/koolsoft/course/?action=selfEnrol&id=<?php echo $course->id ?>" class="alert-link">Join this class</a>.
+            </div>
+        <?php } else { ?>
+            <div class="alert alert-warning">
+                <a href="#" class="alert-link">Pay this class</a>.
+            </div>
+        <?php } ?>
+    <?php } ?>
+</div>
+
 <DIV class='panelContent'>
     <DIV class='postionContent'>
         <?php require_once("column1.php") ?>
