@@ -30,9 +30,6 @@
 
 <script>
     $('#confirm-delete').on('show.bs.modal', function(e) {
-        console.log("1111111111");
-        console.log($(e.relatedTarget).data('href'));
-        console.log($(e.relatedTarget));
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
 </script>

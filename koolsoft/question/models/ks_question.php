@@ -20,45 +20,149 @@ class ks_question
 
     }
 
-    public function load_questions($categoryId){
-        global $DB;
-        $sql = 'SELECT * FROM ks_question WHERE category ='.$categoryId;
-        $param = array();
-        $questions = $DB->get_records_sql($sql, $param);
-        foreach ($questions as $question){
-            get_question_options($question, true);
+    public function loadByTag($tags){
+        global $DB, $USER;
+        $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM ".$DB->get_prefix()."question q RIGHT JOIN ".$DB->get_prefix()."tag_question t ON q.id = t.id_question AND q.createdby=".$USER->id;
+        if($tags && count($tags) > 0){
+            $sqlString = $sqlString." AND t.id_tag IN (";
+            $length = count($tags);
+            for($i = 0; $i < $length; $i ++){
+                if($i == $length || $i == 0){
+                    $sqlString = $sqlString.$tags[$i];
+                }else {
+                    $sqlString = $sqlString.",".$tags[$i];
+                }
+
+            }
+            $sqlString = $sqlString.")";
         }
+        $sqlString = $sqlString." order by q.timemodified DESC";
+        $questions = $DB->get_records_sql($sqlString, array());
         return $questions;
     }
 
-    public function load_question($id){
+    public function create($question){
+        global $DB, $USER;
+        $questionObject = new stdClass();
+        if($question->id && $question->id != "undefined"){
+            $questionObject->id = $question->id;
+        }
+        $questionObject->qtype = $question->qtype;
+        $questionObject->createdby = $USER->id;
+        $qtypeobj = question_bank::get_qtype($questionObject->qtype);
+        $formQuestion = $this->getData($question->wrongAnswer, $question->question, $question->answer, 0, $questionObject->qtype);
+        $questionObject = $qtypeobj->save_question_no_context($questionObject, $formQuestion);
+
+        $tags = $question->tags;
+//        // delete old tag
+//        $tagQuestions = $this->loadTagQuestion($questionObject->id);
+//        foreach($tagQuestions as $tagQuestion){
+//            $this->deleteTagQuestion($tagQuestion->id);
+//        }
+        // add new tag
+        foreach($tags as $tag){
+            $tagQuestion = new stdClass();
+            $tagQuestion->id_tag = $tag;
+            $tagQuestion->id_question = $questionObject->id;
+            $this->createTagQuestion($tagQuestion);
+        }
+
+        return $questionObject;
+    }
+
+    public function createTagQuestion($tagQuestion){
+        global $DB;
+        $tagQuestion->id = $DB->insert_record("tag_question", $tagQuestion);
+        return $tagQuestion;
+    }
+
+    public function loadTagQuestion($questionId){
+        global $DB;
+        $sql = 'SELECT * FROM '.$DB->get_prefix().'tag_question WHERE id_question ='.$questionId;
+        $tagQuestions = $DB->get_records_sql($sql, array());
+        return $tagQuestions;
+    }
+
+    public function deleteTagQuestion($id){
+        global $DB;
+        $DB->delete_records("tag_question", array("id"=>$id));
+    }
+
+    public function loadOne($id){
         global $DB;
         $param = array("id" => $id);
         $question = $DB->get_record("question", $param);
         get_question_options($question, true);
+
+        // get tag for question
+        $tagQuestions = $this->loadTagQuestion($id);
+        $tags = array();
+        foreach($tagQuestions as $tagQuestion){
+            array_push($tags, $tagQuestion->id_tag);
+        }
+
+        $question->tags = $tags;
         return $question;
     }
 
-    public function delete_question($id){
+    public function loadByIds($ids){
+        global $DB;
+        $questions = array();
+        foreach ($ids as $id){
+            $param = array("id" => $id);
+            $question = $DB->get_record("question", $param);
+
+            // get option for question
+            get_question_options($question, true);
+
+            // get tag for question
+            $tagQuestions = $this->loadTagQuestion($id);
+            $tags = array();
+            foreach($tagQuestions as $tagQuestion){
+                array_push($tags, $tagQuestion->id_tag);
+            }
+
+            $question->tags = $tags;
+            array_push($questions, $question);
+        }
+        return $questions;
+    }
+
+    public function loadByUser(){
+        global $DB, $USER;
+        $sql = 'SELECT * FROM '.$DB->get_prefix().'question WHERE createdby ='.$USER->id;
+        $questions = $DB->get_records_sql($sql, array());
+        return $questions;
+    }
+    public function delete($id){
 //        question_require_capability_on($id, 'edit');
+        $tagQuestions = $this->loadTagQuestion($id);
+        foreach($tagQuestions as $tagQuestion){
+            $this->deleteTagQuestion($tagQuestion->id);
+        }
+        global $DB;
+        $tagQuestions = $this->loadTagQuestion($id);
+        foreach($tagQuestions as $tagQuestion){
+            $this->deleteTagQuestion($tagQuestion->id);
+        }
         if (questions_in_use(array($id))) {
-            global $DB;
             $DB->set_field('question', 'hidden', 1, array('id' => $id));
         } else {
-            question_delete_question($id);
+            $DB->delete_records('question', array('id' => $id));
         }
     }
 
-    public function getData($wrongAnswers, $questionText, $answer, $categoryId){
+
+    public function getData($wrongAnswers, $questionText, $answer, $categoryId, $qtype){
         $question = new stdClass();
         $question->category = $categoryId;
 
         $question->name = $questionText;
         $question->id = optional_param('id', "", PARAM_INT);
         $question->length = "1";
-        $question->penalty = "0";
+        $question->penalty = "0.3333333";
         $question->questiontext = array(text => $questionText, format => "1", defaultmark =>"1");
-        $question->qtype = "multichoice";
+        $question->qtype = $qtype;
         $question->generalfeedback = "";
         $question->answernumbering = "abc";
         $question->shuffleanswers = "1";

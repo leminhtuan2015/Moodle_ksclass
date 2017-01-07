@@ -38,7 +38,19 @@
             </div>
         </div>
         <div class="form-group" >
-            <div style="display: inline-block; width: 50%">
+            <label for="sel1">Chapter:</label>
+            <select class="form-control" id="sel1">
+
+            </select>
+
+            <label for="sel1">Lecture:</label>
+            <select class="form-control" id="sel1">
+
+            </select>
+        </div>
+        <div class="form-group" >
+            <label>Time start</label>
+            <div style="width: 49%">
                 <div class='input-group date' id='datetimepickerStart'>
                     <input id="startTimeText" type='text' class="form-control" />
                     <span class="input-group-addon">
@@ -47,7 +59,8 @@
                 </div>
                 <input style="display: none" name="startTime" id="startTime"/>
             </div>
-            <div style="display: inline-block; width: 50%">
+            <label>Time end</label>
+            <div style="width: 49%">
                 <div class='input-group date' id='datetimepickerEnd'>
                     <input id="endTimeText" type='text' class="form-control" />
                     <span class="input-group-addon">
@@ -56,7 +69,7 @@
                 </div>
                 <input style="display: none" name="endTime" id="endTime"/>
             </div>
-            <button type="submit" id="saveQuiz" form="formQuiz" class="btn btn-primary" style="float: right;"> Save quiz</button>
+
         </div>
     </form>
 <!--    <table class='table'>-->
@@ -87,7 +100,8 @@
             <br>
             <br>
             <div class="form-group">
-                <button style="float: right; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestion">Add question</button>
+                <button style="float: right; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestion">Add form library</button>
+                <button style="float: right; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestionNew">Add new</button>
             </div>
         </div>
         <div style="display: inline-block; border: 1px solid;height: 400px; border-radius: 6px;" class="col-md-9" id="questionDetail">
@@ -109,6 +123,7 @@
 <!--            </div>-->
         </div>
     </div>
+    <button type="submit" id="saveQuiz" form="formQuiz" class="btn btn-primary" style="float: right;"> Save quiz</button>
 </div>
 
 <?php

@@ -565,26 +565,30 @@ class question_finder implements cache_data_source {
     }
 
     /* See cache_data_source::load_for_cache. */
+    //dungdv comment for test
     public function load_for_cache($questionid) {
         global $DB;
         $questiondata = $DB->get_record_sql('
-                                    SELECT q.*, qc.contextid
+                                    SELECT q.*
                                     FROM {question} q
-                                    JOIN {question_categories} qc ON q.category = qc.id
                                     WHERE q.id = :id', array('id' => $questionid), MUST_EXIST);
+//        , qc.contextid
+//                                    JOIN {question_categories} qc ON q.category = qc.id
         get_question_options($questiondata);
         return $questiondata;
     }
 
     /* See cache_data_source::load_many_for_cache. */
+    //dungdv comment for test
     public function load_many_for_cache(array $questionids) {
         global $DB;
         list($idcondition, $params) = $DB->get_in_or_equal($questionids);
         $questiondata = $DB->get_records_sql('
-                                            SELECT q.*, qc.contextid
+                                            SELECT q.*
                                             FROM {question} q
-                                            JOIN {question_categories} qc ON q.category = qc.id
                                             WHERE q.id ' . $idcondition, $params);
+//                                            , qc.contextid
+//        JOIN {question_categories} qc ON q.category = qc.id
 
         foreach ($questionids as $id) {
             if (!array_key_exists($id, $questionids)) {

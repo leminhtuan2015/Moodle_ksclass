@@ -2154,7 +2154,6 @@ class quiz_attempt {
         }
 
         // Don't log - we will end with a redirect to a page that is logged.
-
         if (!$finishattempt) {
             // Just process the responses for this page and go to the next page.
             if (!$toolate) {

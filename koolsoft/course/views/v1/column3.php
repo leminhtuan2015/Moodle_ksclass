@@ -24,7 +24,7 @@
                     foreach ($section->modinfo->cms as $cm) {
                         if ($cm->section == $section->id) {
                             if($cm->module == ClientUtil::$resourceTypeQuiz){
-    //                            include (__DIR__."/lecture_content_quiz.php");
+//                                include (__DIR__."/lecture_content_quiz.php");
                             }else if($cm->module == ClientUtil::$resourceTypeLable){
                                 echo "$cm->content";
                             }

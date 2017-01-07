@@ -155,6 +155,12 @@
 <?php require_once("new_test.php") ?>
 <?php require_once("new_chapter.php") ?>
 
+<?php
+    global $CFG;
+    require_once ($CFG->dirroot."/koolsoft/quiz/views/create_quiz_dialog.php");
+    require_once ($CFG->dirroot."/koolsoft/quiz/views/question_category_dialog.php");
+?>
+
 <DIV class='panelContent'>
     <DIV class='postionContent'>
         <?php require_once("column1.php") ?>
