@@ -32,7 +32,7 @@
     </a>
 
     <div class="pull-right" style="display:inline-block;width:30%; vertical-align: middle; margin-top: 10px;">
-        <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-book" style="color:black;width:45px;"></i></a>
+        <a class='iconFont-Home' href="/moodle/koolsoft/question/?action=edit" style="margin-left:3%;"><i class="fa fa-book" style="color:black;width:45px;"></i></a>
         <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-user" style="color:black;width:45px;"></i></a>
         <?php if(isloggedin()) { ?>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
