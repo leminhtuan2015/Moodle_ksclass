@@ -11,17 +11,24 @@ require_once(__DIR__."/../../../config.php");
 
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
+require_once(__DIR__."/../../utility/DateUtil.php");
 
 class CourseUtil {
 
-    public static function getCourses($categoryid){
-        $courses = get_courses($categoryid);
+    public static function prepare_courses($courses){
+        Logger::log($courses);
 
         foreach ($courses as $course) {
             $course->isEnroled = CourseUtil::isEnrolled1($course->id);
             $course->isFree = CourseUtil::isFree($course->id);
             $course->isPresent = CourseUtil::isPresent($course);
         }
+    }
+
+    public static function getCourses($categoryid){
+        $courses = get_courses($categoryid);
+
+        CourseUtil::prepare_courses($courses);
 
         return $courses;
     }
@@ -43,11 +50,18 @@ class CourseUtil {
 
         $courses = enrol_get_all_users_courses($USER->id, true, "startdate, enddate, summary", 'visible DESC, sortorder ASC');
 
-        foreach ($courses as $course) {
-            $course->isEnroled = CourseUtil::isEnrolled1($course->id);
-            $course->isFree = CourseUtil::isFree($course->id);
-            $course->isPresent = CourseUtil::isPresent($course);
-        }
+        CourseUtil::prepare_courses($courses);
+
+        return $courses;
+    }
+
+    public static function getCoursesByCreator($creatorId){
+        global $DB;
+
+        $sqlString = "SELECT * FROM ".$DB->get_prefix()."course WHERE creator_id = $creatorId";
+        $courses = $DB->get_records_sql($sqlString, array());
+
+        CourseUtil::prepare_courses($courses);
 
         return $courses;
     }
@@ -169,6 +183,16 @@ class CourseUtil {
         $sqlString = "SELECT * FROM ".$DB->get_prefix()."course_sections WHERE parent_id = ".$idParent;
         $sections = $DB->get_records_sql($sqlString, array());
         return $sections;
+    }
+
+    public static function search($keyword){
+        $search = array("search" => $keyword);
+
+        $courses = coursecat::search_courses($search);
+
+        CourseUtil::prepare_courses($courses);
+
+        return $courses;
     }
 
 }

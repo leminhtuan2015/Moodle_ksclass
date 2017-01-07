@@ -35,12 +35,21 @@
         <a class='iconFont-Home' href="/moodle/koolsoft/question/?action=edit" style="margin-left:3%;"><i class="fa fa-book" style="color:black;width:45px;"></i></a>
         <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-user" style="color:black;width:45px;"></i></a>
         <?php if(isloggedin()) { ?>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <?php global $USER;echo "$USER->username"; ?>
-                <span class="caret"></span>
-            </a>
+
+            <div class="dropdown" style="display: inline-block">
+                <a class=" dropdown-toggle" data-toggle="dropdown" style="color: black">
+                    <b><?php global $USER; echo $USER->username?></b>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/moodle/koolsoft/login/logout.php">Logout</a></li>
+                </ul>
+            </div>
+
         <?php } else { ?>
-            <a href="/moodle/koolsoft/login">Login</a>
+            <b><a href="/moodle/koolsoft/login" style="color: black">Login</a></b>
         <?php } ?>
         <a class='iconFont-Home' href="" style="margin-left:3%;"><i class="fa fa-bell-o" style="color:black;width:45px;"></i></a>
     </div>

@@ -32,7 +32,7 @@
 <BODY >
 	<DIV class='panelContent'>
 		<div>
-			<img src="images/viettel.png" style="width:200px; display: inline-block;">
+<!--			<img src="images/viettel.png" style="width:200px; display: inline-block;">-->
 			<h5 style="display: inline-block; color:#0C5686; font-size: 2.4em; letter-spacing: 3px; font-family: sans-serif;
 				text-transform:uppercase;">Learning</h5>
 		</div>

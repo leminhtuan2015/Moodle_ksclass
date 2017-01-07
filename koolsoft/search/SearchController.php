@@ -10,6 +10,7 @@
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once(__DIR__."/../course/models/CourseUtil.php");
 require_once(__DIR__."/../../config.php");
+require_once(__DIR__."/../../koolsoft/utility/DateUtil.php");
 
 require_once($CFG->dirroot.'/course/lib.php');
 require_once($CFG->libdir.'/coursecatlib.php');
@@ -26,9 +27,7 @@ class SearchController extends ApplicationController {
 
     public function show($keyword){
 
-        $search = array("search" => $keyword);
-
-        $courses = coursecat::search_courses($search);
+        $courses = CourseUtil::search($keyword);
 
         require_once(__DIR__.'/views/show.php');
     }
