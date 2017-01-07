@@ -11,27 +11,27 @@
     <h4>Start quiz : <?php echo $quizName;?></h4>
     <form action="?action=process" method="post" id="formQuestion" role="form">
         <?php
-            $index = 0;
-            foreach ($questions as $question){
-                $index ++;
-                $prefix = "";
-                if($index != 1){
-                    $prefix = " style='display: none;' ";
-                }
-                $answers = $question->options->answers;
-                $questionHtml = "";
-                $questionHtml .= "<div ".$prefix." id='questionDiv".$index."'> <label> Question ".$index." : ".$question->name."</label> <br>";
-                $questionHtml .= "<input type='hidden' name='q".$attempt->uniqueid.":".$index."_:sequencecheck' value='".$sequenceChecks[$index - 1]."'>";
-
-                $indexAnswer = 0;
-                foreach ($answers as $answer){
-                    $questionHtml .= "<input type='radio' value='".$indexAnswer."' name='q".$attempt->uniqueid.":".$index."_answer'>"."<label>".$answer->answer."</label> <br>";
-                    $indexAnswer++;
-                }
-
-                $questionHtml .= "</div>";
-                echo $questionHtml;
+        $index = 0;
+        foreach ($questions as $question){
+            $index ++;
+            $prefix = "";
+            if($index != 1){
+                $prefix = " style='display: none;' ";
             }
+            $answers = $question->options->answers;
+            $questionHtml = "";
+            $questionHtml .= "<div ".$prefix." id='questionDiv".$index."'> <label> Question ".$index." : ".$question->name."</label> <br>";
+            $questionHtml .= "<input type='hidden' name='q".$attempt->uniqueid.":".$index."_:sequencecheck' value='".$sequenceChecks[$index - 1]."'>";
+
+            $indexAnswer = 0;
+            foreach ($answers as $answer){
+                $questionHtml .= "<input type='radio' value='".$indexAnswer."' name='q".$attempt->uniqueid.":".$index."_answer'>"."<label>".$answer->answer."</label> <br>";
+                $indexAnswer++;
+            }
+
+            $questionHtml .= "</div>";
+            echo $questionHtml;
+        }
         ?>
 
         <input type="hidden" name="action" value="process" >
@@ -46,14 +46,14 @@
 
     <input type="hidden" id="numberQuestion" value="<?php echo count($questions);?>" >
     <?php
-        $index = 0;
-        $questionHtml = "<div class='container'>";
-        foreach ($questions as $question){
-            $index ++;
-            $questionHtml .= "<button class='btn btn-primary' indexQuestion='".$index."' id='questionBtn".$index."'>".$index."</button>";
-        }
-        $questionHtml .= "</div>";
-        echo $questionHtml;
+    $index = 0;
+    $questionHtml = "<div class='container'>";
+    foreach ($questions as $question){
+        $index ++;
+        $questionHtml .= "<button class='btn btn-primary' indexQuestion='".$index."' id='questionBtn".$index."'>".$index."</button>";
+    }
+    $questionHtml .= "</div>";
+    echo $questionHtml;
     ?>
     <br>
     <br>

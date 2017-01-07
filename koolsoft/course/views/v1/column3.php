@@ -1,6 +1,7 @@
 <div class="rightPanel tab-content" style="overflow:scroll; overflow-x: hidden;">
-
 <!--    RENDER LECTURE CONTENT-->
+
+    <script src="/moodle/koolsoft/test/resources/javascript/test.js"></script>
     <?php foreach ($sections as $section) { ?>
         <?php if($section->section == 0 || $section->parent_id == 0){continue;} ?>
 
@@ -34,6 +35,16 @@
                 ?>
             </div>
         </div>
+
+        <?php
+            foreach ($section->modinfo->cms as $cm) {
+                if ($cm->section == $section->id) {
+                    if($cm->module == ClientUtil::$resourceTypeQuiz){
+                        include (__DIR__."/../../../test/views/test_panel.php");
+                    }
+                }
+            }
+        ?>
 
     <?php } ?>
 

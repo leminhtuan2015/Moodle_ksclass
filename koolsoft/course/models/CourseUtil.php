@@ -187,7 +187,8 @@ class CourseUtil {
         return $sections;
     }
 
-    public static function search($keyword){
+    public static function search($keyword)
+    {
         $search = array("search" => $keyword);
 
         $courses = coursecat::search_courses($search);
@@ -195,6 +196,14 @@ class CourseUtil {
         CourseUtil::prepare_courses($courses);
 
         return $courses;
+    }
+
+    public static function getSectionEqualParent($idSection){
+        global $DB;
+        $section = $DB->get_record("course_sections", array("id" => $idSection));
+        $sqlString = "SELECT * FROM ".$DB->get_prefix()."course_sections WHERE parent_id = ".$section->parent_id;
+        $sections = $DB->get_records_sql($sqlString, array());
+        return $sections;
     }
 
 }

@@ -53,8 +53,9 @@ switch ($action) {
 
         // save
         foreach ($questions as $question){
-            $dao->create($question);
+            $questionObject = $dao->create($question);
             $question->resultText = "Success";
+            $question->id = $questionObject->id;
         }
         echo json_encode($questions);
         return;

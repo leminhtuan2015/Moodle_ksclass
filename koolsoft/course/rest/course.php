@@ -14,8 +14,11 @@ $action  = optional_param('action', 0, PARAM_TEXT);
 
 switch ($action) {
     case "listSectionChild":
-
             $idParent  = optional_param('idParent', 0, PARAM_INT);
             echo json_encode(CourseUtil::getSectionChild($idParent));
+        break;
+    case "listSectionEqualParent":
+        $idSection  = optional_param('idSection', 0, PARAM_INT);
+        echo json_encode(CourseUtil::getSectionEqualParent($idSection));
         break;
 }
