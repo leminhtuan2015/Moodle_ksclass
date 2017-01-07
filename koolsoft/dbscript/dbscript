@@ -6,6 +6,7 @@ ALTER TABLE moodle.ks_course ADD sequence TINYINT(1);
 ALTER TABLE moodle.ks_course ADD free_type TINYINT(1);
 
 ALTER TABLE moodle.ks_course_sections ADD parent_id BIGINT(10);
+ALTER TABLE moodle.ks_course ADD creator_id BIGINT(10);
 
 CREATE TABLE `moodle`.`ks_tag_new` (
   `id` BIGINT(10) NOT NULL AUTO_INCREMENT,

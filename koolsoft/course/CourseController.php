@@ -38,7 +38,7 @@ class CourseController extends ApplicationController {
         $chapters = $DB->get_records('course_sections', array('course'=>$id, "parent_id"=> 0));
 
         foreach ($sections as $section){
-            Logger::log($section->id);
+//            Logger::log($section->id);
 
             $courseSection = $DB->get_record('course_sections', array('id'=>$section->id));
             $section->parent_id = $courseSection->parent_id;
@@ -67,7 +67,7 @@ class CourseController extends ApplicationController {
     }
 
     public function create(){
-        global $DB;
+        global $DB, $USER;
 
         $humanStartDate = $_POST["startDate"];
         $humanEndDate = $_POST["endDate"];
@@ -83,6 +83,7 @@ class CourseController extends ApplicationController {
         $data->cost  = $_POST["cost"];
         $data->free_type  = $_POST["free_type"];
         $data->numsections = 0;
+        $data->creator_id = $USER->id;
 
         $data->startdate = DateUtil::getTimestamp($humanStartDate);
         $data->enddate = DateUtil::getTimestamp($humanEndDate);

@@ -17,8 +17,11 @@ class FrontendController extends ApplicationController {
     }
 
     public function index(){
+        global $USER;
+
         $courses = CourseUtil::getCourses();
-        $myCourses = CourseUtil::getMyCourses();
+        $myFollowingCourses = CourseUtil::getMyCourses();
+        $myCreatedCourses = CourseUtil::getCoursesByCreator($USER->id);
 
 //        require_once("views/index.php");
         require_once("views/v1/index.php");
