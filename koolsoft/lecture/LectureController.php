@@ -128,6 +128,37 @@ class LectureController extends ApplicationController {
         redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
     }
 
+    function createChapters(){
+        global $DB;
+        $courseId = $_POST['courseId'];
+        $parent_id = 0;
+        $course = $DB->get_record('course', array('id' => $courseId), '*', MUST_EXIST);
+        $courseformatoptions = course_get_format($course)->get_format_options();
+        $arraySection = array();
+
+        $chaptersName = $_POST["name"];
+
+        foreach ($chaptersName as $chapterName) {
+            if($chapterName){
+                $section = new stdClass();
+                $section->name = $chapterName;
+                $section->course = $courseId;
+                $section->section  = $courseformatoptions['numsections'] + 1;
+                $section->parent_id  = $parent_id;
+                $section->summaryformat = FORMAT_HTML;
+
+                $courseformatoptions['numsections']++;
+
+                array_push($arraySection, $section);
+            }
+        }
+
+        $DB->insert_records("course_sections", $arraySection);
+
+        update_course((object)array('id' => $courseId, 'numsections' => $courseformatoptions['numsections']));
+        redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
+    }
+
     function create(){
         global $DB;
 
@@ -166,6 +197,52 @@ class LectureController extends ApplicationController {
         redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
     }
 
+    function createLectures(){
+        global $DB;
+
+        $labelContent = "";
+
+        $courseId = $_POST['courseId'];
+        $parent_id = $_POST["parent_id"];
+
+        $course = $DB->get_record('course', array('id' => $courseId), '*', MUST_EXIST);
+        $courseformatoptions = course_get_format($course)->get_format_options();
+
+        $arraySection = array();
+        $label = new Label();
+        $lecturesName = $_POST["name"];
+
+        Logger::log($lecturesName);
+
+        foreach ($lecturesName as $lectureName) {
+            if($lectureName){
+                $section = new stdClass();
+                $section->name = $lectureName;
+                $section->course = $courseId;
+                $section->section  = $courseformatoptions['numsections'] + 1;
+                $section->parent_id  = $parent_id;
+                $section->summaryformat = FORMAT_HTML;
+                $section->sequence = '';
+
+                $courseformatoptions['numsections'] += 1;
+
+                array_push($arraySection, $section);
+            }
+        }
+
+        Logger::log($arraySection);
+
+        $DB->insert_records("course_sections", $arraySection);
+        update_course((object)array('id' => $courseId, 'numsections' => $courseformatoptions['numsections']));
+
+        foreach ($arraySection as $section) {
+            $moduleinfo = $label->create($courseId, $section->section, $labelContent);
+        }
+
+        redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
+    }
+
+
     function update(){
         global $DB;
 
@@ -194,7 +271,7 @@ class LectureController extends ApplicationController {
         $label = new Label();
         $label->update($courseId, $section, $labelContent, $moduleId);
 
-        redirect("/moodle/koolsoft/course/?action=show&id=$courseId");
+        redirect("/moodle/koolsoft/course/?action=show&id=$courseId&lectureActive=$sectionId");
     }
 
     public function delete($id){

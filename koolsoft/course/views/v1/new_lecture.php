@@ -8,7 +8,7 @@
             <div class="modal-body">
 
                 <div class="container">
-                    <form action="/moodle/koolsoft/lecture/?action=create" method="POST">
+                    <form id="newLectureForm" action="/moodle/koolsoft/lecture/?action=create" method="POST">
                         <input type="hidden" class="form-control" name="courseId" value="<?php echo $course->id; ?>" >
 
                         <div class="form-group">
@@ -25,26 +25,32 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="input-group col-sm-4">
-                                <label>Name</label>
-                                <input class="form-control" placeholder="Lecture name" name="name">
+                            <label>lectures</label>
+
+                            <div class="input-group col-sm-4" id="newLectureInputs">
+                                <input placeholder="Lecture name" name="name[]">
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="input-group col-sm-4">
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                            </div>
-                        </div>
-
                     </form>
+
+                    <div class="form-group">
+                        <div class="input-group col-sm-4">
+                            <div class="form-group">
+                                <button id="addLectureBtn" class="btn btn-default">Add</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" form="newLectureForm" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $( "#addLectureBtn" ).click(function() {
+        addInput("newLectureInputs", "Lecture name")
+    })
+</script>

@@ -151,6 +151,8 @@
     }
 </STYLE>
 
+<script src="/moodle/koolsoft/course/views/v1/resources/course.js"></script>
+
 <?php require_once("new_lecture.php") ?>
 <?php require_once("new_test.php") ?>
 <?php require_once("new_chapter.php") ?>
@@ -178,6 +180,7 @@
 <DIV class='panelContent'>
     <DIV class='postionContent'>
         <?php require_once("column1.php") ?>
+
         <div class="panelClass-show">
             <div class="col-xs-4 col-sm-4 col-md-4" style="padding:0px;">
                 <?php require_once("column2.php") ?>
