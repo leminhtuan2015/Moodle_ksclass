@@ -1,5 +1,6 @@
 <div class="rightPanel tab-content" style="overflow:scroll; overflow-x: hidden;">
 
+<!--    RENDER LECTURE CONTENT-->
     <?php foreach ($sections as $section) { ?>
         <?php if($section->section == 0 || $section->parent_id == 0){continue;} ?>
 
@@ -36,6 +37,7 @@
 
     <?php } ?>
 
+<!--    RENDER EDIT LECTURE FORM-->
     <?php
         foreach ($sections as $sectionEdit) {
             if($sectionEdit->section == 0 || $sectionEdit->parent_id == 0){continue;}
@@ -53,9 +55,12 @@
                 }
             }
 
-//            Logger::log("xxxx".$labelContent);
-
             include ("edit_lecture.php");
         }
     ?>
+
+
+
+<!--    RENDER MEMBER TAB-->
+    <?php require_once ("members.php")?>
 </div>
