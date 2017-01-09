@@ -47,8 +47,7 @@ class CourseController extends ApplicationController {
         }
 
         $enrolledUsers = CourseUtil::enrolledUsers($id);
-
-        Logger::log($enrolledUsers);
+        $discussions = CourseUtil::getDefaultForum($modinfo);
 
 //        require_once(__DIR__.'/views/show.php');
         require_once(__DIR__.'/views/v1/show.php');

@@ -1,5 +1,4 @@
 <?php
-
 require_once(__DIR__."/../../../config.php");
 require_once(__DIR__."/../../../course/lib.php");
 require_once(__DIR__.'/../../../lib/filelib.php');
@@ -7,8 +6,6 @@ require_once(__DIR__.'/../../../lib/gradelib.php');
 require_once(__DIR__.'/../../../lib/completionlib.php');
 require_once(__DIR__.'/../../../lib/plagiarismlib.php');
 require_once(__DIR__.'/../../../course/modlib.php');
-
-
 
 class Label extends  stdClass {
 

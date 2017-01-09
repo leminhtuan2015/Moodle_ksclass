@@ -15,6 +15,27 @@ require_once(__DIR__."/../../utility/DateUtil.php");
 
 class CourseUtil {
 
+    public static function getDefaultForum($modinfo){
+        global $DB;
+
+        $info = array_values($modinfo->instances["forum"])[0];
+        $forumId = $info->instance;
+        $courseModuleId = $info->id;
+
+        Logger::log($forumId);
+        Logger::log($courseModuleId);
+
+        $discussions = $DB->get_records('forum_discussions', array('forum'=>$forumId), 'timemodified ASC');
+
+        foreach ($discussions as $discussion) {
+            $parent = $discussion->firstpost;
+            $post = forum_get_post_full($parent);
+            $discussion->post = $post;
+        }
+
+        return $discussions;
+    }
+
     public static function prepare_courses($courses){
         Logger::log($courses);
 
