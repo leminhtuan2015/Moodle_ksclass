@@ -1,19 +1,9 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: leminhtuan
- * Date: 1/9/17
- * Time: 3:02 PM
- */
-
-
-
-?>
-
 <div id="members" class="tab-pane fade in">
+
     <?php
         if(!$enrolledUsers){
             echo "This class have no members.";
+            echo "</div>";
             return;
         }
     ?>
