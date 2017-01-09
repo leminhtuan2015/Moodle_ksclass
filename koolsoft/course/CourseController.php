@@ -27,6 +27,7 @@ class CourseController extends ApplicationController {
         global $DB;
 
         $lectureActive = optional_param('lectureActive', "", PARAM_TEXT);
+        $tabActive = optional_param('tabActive', "", PARAM_TEXT);
 
         $course = CourseUtil::getCourse($id);
 
@@ -47,7 +48,10 @@ class CourseController extends ApplicationController {
         }
 
         $enrolledUsers = CourseUtil::enrolledUsers($id);
-        $discussions = CourseUtil::getDefaultForum($modinfo);
+        $forumData = CourseUtil::getDefaultForum($modinfo);
+
+        $forumId = $forumData["forumId"];
+        $discussions = $forumData["discussions"];
 
 //        require_once(__DIR__.'/views/show.php');
         require_once(__DIR__.'/views/v1/show.php');
@@ -182,6 +186,16 @@ class CourseController extends ApplicationController {
         CourseUtil::unEnrol($id, $USER->id);
 
         redirect("/moodle/koolsoft/");
+    }
+
+    public function createDiscussion(){
+        $courseId = $_POST["courseId"];
+        $forum = $_POST["forum"];
+        $message = $_POST["message"];
+
+        CourseUtil::createDiscussion($forum, $message);
+
+        redirect("/moodle/koolsoft/course/?action=show&id=$courseId&tabActive=discussionBox");
     }
 
     private function setSelfEnrolment($courseId, $cost){

@@ -12,8 +12,23 @@ require_once(__DIR__."/../../../config.php");
 require_once($CFG->dirroot. '/course/lib.php');
 require_once($CFG->libdir. '/coursecatlib.php');
 require_once(__DIR__."/../../utility/DateUtil.php");
+require_once(__DIR__."/../../../mod/forum/lib.php");
 
 class CourseUtil {
+
+    public static function createDiscussion($forum, $message){
+        require_once(__DIR__."/../../utility/DateUtil.php");
+
+        $discussion = new stdClass();
+        $discussion->forum = $forum;
+        $discussion->name = $message;
+        $discussion->message = $message;
+        $discussion->messageformat = 1;
+        $discussion->messagetrust = 0;
+        $discussion->mailnow = 0;
+
+        forum_add_discussion($discussion);
+    }
 
     public static function getDefaultForum($modinfo){
         global $DB;
@@ -22,18 +37,18 @@ class CourseUtil {
         $forumId = $info->instance;
         $courseModuleId = $info->id;
 
-        Logger::log($forumId);
-        Logger::log($courseModuleId);
-
-        $discussions = $DB->get_records('forum_discussions', array('forum'=>$forumId), 'timemodified ASC');
+        $discussions = $DB->get_records('forum_discussions', array('forum'=>$forumId), 'timemodified DESC');
 
         foreach ($discussions as $discussion) {
             $parent = $discussion->firstpost;
-            $post = forum_get_post_full($parent);
-            $discussion->post = $post;
+            $post_of_discusstion = forum_get_post_full($parent);
+            $discussion->post = $post_of_discusstion;
+            $discussion->replycount = forum_count_replies($post_of_discusstion);
+
+//            Logger::log($post_of_discusstion);
         }
 
-        return $discussions;
+        return array("forumId" => $forumId, "discussions" => $discussions);
     }
 
     public static function prepare_courses($courses){

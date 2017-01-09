@@ -1,151 +1,124 @@
 <style>
 
-    body{
-        background:#eee;
+    .panel-shadow {
+        box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+    }
+    .panel-white {
+        border: 1px solid #dddddd;
+    }
+    .panel-white  .panel-heading {
+        color: #333;
+        background-color: #fff;
+        border-color: #ddd;
+    }
+    .panel-white  .panel-footer {
+        background-color: #fff;
+        border-color: #ddd;
     }
 
-    hr {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border: 0;
-        border-top: 1px solid #FFFFFF;
+    .post .post-heading {
+        height: 95px;
+        padding: 20px 15px;
     }
-    a {
-        color: #82b440;
-        text-decoration: none;
+    .post .post-heading .avatar {
+        width: 60px;
+        height: 60px;
+        display: block;
+        margin-right: 15px;
     }
-    .blog-comment::before,
-    .blog-comment::after,
-    .blog-comment-form::before,
-    .blog-comment-form::after{
-        content: "";
-        display: table;
-        clear: both;
+    .post .post-heading .meta .title {
+        margin-bottom: 0;
     }
-
-    .blog-comment{
-        padding-left: 15%;
-        padding-right: 15%;
+    .post .post-heading .meta .title a {
+        color: black;
     }
-
-    .blog-comment ul{
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .blog-comment img{
-        opacity: 1;
-        filter: Alpha(opacity=100);
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -o-border-radius: 4px;
-        border-radius: 4px;
-    }
-
-    .blog-comment img.avatar {
-        position: relative;
-        float: left;
-        margin-left: 0;
-        margin-top: 0;
-        width: 65px;
-        height: 65px;
-    }
-
-    .blog-comment .post-comments{
-        border: 1px solid #eee;
-        margin-bottom: 20px;
-        margin-left: 85px;
-        margin-right: 0px;
-        padding: 10px 20px;
-        position: relative;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -o-border-radius: 4px;
-        border-radius: 4px;
-        background: #fff;
-        color: #6b6e80;
-        position: relative;
-    }
-
-    .blog-comment .meta {
-        font-size: 13px;
+    .post .post-heading .meta .title a:hover {
         color: #aaaaaa;
-        padding-bottom: 8px;
-        margin-bottom: 10px !important;
-        border-bottom: 1px solid #eee;
     }
-
-    .blog-comment ul.comments ul{
-        list-style-type: none;
+    .post .post-heading .meta .time {
+        margin-top: 8px;
+        color: #999;
+    }
+    .post .post-image .image {
+        width: 100%;
+        height: auto;
+    }
+    .post .post-description {
+        padding-left: 15px;
+        padding-bottom: 10px;
+    }
+    .post .post-description p {
+        font-size: 14px;
+    }
+    .post .post-description .stats {
+        margin-top: 5px;
+    }
+    .post .post-description .stats .stat-item {
+        display: inline-block;
+        margin-right: 15px;
+    }
+    .post .post-description .stats .stat-item .icon {
+        margin-right: 8px;
+    }
+    .post .post-footer {
+        border-top: 1px solid #ddd;
+        padding: 15px;
+    }
+    .post .post-footer .input-group-addon a {
+        color: #454545;
+    }
+    .post .post-footer .comments-list {
         padding: 0;
-        margin-left: 85px;
+        margin-top: 20px;
+        list-style-type: none;
     }
-
-    .blog-comment-form{
-        padding-left: 15%;
-        padding-right: 15%;
-        padding-top: 40px;
+    .post .post-footer .comments-list .comment {
+        display: block;
+        width: 100%;
+        margin: 20px 0;
     }
-
-    .blog-comment h3,
-    .blog-comment-form h3{
-        margin-bottom: 40px;
-        font-size: 26px;
-        line-height: 30px;
-        font-weight: 800;
+    .post .post-footer .comments-list .comment .avatar {
+        width: 35px;
+        height: 35px;
+    }
+    .post .post-footer .comments-list .comment .comment-heading {
+        display: block;
+        width: 100%;
+    }
+    .post .post-footer .comments-list .comment .comment-heading .user {
+        font-size: 14px;
+        font-weight: bold;
+        display: inline;
+        margin-top: 0;
+        margin-right: 10px;
+    }
+    .post .post-footer .comments-list .comment .comment-heading .time {
+        font-size: 12px;
+        color: #aaa;
+        margin-top: 0;
+        display: inline;
+    }
+    .post .post-footer .comments-list .comment .comment-body {
+        margin-left: 50px;
+    }
+    .post .post-footer .comments-list .comment > .comments-list {
+        margin-left: 50px;
     }
 </style>
 
-<div id="discussionBox" class="tab-pane fade in">
-<div class="bootstrap snippet">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="blog-comment">
-                <h3 class="text-success">Comments</h3>
-                <hr/>
+<br/>
+<div id="discussionBox" class="tab-pane fade in <?php if($tabActive == "discussionBox"){echo "active";};?>">
 
-                <ul class="comments">
+    <?php require_once ("new_post.php")?>
 
-                    <?php foreach ($discussions as $discussion) { ?>
-                        <li class="clearfix">
-                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
-                            <div class="post-comments">
-                                <p class="meta">Dec 18, 2014 <a href="#">JohnDoe</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
-                                <p>
-                                    <b><?php echo $discussion->name ?> </b>
+    <br>
 
-                                    <?php echo $discussion->post->message ?>
-                                </p>
-                            </div>
-                        </li>
-                    <?php } ?>
+    <div class="container">
+        <div class="col-sm-8">
 
-
-<!--                    <li class="clearfix">-->
-<!--                        <img src="http://bootdey.com/img/Content/user_2.jpg" class="avatar" alt="">-->
-<!--                        <div class="post-comments">-->
-<!--                            <p class="meta">Dec 19, 2014 <a href="#">JohnDoe</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>-->
-<!--                            <p>-->
-<!--                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
-<!--                                Etiam a sapien odio, sit amet-->
-<!--                            </p>-->
-<!--                        </div>-->
-<!--                        <ul class="comments">-->
-<!--                            <li class="clearfix">-->
-<!--                                <img src="http://bootdey.com/img/Content/user_3.jpg" class="avatar" alt="">-->
-<!--                                <div class="post-comments">-->
-<!--                                    <p class="meta">Dec 20, 2014 <a href="#">JohnDoe</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>-->
-<!--                                    <p>-->
-<!--                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
-<!--                                        Etiam a sapien odio, sit amet-->
-<!--                                    </p>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-                    </li>
-                </ul>
-            </div>
+            <?php foreach ($discussions as $discussion) { ?>
+                <?php include ("post.php");?>
+            <?php } ?>
         </div>
     </div>
-</div>
 </div>

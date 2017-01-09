@@ -445,6 +445,10 @@ if (!empty($forum)) {      // User is starting a new discussion in a forum
     if ($prunemform->is_cancelled()) {
         redirect(forum_go_back_to(new moodle_url("/mod/forum/discuss.php", array('d' => $post->discussion))));
     } else if ($fromform = $prunemform->get_data()) {
+
+
+            error_log(print_r($discussion, true));
+
         // User submits the data.
         $newdiscussion = new stdClass();
         $newdiscussion->course       = $discussion->course;
