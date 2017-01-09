@@ -112,7 +112,9 @@
                             <div class="post-comments">
                                 <p class="meta">Dec 18, 2014 <a href="#">JohnDoe</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
                                 <p>
-                                    <?php echo $discussion->name ?> (<?php echo $discussion->post->message ?>)
+                                    <b><?php echo $discussion->name ?> </b>
+
+                                    <?php echo $discussion->post->message ?>
                                 </p>
                             </div>
                         </li>
