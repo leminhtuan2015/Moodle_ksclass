@@ -136,8 +136,10 @@ class CourseUtil {
 
 
     public static function enrolledUsers($courseId){
-        $context = context_COURSE::instance($courseId);
-        $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
+        global $DB;
+
+        $context = context_course::instance($courseId);
+        $enrolledUsers = get_enrolled_users($context);
         return $enrolledUsers;
     }
 

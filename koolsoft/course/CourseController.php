@@ -46,11 +46,9 @@ class CourseController extends ApplicationController {
             $section->parent_id = $courseSection->parent_id;
         }
 
-//        Logger::log($sections);
+        $enrolledUsers = CourseUtil::enrolledUsers($id);
 
-        $context = context_COURSE::instance($course->id);
-        $enrolledUsers = get_enrolled_users($context, 'mod/assignment:submit');
-        $enrolledUsers = CourseUtil::enrolledUsers($course->id);
+        Logger::log($enrolledUsers);
 
 //        require_once(__DIR__.'/views/show.php');
         require_once(__DIR__.'/views/v1/show.php');
