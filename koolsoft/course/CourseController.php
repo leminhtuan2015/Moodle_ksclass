@@ -26,6 +26,8 @@ class CourseController extends ApplicationController {
     public function show($id) {
         global $DB;
 
+        $lectureActive = optional_param('lectureActive', "", PARAM_TEXT);
+
         $course = CourseUtil::getCourse($id);
 
         $modinfo = get_fast_modinfo($course);

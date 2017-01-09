@@ -3,7 +3,7 @@
     <?php foreach ($sections as $section) { ?>
         <?php if($section->section == 0 || $section->parent_id == 0){continue;} ?>
 
-        <div id="lecture<?php echo $section->id ?>" class="tab-pane fade in">
+        <div id="lecture<?php echo $section->id ?>" class="tab-pane fade in <?php if($lectureActive && $lectureActive == $section->id){ echo "active"; }?>">
             <h4 class="headerRightPanel">
                 <a class='iconPanel' data-toggle="pill" style="vertical-align:middle;padding-top:3px;">
                     <i class="fa fa-angle-left" style="color:white;width:45px;"></i>

@@ -25,7 +25,7 @@ if($action == "show"){
     $controller->newLecture();
 
 } else if($action == "create"){
-    $controller->create();
+    $controller->createLectures();
 
 } else if($action == "edit"){
     $controller->edit();
@@ -42,5 +42,5 @@ if($action == "show"){
     $controller->newChapter();
 
 } else if($action == "createChapter"){
-    $controller->createChapter();
+    $controller->createChapters();
 }
