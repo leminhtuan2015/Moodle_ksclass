@@ -1,83 +1,32 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: dddd
- * Date: 1/5/17
- * Time: 9:36 AM
+ * Date: 1/9/17
+ * Time: 10:09 AM
  */
 
-require_once(__DIR__."/../../config.php");
+require_once("../../../config.php");
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
-require_once(__DIR__."/../application/ApplicationController.php");
 require_once($CFG->dirroot . '/koolsoft/quiz/models/ks_quiz.php');
 require_once($CFG->dirroot . '/koolsoft/question/models/ks_question.php');
-class TestController extends ApplicationController
-{
-    function __construct() {
-        parent::__construct();
-    }
 
-    public function startTest() {
-        global $USER, $DB, $CFG;
-        // Get submitted parameters.
-        $id = required_param('cmid', PARAM_INT); // Course module id
-        $forcenew = optional_param('forcenew', false, PARAM_BOOL); // Used to force a new preview
-        $page = optional_param('page', -1, PARAM_INT); // Page to jump to in the attempt.
+global $DB;
+$dao = new ks_question();
 
-        $forcenew = true;
-        if (!$cm = get_coursemodule_from_id('quiz', $id)) {
-            print_error('invalidcoursemodule');
-        }
-
-        if (!$course = $DB->get_record('course', array('id' => $cm->course))) {
-            print_error("coursemisconf");
-        }
-
-        $quizobj = quiz::create($cm->instance, $USER->id);
-
-        // Create an object to manage all the other (non-roles) access rules.
-        $timenow = time();
-        $accessmanager = $quizobj->get_access_manager($timenow);
-
-// Validate permissions for creating a new attempt and start a new preview attempt if required.
-        list($currentattemptid, $attemptnumber, $lastattempt, $messages, $page) =
-            quiz_validate_new_attempt($quizobj, $accessmanager, $forcenew, $page, true);
-
-        $attempt = quiz_prepare_and_start_new_attempt($quizobj, $attemptnumber, $lastattempt);
-
-        // Redirect to the test page.
-        redirect("/moodle/koolsoft/test/?action=play&id=".$attempt->id);
-    }
-
-    public function process() {
-        $timenow = time();
-
-        $attemptid     = required_param('attempt',  PARAM_INT);
-        $thispage      = optional_param('thispage', 0, PARAM_INT);
-        $nextpage      = optional_param('nextpage', 0, PARAM_INT);
-        $previous      = optional_param('previous',      false, PARAM_BOOL);
-        $next          = optional_param('next',          false, PARAM_BOOL);
-        $finishattempt = optional_param('finishattempt', false, PARAM_BOOL);
-        $timeup        = optional_param('timeup',        0,      PARAM_BOOL); // True if form was submitted by timer.
-        $scrollpos     = optional_param('scrollpos',     '',     PARAM_RAW);
-
-        $attemptobj = quiz_attempt::create($attemptid);
-        $status = $attemptobj->process_attempt($timenow, $finishattempt, $timeup, $thispage);
-
-        redirect("/moodle/koolsoft/test/?action=review&id=".$attemptid);
-    }
-
-    public function play() {
-        global $USER, $DB;
+// action add, update, list, delete
+$action = optional_param('action', "", PARAM_TEXT);
+global $USER;
+switch ($action) {
+    case "loadForPlay":
         $daoQuestion = new ks_question();
         $daoQuiz = new ks_quiz();
         $id = optional_param("id", 0, PARAM_INT);
         $attempt = $DB->get_record("quiz_attempts", array("id" => $id));
         $quiz = $daoQuiz->loadOne($attempt->quiz);
-        $quizName = $quiz[$attempt->quiz]->name;
+        $quizName = $quiz->name;
         $attemptobj = quiz_attempt::create($id);
-        $slots = $daoQuiz->load_slots_in_quiz($attempt->quiz);
+        $slots = $daoQuiz->loadSlotsInQuiz($attempt->quiz);
         $questionIds = array();
         $sequenceChecks = array();
         $slotString = "";
@@ -94,13 +43,61 @@ class TestController extends ApplicationController
             }
             $indexSlot ++;
         }
+
         $questions = $daoQuestion->loadByIds($questionIds);
+        $attempt->questions = $questions;
+        $attempt->sequenceChecks = $sequenceChecks;
+        $attempt->slotString = $slotString;
+        $attempt->quiz = $quiz;
+        echo json_encode($attempt);
+        break;
 
-        require_once(__DIR__.'/views/test.php');
-    }
+    case "preForPlay":
+        global $USER;
+        // Get submitted parameters.
+        $id = required_param('cmid', PARAM_INT); // Course module id
+        $forcenew = optional_param('forcenew', true, PARAM_BOOL); // Used to force a new preview
+        $newTest = optional_param('newTest', false, PARAM_BOOL); // Used to trick force a new preview by dungdv
+        $page = optional_param('page', -1, PARAM_INT); // Page to jump to in the attempt.
 
-    public function review() {
-        global $USER, $DB;
+        if (!$cm = get_coursemodule_from_id('quiz', $id)) {
+            print_error('invalidcoursemodule');
+        }
+
+        if (!$course = $DB->get_record('course', array('id' => $cm->course))) {
+            print_error("coursemisconf");
+        }
+
+        $quizobj = quiz::create($cm->instance, $USER->id);
+
+        // Create an object to manage all the other (non-roles) access rules.
+        $timenow = time();
+        $accessmanager = $quizobj->get_access_manager($timenow);
+
+        // Validate permissions for creating a new attempt and start a new preview attempt if required.
+        list($currentattemptid, $attemptnumber, $lastattempt, $messages, $page) =
+            quiz_validate_new_attempt($quizobj, $accessmanager, $forcenew, $page, true);
+
+        $attemptNews = quiz_get_user_attempts($quizobj->get_quizid(), $USER->id, 'all', true);
+        $lastattemptNew = end($attemptNews);
+
+        if ($lastattemptNew && $lastattemptNew->state == quiz_attempt::FINISHED && !$newTest) {
+            $result = new stdClass();
+            $result->status = "done";
+            $result->id = $lastattemptNew->id;
+            echo json_encode($result);
+        }else {
+            $attempt = quiz_prepare_and_start_new_attempt($quizobj, $attemptnumber, $lastattempt);
+            $result = new stdClass();
+            $result->status = "start";
+            $result->id = $attempt->id;
+            echo json_encode($result);
+        }
+
+        break;
+
+    case "loadTestResult":
+
         $attemptid = required_param('id',  PARAM_INT);
         $page      = optional_param('page', 0, PARAM_INT);
         $showall   = optional_param('showall', true, PARAM_BOOL);
@@ -262,7 +259,12 @@ class TestController extends ApplicationController
         $quizName = $quiz->name;
         $courseId = $quiz->course;
 
-        require_once(__DIR__.'/views/review.php');
-    }
-}
+        $reviewData = new stdClass();
+        $reviewData->quizName = $quizName;
+        $reviewData->quizId = $quiz->id;
+        $reviewData->summarydata = $summarydata;
 
+        echo json_encode($reviewData);
+        break;
+
+}

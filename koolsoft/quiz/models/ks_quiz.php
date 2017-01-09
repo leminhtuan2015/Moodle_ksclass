@@ -8,6 +8,7 @@
  */
 global $CFG;
 require_once($CFG->dirroot."/config.php");
+require_once($CFG->dirroot."/koolsoft/question/models/ks_question.php");
 class ks_quiz
 {
     public function loadAll(){
@@ -18,16 +19,55 @@ class ks_quiz
 
     public function loadOne($id){
         global $DB;
-        $quiz = $DB->get_records("quiz", array("id" => $id));
+        $quiz = $DB->get_record("quiz", array("id" => $id));
         return $quiz;
     }
 
-    public function remove_slot($slotId){
+    public function removeSlot($slotId){
         global $DB;
         $DB->delete_records('quiz_slots', array('id' => $slotId));
     }
 
-    public function load_slots_in_quiz($id){
+    public function removeAlllot($quizId){
+        global $DB;
+        $slots = $this->loadSlotsInQuiz($quizId);
+        foreach ($slots as $slot){
+            $this->removeSlot($slot->slotid);
+        }
+    }
+
+    public function checkSlot($questionId, $quizId){
+        global $DB;
+        $slot = $DB->get_record('quiz_slots', array('quizid' => $quizId, "questionid" => $quizId));
+        if($slot){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public function loadOneWithQuestion($id){
+        global $DB;
+        $quiz = $DB->get_record("quiz", array("id" => $id));
+        $quetions = $this->loadQuestionByQuiz($id);
+        $quiz->questions = $quetions;
+        return $quiz;
+    }
+
+    public function loadQuestionByQuiz($id){
+        $daoQuestion = new ks_question();
+        $slots = $this->loadSlotsInQuiz($id);
+        $idQuestions = array();
+        foreach ($slots as $slot){
+            array_push($idQuestions, $slot->questionid);
+        }
+
+        $questions = $daoQuestion->loadByIds($idQuestions);
+
+        return $questions;
+    }
+
+    public function loadSlotsInQuiz($id){
         global $DB;
         $slots = $DB->get_records_sql("
                 SELECT slot.id AS slotid, slot.slot, slot.questionid, slot.page, slot.maxmark,

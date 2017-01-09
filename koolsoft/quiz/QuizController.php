@@ -8,11 +8,13 @@
  */
 require_once(__DIR__."/../../config.php");
 require_once(__DIR__."/../../mod/quiz/locallib.php");
+require_once(__DIR__.'/../../course/lib.php');
 require_once(__DIR__.'/../../course/modlib.php');
 require_once(__DIR__.'/../../question/editlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once(__DIR__.'/models/ks_quiz.php');
 require_once(__DIR__."/../../koolsoft/question_categories/models/ks_question_categories.php");
+require_once($CFG->dirroot . '/koolsoft/course/models/CourseUtil.php');
 
 class QuizController extends ApplicationController{
 
@@ -24,12 +26,16 @@ class QuizController extends ApplicationController{
         require_once(__DIR__.'/views/index.php');
     }
 
-    public function edit($courseid, $section, $lectureId, $id, $saveAction) {
+    public function edit($courseid, $sectionId, $id, $saveAction) {
         global $DB, $USER;
         $dao = new ks_quiz();
         $course = null;
         if($courseid){
             $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
+        }
+        $currentSection = null;
+        if($sectionId){
+            $currentSection = $DB->get_record('course_sections', array('id'=> $sectionId), '*', MUST_EXIST);
         }
         if($saveAction && $saveAction == "saveQuiz"){
             $startTime = $_POST["startTime"];
@@ -40,21 +46,31 @@ class QuizController extends ApplicationController{
             $quizObject = $dao->getData($quizId, $quizName, $quizDesc, 0, 0, 0);
 
             $idQuestions = explode( ',', $_POST["idQuestions"]);
-            $idSlotRemoves = explode( ',', $_POST["idSlotRemoves"]);
 
             $quizObject->sumgrades = count($idQuestions);
             $quizObject->grade = count($idQuestions);
             $quizObject->course = $courseid;
-            $quizObject->section = $section;
+            $quizObject->section = $currentSection->section;
             $quizObject->timeopen = DateUtil::getHumanDate($startTime);
             $quizObject->timeclose = DateUtil::getHumanDate($endTime);
             if(!$quizObject->id){
                 $quiz = add_moduleinfo($quizObject, $course, null);
             }else {
-                $quiz = $DB->get_record('quiz', array('id'=> $quizObject->id), '*', MUST_EXIST);
+                $quiz = $dao->loadOne($quizObject->id);
+                $course = CourseUtil::getCourse($quiz->course);
+                $cm = $DB->get_record('course_modules', array('instance'=> $quiz->id), '*', MUST_EXIST);
+                $quizObject->id = $quiz->id;
+                $quizObject->instance = $quiz->id;
+                $quizObject->coursemodule = $cm->id;
+                $cm->modname = $quiz->name;
+                $cm->section = $currentSection->id;
+                update_moduleinfo($cm, $quizObject, $course);
             }
 
             $quizdao = new ks_quiz();
+            //delete all slot old
+            $quizdao->removeAlllot($quiz->id);
+
             if(count($idQuestions) > 0){
                 foreach ($idQuestions as $idQuestion){
                     if($idQuestion){
@@ -63,20 +79,9 @@ class QuizController extends ApplicationController{
                 }
             }
 
-            if(count($idSlotRemoves) > 0){
-                foreach ($idSlotRemoves as $idSlotRemove){
-                    if($idSlotRemove){
-                        $quizdao->remove_slot($idSlotRemove);
-                    }
-                }
-            }
-
             redirect("/moodle/koolsoft/course/?action=show&id=".$courseid);
         }
-        $currentSection = null;
-        if($section){
-            $currentSection = $DB->get_record('course_sections', array('id'=> $lectureId), '*', MUST_EXIST);
-        }
+
         $currentQuiz = null;
         if($id){
             $currentQuiz = $DB->get_record('quiz', array('id'=> $id), '*', MUST_EXIST);

@@ -7,7 +7,7 @@
  */
 ?>
 <script src="/moodle/koolsoft/quiz/resources/javascript/quiz.js"></script>
-<div id="createQuizDialog" class="modal fade" role="dialog">
+<div id="createQuizDialog" class="modal fade" role="dialog" style="overflow-y: auto;">
     <div class="modal-dialog" style="width: 90%">
         <div class="modal-content" >
             <div class="modal-header">
@@ -19,6 +19,7 @@
                 <form data-toggle="validator" role="form" action="/moodle/koolsoft/quiz/?action=edit&course=<?php echo $course->id;?>" method="post" id="formQuiz">
                     <div style="display: none" class="form-group">
                         <input id="idQuiz" name="idQuiz" value="">
+                        <input id="idSection" name="idSection" value="">
                         <input id="saveAction" name="saveAction" value="saveQuiz">
                         <input id="idQuestions" name="idQuestions" value="">
                         <input id="idSlotRemoves" name="idSlotRemoves" value="">
@@ -59,33 +60,32 @@
                             <label style="display: inline-block;vertical-align: middle;">Time start</label>
                             <div style="width: 48%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerStart'>
-                                    <input id="startTimeText" type='text' class="form-control" />
+                                    <input name="startDate" type='text' class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
-                                <input style="display: none" name="startTime" id="startTime"/>
                             </div>
                         </div>
                         <div style="display: inline-block;  width: 49%">
                             <label style="display: inline-block;vertical-align: middle;">Time end</label>
                             <div style="width: 48%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerEnd'>
-                                    <input id="endTimeText" type='text' class="form-control" />
+                                    <input name="endDate" type='text' class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
-                                <input style="display: none" name="endTime" id="endTime"/>
                             </div>
                         </div>
                     </div>
 
+                </form>
                     <div width="100%">
                         <div style="display: inline-block;" class="col-md-3">
                             <div class="navbar-collapse collapse sidebar-navbar-collapse">
                                 <ul class="nav navbar-nav" style="width: 100%">
-                                    <ul class="nav nav-pills brand-pills nav-stacked" role="tablist" style="border: 1px solid;height: 400px; border-radius: 6px;" id="listQuestion">
+                                    <ul class="nav nav-pills brand-pills nav-stacked" role="tablist" style="border: 1px solid; border-radius: 6px;" id="listQuestion">
                                     </ul>
 
                                 </ul>
@@ -94,20 +94,27 @@
                             <br>
 
                         </div>
-                        <div style="display: inline-block; border: 1px solid;height: 400px; border-radius: 6px;" class="col-md-9" id="questionDetail">
+                        <div style="display: inline-block; border: 1px solid; border-radius: 6px;" class="col-md-9" id="questionDetail">
 
                             <div id="questionDiv">
 
                             </div>
-
+                            <div class="form-group" id="selectTagCreateQuestionDiv" style="display: none">
+                                <label for="selectTagCreateQuestion">Tags</label>
+                                <select multiple="true" style="width: 100%" id="selectTagCreateQuestion"> </select>
+                            </div>
                             <div class="form-group">
+
                                 <label style="display: none; color: #ff5f50;" id="createQuestionErrorText"></label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" style="display: none;" id="saveOneQuestionBtn">Save question</button>
+                                <button class="btn btn-danger" style="display: none;" id="removeOneQuestionBtn">Remove question</button>
                             </div>
                             <br>
 
                         </div>
                     </div>
-                </form>
                 <div style="margin-left: 3%; width: 30%">
                     <button style="float:left; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestion">Add form library</button>
                     <button style="float:left; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestionNew">Add new</button>

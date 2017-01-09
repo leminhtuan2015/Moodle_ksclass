@@ -11,16 +11,15 @@ if (!defined('AJAX_SCRIPT')) {
 require_once("../../../config.php");
 require_once("../../quiz/models/ks_quiz.php");
 
-$quizid  = optional_param('quizId', 0, PARAM_INT);
-$action  = optional_param('action', 0, PARAM_INT);
-$idslot  = optional_param('idSlot', 0, PARAM_INT);
+$action  = optional_param('action', 0, PARAM_TEXT);
 $dao = new ks_quiz();
-//if($action == "loadAll"){
-//    $quizs = $dao->loadAll();
-//    echo json_encode($quizs);
-//}
-if($quizid){
-    $slots = $dao->load_slots_in_quiz($quizid);
-    echo json_encode($slots);
+
+switch ($action) {
+    case "loadQuiz":
+        $quizid  = optional_param('quizId', 0, PARAM_INT);
+        $quiz = $dao->loadOneWithQuestion($quizid);
+        echo json_encode($quiz);
+        break;
 }
+
 

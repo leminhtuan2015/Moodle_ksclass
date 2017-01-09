@@ -478,7 +478,7 @@ function can_update_moduleinfo($cm) {
  * @param object $mform - the mform is required by some specific module in the function MODULE_update_instance(). This is due to a hack in this function.
  * @return array list of course module and module info.
  */
-function update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
+function  update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
     global $DB, $CFG;
 
     $data = new stdClass();
@@ -617,6 +617,7 @@ function update_moduleinfo($cm, $moduleinfo, $course, $mform = null) {
         $completion->reset_all_state($cm);
     }
     $cm->name = $moduleinfo->name;
+
     \core\event\course_module_updated::create_from_cm($cm, $modcontext)->trigger();
 
     $moduleinfo = edit_module_post_actions($moduleinfo, $course);

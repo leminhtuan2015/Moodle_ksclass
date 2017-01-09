@@ -12,7 +12,16 @@
                         foreach ($sectionLecture->modinfo->cms as $cm) {
                             if ($cm->section == $sectionLecture->id) {
                                 if($cm->module == ClientUtil::$resourceTypeQuiz){
-                                    echo "<a class='btHTML' href='/moodle/koolsoft/test/?cmid=".$cm->id."' >".$cm->name."</a> <br>";
+                                    $html =" <div class='dropdown btHTML' >";
+                                    $html .= "<label>".$cm->name."</label>";
+                                    $html .= "<button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>";
+                                    $html .= "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>";
+                                    $html .= "</button>";
+                                    $html .= "<ul class='dropdown-menu'>";
+                                    $html .= "<li>"."<a data-toggle='pill' class='showQuizBtn btHTML' id-quiz='".$cm->id."' href='#quiz".$cm->id."' > Play</a> "." </li>";
+                                    $html .= "<li class='editQuizBtn' id-section='".$cm->section."' id-quiz='".$cm->instance."'> <a >Edit</a></li>";
+                                    $html .= "</ul> </div> <br>";
+                                    echo $html;
                                 }
                             }
                         }
