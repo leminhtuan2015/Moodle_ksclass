@@ -123,8 +123,7 @@
 <script>
     tinymce.init({
         selector: '#newPostForm',
-        init_instance_callback: "tinymceInitDoneCallback<?php echo $sectionEdit->id ?>",
-        height: 150,
+        height: 120,
         theme: 'modern',
         plugins: [
             'advlist autolink lists link image charmap print preview hr anchor pagebreak',
