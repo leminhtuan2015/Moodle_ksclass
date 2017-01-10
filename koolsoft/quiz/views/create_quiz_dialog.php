@@ -34,11 +34,11 @@
                             <input required id="descQuiz" placeholder="quiz description" class="form-control" <?php if($currentQuiz){ echo 'disabled';}?> name="descQuiz" value="<?php if($currentQuiz){ echo $currentQuiz->intro;}?>">
                         </div>
                     </div>
-
+                    <br>
                     <div >
-                        <div style="display: inline-block; width: 48%;">
+                        <div style="display: inline-block; width: 49%;">
                             <label style="display: inline-block" >Chapter:</label>
-                            <select style="display: inline-block; width: 50%;" class="form-control" id="chapterSelect">
+                            <select style="display: inline-block; width: 100%;" class="form-control" id="chapterSelect">
                                 <?php foreach ($sections as $sectionChapter) { ?>
                                     <?php if($sectionChapter->section == 0){continue;} ?>
                                     <?php if($sectionChapter->parent_id == 0){ ?>
@@ -48,17 +48,18 @@
                             </select>
                         </div>
 
-                        <div style="display: inline-block; width: 48%;">
+                        <div style="display: inline-block; width: 49%;">
                             <label style="display: inline-block" >Lecture:</label>
-                            <select style="display: inline-block; width: 50%;" class="form-control" name="section" id="lectureSelect">
+                            <select style="display: inline-block; width: 100%;" class="form-control" name="section" id="lectureSelect">
 
                             </select>
                         </div>
                     </div>
+                    <br>
                     <div style="margin-bottom: 20px;">
                         <div style="display: inline-block; width: 49%">
                             <label style="display: inline-block;vertical-align: middle;">Time start</label>
-                            <div style="width: 48%; display: inline-block;vertical-align: middle;">
+                            <div style="width: 100%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerStart'>
                                     <input name="startTime" id="startTime" type='text' class="form-control" />
                                     <span class="input-group-addon">
@@ -69,7 +70,7 @@
                         </div>
                         <div style="display: inline-block;  width: 49%">
                             <label style="display: inline-block;vertical-align: middle;">Time end</label>
-                            <div style="width: 48%; display: inline-block;vertical-align: middle;">
+                            <div style="width: 100%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerEnd'>
                                     <input name="endTime" id="endTime" type='text' class="form-control" />
                                     <span class="input-group-addon">
