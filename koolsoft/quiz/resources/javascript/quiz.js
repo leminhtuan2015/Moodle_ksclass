@@ -272,11 +272,12 @@ Ks.quiz.loadQuiz= function (quizId) {
     $.ajax({url: "/moodle/koolsoft/quiz/rest/quiz_rest.php",
         data : data,
         success: function(quiz){
+            console.log(quiz);
             $("#nameQuiz").val(quiz.name);
             $("#descQuiz").val(quiz.intro);
 
-            $('#datetimepickerStart').data("DateTimePicker").date(new Date(quiz.timeopen));
-            $('#datetimepickerEnd').data("DateTimePicker").date(new Date(quiz.timeclose));
+            $('#startTime').val(quiz.timeopen);
+            $('#endTime').val(quiz.timeclose);
 
             //load chapter and lecture
             var data= {};

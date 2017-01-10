@@ -13,9 +13,9 @@
     <a href="#" id="showAddQuestionDialog" class="btn btn-info btn-lg">
         <span class="glyphicon glyphicon-plus-sign"></span> Add question
     </a>
-    <a href="#" id="showAddToQuizDialog" class="btn btn-info btn-lg">
-        <span class="glyphicon glyphicon-list-alt"></span> Add to quiz
-    </a>
+<!--    <a href="#" id="showAddToQuizDialog" class="btn btn-info btn-lg">-->
+<!--        <span class="glyphicon glyphicon-list-alt"></span> Add to quiz-->
+<!--    </a>-->
     <a href="#" id="showCopyQuestionDialog" class="btn btn-info btn-lg">
         <span class="glyphicon glyphicon-duplicate"></span> Copy
     </a>

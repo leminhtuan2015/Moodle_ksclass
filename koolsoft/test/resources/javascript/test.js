@@ -24,7 +24,6 @@ Ks.test.handler = function () {
 };
 
 Ks.test.showQuestion = function (index) {
-    console.log("xxxx yyy");
     for(var i = 1; i <= Ks.test.numberQuestion; i++){
         if(i == index){
             $("#questionDiv" + i).css("display", "block");
@@ -55,7 +54,7 @@ Ks.test.genPlayView = function (attempt, questionPanel){
 
         for(var j =0; j < keys.length; j++){
             var answer = answers[keys[j]];
-            questionHtml += "<input type='radio' value='"+ j +"' name='q"+ attempt.uniqueid +":" + ( + 1) + "_answer'><label>" + answer.answer + "</label> <br>";
+            questionHtml += "<input type='radio' value='"+ j +"' name='q"+ attempt.uniqueid +":" + (i + 1) + "_answer'><label>" + answer.answer + "</label> <br>";
         }
 
         questionHtml += "</div>";
@@ -103,7 +102,7 @@ Ks.test.genReviewView = function (reviewData, questionPanel){
         var data = {};
         data.action = "preForPlay";
         data.cmid = Ks.test.idTestCurrent;
-        data.forceNew = true;
+        data.newTest = true;
         $.ajax({
             url: "/moodle/koolsoft/test/rest/test.php",
             data: data,
@@ -159,7 +158,6 @@ $(function () {
                         url: "/moodle/koolsoft/test/rest/test.php",
                         data: {action : "loadTestResult", id : preResult.id},
                         success: function (result) {
-                            console.log(result);
                             Ks.test.genReviewView(JSON.parse(result), Ks.test.testPanelCurrent);
                         },
                         error : function () {

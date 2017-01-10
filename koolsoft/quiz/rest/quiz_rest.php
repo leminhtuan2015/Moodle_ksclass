@@ -20,6 +20,11 @@ switch ($action) {
         $quiz = $dao->loadOneWithQuestion($quizid);
         echo json_encode($quiz);
         break;
+    case "loadAllResultQuizForUser":
+    $idUser  = optional_param('quizId', 0, PARAM_INT);
+    $idCourse = optional_param('courseId', 0, PARAM_INT);
+    echo json_encode($quiz);
+    break;
 }
 
 

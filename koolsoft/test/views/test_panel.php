@@ -6,11 +6,11 @@
  * Time: 11:03 AM
  */
 
-$htmlPanel = "<div id='quiz".$cm->id."' class='tab-pane fade in'>";
-$htmlPanel .= "<input id='quizPlayId' value='".$cm->id."'>";
-$htmlPanel .= "<div id='contentTest' ></div>";
-$htmlPanel .= "</div>";
-echo $htmlPanel;
 ?>
+<div id='quiz<?php echo $cm->id?>' class='tab-pane fade in'>
+    <input id='quizPlayId' style="display: none" value='<?php echo $cm->id?>'>
+    <div id='contentTest' ></div>
+</div>
+
 
 

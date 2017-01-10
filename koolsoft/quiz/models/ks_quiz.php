@@ -9,6 +9,7 @@
 global $CFG;
 require_once($CFG->dirroot."/config.php");
 require_once($CFG->dirroot."/koolsoft/question/models/ks_question.php");
+require_once($CFG->dirroot."/koolsoft/utility/DateUtil.php");
 class ks_quiz
 {
     public function loadAll(){
@@ -49,6 +50,8 @@ class ks_quiz
     public function loadOneWithQuestion($id){
         global $DB;
         $quiz = $DB->get_record("quiz", array("id" => $id));
+        $quiz->timeopen = DateUtil::getHumanDate($quiz->timeopen);
+        $quiz->timeclose = DateUtil::getHumanDate($quiz->timeclose);
         $quetions = $this->loadQuestionByQuiz($id);
         $quiz->questions = $quetions;
         return $quiz;
@@ -77,6 +80,17 @@ class ks_quiz
                  WHERE slot.quizid = ?
               ORDER BY slot.slot", array($id));
         return $slots;
+    }
+
+    public function loadAllResultQuizForUser($idCourse, $idUser){
+        global $DB;
+        $sql = "SELECT q.id, q.name, q.sumgrades,a.sumgrades as grade, a.state, a.timemodified  FROM ".$DB->get_prefix()."quiz q"
+                    ."LEFT JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ? AND q.course = ?";
+        $quizResults = $DB->get_records_sql(sql, array($idUser, $idCourse));
+        foreach($quizResults as $quizResult){
+            $quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
+        }
+        return $quizResults;
     }
 
     public function getData($quizId, $quizName, $quizDesc, $startTime, $endTime, $timeLimit){

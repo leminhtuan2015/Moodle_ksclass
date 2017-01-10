@@ -60,7 +60,7 @@
                             <label style="display: inline-block;vertical-align: middle;">Time start</label>
                             <div style="width: 48%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerStart'>
-                                    <input name="startDate" type='text' class="form-control" />
+                                    <input name="startTime" id="startTime" type='text' class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -71,7 +71,7 @@
                             <label style="display: inline-block;vertical-align: middle;">Time end</label>
                             <div style="width: 48%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerEnd'>
-                                    <input name="endDate" type='text' class="form-control" />
+                                    <input name="endTime" id="endTime" type='text' class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
