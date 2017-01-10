@@ -51,8 +51,8 @@ class QuizController extends ApplicationController{
             $quizObject->grade = count($idQuestions);
             $quizObject->course = $courseid;
             $quizObject->section = $currentSection->section;
-            $quizObject->timeopen = DateUtil::getHumanDate($startTime);
-            $quizObject->timeclose = DateUtil::getHumanDate($endTime);
+            $quizObject->timeopen = DateUtil::getTimestamp($startTime);
+            $quizObject->timeclose = DateUtil::getTimestamp($endTime);
             if(!$quizObject->id){
                 $quiz = add_moduleinfo($quizObject, $course, null);
             }else {

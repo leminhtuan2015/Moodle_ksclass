@@ -8,24 +8,24 @@
                         <?php echo $sectionLecture->name ?>
                     </a>
                     <br>
-                    <?php
-                        foreach ($sectionLecture->modinfo->cms as $cm) {
-                            if ($cm->section == $sectionLecture->id) {
-                                if($cm->module == ClientUtil::$resourceTypeQuiz){
-                                    $html =" <div class='dropdown btHTML' >";
-                                    $html .= "<label>".$cm->name."</label>";
-                                    $html .= "<button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>";
-                                    $html .= "<span class='glyphicon glyphicon-cog' aria-hidden='true'></span>";
-                                    $html .= "</button>";
-                                    $html .= "<ul class='dropdown-menu'>";
-                                    $html .= "<li>"."<a data-toggle='pill' class='showQuizBtn btHTML' id-quiz='".$cm->id."' href='#quiz".$cm->id."' > Play</a> "." </li>";
-                                    $html .= "<li class='editQuizBtn' id-section='".$cm->section."' id-quiz='".$cm->instance."'> <a >Edit</a></li>";
-                                    $html .= "</ul> </div> <br>";
-                                    echo $html;
-                                }
-                            }
-                        }
-                    ?>
+                    <?php foreach ($sectionLecture->modinfo->cms as $cm) { ?>
+                        <?php if ($cm->section == $sectionLecture->id) { ?>
+                            <?php if($cm->module == ClientUtil::$resourceTypeQuiz){ ?>
+                                    <div class='dropdown btHTML' >
+                                        <label><?php echo $cm->name ?></label>
+                                        <button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>
+                                            <span class='glyphicon glyphicon-cog' aria-hidden='true'></span>
+                                        </button>
+                                        <ul class='dropdown-menu'>
+                                            <li><a data-toggle='pill' class='showQuizBtn btHTML' id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' > Play</a>  </li>;
+                                            <li class='editQuizBtn' id-section='<?php echo $cm->section ?>' id-quiz='<?php echo $cm->instance ?>'> <a >Edit</a></li>";
+                                        </ul>
+                                    </div>
+                                    <br>
+
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
                 </h4>
             </div>
 
