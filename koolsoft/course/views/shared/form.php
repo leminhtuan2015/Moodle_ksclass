@@ -1,4 +1,4 @@
-<div class="container" style="width: 50%">
+<div class="container" style="width: 50%; margin-top: 20px">
 
     <form id="createCourseForm" data-toggle="validator" role="form"
           action="<?php echo "$formAction"; ?>" method="post">
@@ -116,6 +116,7 @@
 
     <div class="form-group">
         <button form="createCourseForm" type="submit" class="btn btn-primary">Save</button>
+<!--        <a class="btn btn-danger">Cancle</a>-->
     </div>
 </div>
 

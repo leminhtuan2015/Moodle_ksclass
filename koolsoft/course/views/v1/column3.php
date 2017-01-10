@@ -73,5 +73,6 @@
 
 <!--    RENDER MEMBER TAB-->
     <?php require_once ("members.php")?>
+
     <?php require_once ("discussion.php")?>
 </div>

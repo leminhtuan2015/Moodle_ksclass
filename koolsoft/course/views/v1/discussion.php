@@ -1,8 +1,4 @@
 <style>
-
-    .panel-shadow {
-        box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
-    }
     .panel-white {
         border: 1px solid #dddddd;
     }
@@ -107,18 +103,17 @@
 </style>
 
 <br/>
-<div id="discussionBox" class="tab-pane fade in <?php if($tabActive == "discussionBox"){echo "active";};?>">
+<div id="discussionBox"
+     class="tab-pane fade in <?php if($tabActive == "discussionBox"){echo "active";};?>"
+     style="padding-left: 50px; padding-right: 50px">
 
     <?php require_once ("new_post.php")?>
 
     <br>
 
-    <div class="container">
-        <div class="col-sm-8">
-
-            <?php foreach ($discussions as $discussion) { ?>
-                <?php include ("post.php");?>
-            <?php } ?>
-        </div>
+    <div>
+        <?php foreach ($discussions as $discussion) { ?>
+            <?php include ("post.php");?>
+        <?php } ?>
     </div>
 </div>

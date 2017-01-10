@@ -211,7 +211,7 @@
     }
     #div2{
         position:relative;
-        float:left;
+        float:right;
         height:100%;
         width:80%;
         background-color:#BBB;
