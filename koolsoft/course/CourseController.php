@@ -154,11 +154,7 @@ class CourseController extends ApplicationController {
 //        $DB->update_record('course', $data);
 //        $DB->update_record('course', array('id' => $data->id, 'cost' => "123444555"));
 
-        if($data->cost){
-            $this->setSelfEnrolment($data->id, false);
-        } else {
-            $this->setSelfEnrolment($data->id, true);
-        }
+        $this->setSelfEnrolment($data->id, $data->cost);
 
         redirect("/moodle/koolsoft/course/?action=show&id=$data->id");
     }

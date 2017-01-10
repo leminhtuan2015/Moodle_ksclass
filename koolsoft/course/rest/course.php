@@ -5,6 +5,7 @@
  * Date: 1/7/17
  * Time: 12:18 AM
  */
+header('Access-Control-Allow-Origin: *');
 
 require_once("../../../config.php");
 require_once("../../course/models/CourseUtil.php");
