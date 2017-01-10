@@ -24,5 +24,5 @@
             </a>
         </div>
     </div>
-<!--    --><?php //include ("comment_post.php")?>
+    <?php include ("comment_post.php")?>
 </div>

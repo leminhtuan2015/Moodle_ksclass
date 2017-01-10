@@ -1,43 +1,4 @@
 <style>
-    .widget-area.blank {
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        -ms-box-shadow: none;
-        -o-box-shadow: none;
-        box-shadow: none;
-    }
-    body .no-padding {
-        padding: 0;
-    }
-    .widget-area {
-        background-color: #fff;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -ms-border-radius: 4px;
-        -o-border-radius: 4px;
-        border-radius: 4px;
-        -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        -moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        -ms-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        -o-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        float: left;
-        margin-top: 30px;
-        padding: 25px 30px;
-        position: relative;
-        width: 100%;
-    }
-    .status-upload {
-        background: none repeat scroll 0 0 #f5f5f5;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -ms-border-radius: 4px;
-        -o-border-radius: 4px;
-        border-radius: 4px;
-        float: left;
-        width: 100%;
-    }
     .status-upload form {
         float: left;
         width: 100%;
@@ -127,11 +88,10 @@
         theme: 'modern',
         plugins: [
             'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'searchreplace wordcount visualblocks visualchars code fullscreen placeholder',
             'insertdatetime media nonbreaking save table contextmenu directionality',
             'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
         ],
-        toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
         toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
         image_advtab: true,
         templates: [
@@ -143,28 +103,44 @@
             '//www.tinymce.com/css/codepen.min.css'
         ]
     });
+
+    tinymce.PluginManager.add('placeholder', function (editor) {
+        editor.on('init', function () {
+            var label = new Label;
+            onBlur();
+            tinymce.DOM.bind(label.el, 'click', onFocus);
+            editor.on('focus', onFocus);
+            editor.on('blur', onBlur);
+            editor.on('change', onBlur);
+            editor.on('setContent', onBlur);
+            function onFocus() { if (!editor.settings.readonly === true) { label.hide(); } editor.execCommand('mceFocus', false); }
+            function onBlur() { if (editor.getContent() == '') { label.show(); } else { label.hide(); } }
+        });
+        var Label = function () {
+            var placeholder_text = editor.getElement().getAttribute("placeholder") || editor.settings.placeholder;
+            var placeholder_attrs = editor.settings.placeholder_attrs || { style: { position: 'absolute', top: '2px', left: 0, color: '#aaaaaa', padding: '.25%', margin: '5px', width: '80%', 'font-size': '17px !important;', overflow: 'hidden', 'white-space': 'pre-wrap' } };
+            var contentAreaContainer = editor.getContentAreaContainer();
+            tinymce.DOM.setStyle(contentAreaContainer, 'position', 'relative');
+            this.el = tinymce.DOM.add(contentAreaContainer, "label", placeholder_attrs, placeholder_text);
+        }
+        Label.prototype.hide = function () { tinymce.DOM.setStyle(this.el, 'display', 'none'); }
+        Label.prototype.show = function () { tinymce.DOM.setStyle(this.el, 'display', ''); }
+    });
 </script>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="widget-area no-padding blank">
-                <div class="">
-                    <form action="/moodle/koolsoft/course/?action=createDiscussion" method="post">
-                        <input type="hidden" name="forum" value="<?php echo $forumId ?>">
-                        <input type="hidden" name="courseId" value="<?php echo $course->id ?>">
+<div>
+    <form action="/moodle/koolsoft/course/?action=createDiscussion" method="post">
+        <input type="hidden" name="forum" value="<?php echo $forumId ?>"/>
+        <input type="hidden" name="courseId" value="<?php echo $course->id ?>"/>
 
-                        <textarea id="newPostForm" placeholder="What are you doing right now?" name="message"></textarea>
-
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-share"></i> Post</button>
-                    </form>
-                </div><!-- Status Upload  -->
-            </div><!-- Widget Area -->
-        </div>
-
-    </div>
-</div>
-
+        <textarea id="newPostForm" name="message" placeholder="What are you doing right now?">
+        </textarea>
+        <br>
+        <button type="submit" class="btn btn-primary pull-right">Post</button>
+        <br>
+        <br>
+    </form>
+</div><!-- Status Upload  -->
 
 
 
