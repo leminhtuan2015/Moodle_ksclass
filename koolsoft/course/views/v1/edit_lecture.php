@@ -35,7 +35,9 @@
     <?php if($labelContent){ ?>
 
         <?php $labelContent = str_replace(array("\r", "\n"), '', $labelContent); ?>
-            var content = '<?php echo $labelContent ?>';
+        <?php $labelContent = str_replace('"', '\"', $labelContent); ?>
+
+            var content = "<?php echo $labelContent ?>"
 
             tinymce.activeEditor.setContent(content);
         <?php } ?>
