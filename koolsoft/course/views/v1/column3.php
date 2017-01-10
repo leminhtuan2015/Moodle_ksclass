@@ -22,13 +22,12 @@
                     <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
             </h4>
 
+            <!-- RENDER LABEL CONTENT -->
             <div>
                 <?php
                     foreach ($section->modinfo->cms as $cm) {
                         if ($cm->section == $section->id) {
-                            if($cm->module == ClientUtil::$resourceTypeQuiz){
-//                                include (__DIR__."/lecture_content_quiz.php");
-                            }else if($cm->module == ClientUtil::$resourceTypeLable){
+                            if($cm->module == ClientUtil::$resourceTypeLable){
                                 echo "<div style='margin-left: 20px'>$cm->content</div>";
                             }
                         }
@@ -37,6 +36,7 @@
             </div>
         </div>
 
+        <!-- RENDER TÉT-->
         <?php
             foreach ($section->modinfo->cms as $cm) {
                 if ($cm->section == $section->id) {
@@ -49,7 +49,7 @@
 
     <?php } ?>
 
-<!--    RENDER EDIT LECTURE FORM-->
+    <!--    RENDER EDIT LECTURE FORM-->
     <?php
         foreach ($sections as $sectionEdit) {
             if($sectionEdit->section == 0 || $sectionEdit->parent_id == 0){continue;}
@@ -58,7 +58,7 @@
             $moduleId = "";
 
             foreach ($sectionEdit->modinfo->cms as $cm) {
-                if ($cm->section == $sectionEdit->id) {
+                if ($cm->module == ClientUtil::$resourceTypeLable && $cm->section == $sectionEdit->id) {
                     $moduleId = $cm->id;
 
                     if($cm->content){
@@ -71,7 +71,7 @@
         }
     ?>
 
-<!--    RENDER MEMBER TAB-->
+    <!--    RENDER MEMBER TAB-->
     <?php require_once ("members.php")?>
 
     <?php require_once ("discussion.php")?>

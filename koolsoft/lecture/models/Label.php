@@ -34,9 +34,9 @@ class Label extends  stdClass {
     public function update($courseId, $section, $labelContent, $coursemoduleId){
         global $DB;
 
-        $courseModule = get_coursemodule_from_id('', $coursemoduleId, 0, false, MUST_EXIST);
         $cm = get_coursemodule_from_id('', $coursemoduleId, 0, false, MUST_EXIST);
         $course = $DB->get_record('course', array('id'=>$cm->course), '*', MUST_EXIST);
+
         $data = $this->buildLabelObject($courseId, $section, $labelContent, $coursemoduleId);
 
         update_moduleinfo($cm, $data, $course);
@@ -58,7 +58,7 @@ class Label extends  stdClass {
         $data->module = 12;
         $data->modulename = "label";
         $data->instance = 0;
-        $data->add = "label";
+        $data->add = 0;
         $data->update = $coursemodule;
         $data->return = 0;
         $data->sr = 0;
