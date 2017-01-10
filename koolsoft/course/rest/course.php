@@ -21,4 +21,8 @@ switch ($action) {
         $idSection  = optional_param('idSection', 0, PARAM_INT);
         echo json_encode(CourseUtil::getSectionEqualParent($idSection));
         break;
+    case "testtruong":
+        $courses = CourseUtil::getCourses();
+        echo json_encode($courses);
+        break;
 }

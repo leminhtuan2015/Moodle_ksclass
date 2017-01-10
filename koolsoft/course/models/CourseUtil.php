@@ -53,7 +53,7 @@ class CourseUtil {
     }
 
     public static function prepare_courses($courses){
-        Logger::log($courses);
+//        Logger::log($courses);
 
         foreach ($courses as $course) {
             $course->isEnroled = CourseUtil::isEnrolled1($course->id);
