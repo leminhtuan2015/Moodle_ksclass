@@ -16,11 +16,12 @@ require_once(__DIR__."/../../../mod/forum/lib.php");
 
 class CourseUtil {
 
-    public static function createDiscussion($forum, $message){
+    public static function createDiscussion($forum, $message, $courseId){
         require_once(__DIR__."/../../utility/DateUtil.php");
 
         $discussion = new stdClass();
         $discussion->forum = $forum;
+        $discussion->course = $courseId;
         $discussion->name = $message;
         $discussion->message = $message;
         $discussion->messageformat = 1;

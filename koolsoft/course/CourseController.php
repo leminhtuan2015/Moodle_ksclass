@@ -193,7 +193,7 @@ class CourseController extends ApplicationController {
         $forum = $_POST["forum"];
         $message = $_POST["message"];
 
-        CourseUtil::createDiscussion($forum, $message);
+        CourseUtil::createDiscussion($forum, $message, $courseId);
 
         redirect("/moodle/koolsoft/course/?action=show&id=$courseId&tabActive=discussionBox");
     }
