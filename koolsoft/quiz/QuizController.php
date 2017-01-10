@@ -37,37 +37,6 @@ class QuizController extends ApplicationController{
         if($sectionId){
             $currentSection = $DB->get_record('course_sections', array('id'=> $sectionId), '*', MUST_EXIST);
         }
-        if($saveAction && $saveAction == "saveQuiz"){
-            $quizId = $_POST["idQuiz"];
-            $startTime = $_POST["startTime"];
-            $endTime = $_POST["endTime"];
-            $quizName = $_POST["nameQuiz"];
-            $quizDesc = $_POST["descQuiz"];
-            $idQuestions = explode( ',', $_POST["idQuestions"]);
-            $sumgrades = count($idQuestions);
-            $grade = count($idQuestions);
-            $quizObject = $dao->getData(null, $quizName, $quizDesc, DateUtil::getTimestamp($startTime), DateUtil::getTimestamp($endTime), $currentSection->section, $courseid, $sumgrades, $grade,  0);
-
-            if(!$quizId){
-                $quiz = add_moduleinfo($quizObject, $course, null);
-            }else {
-                $cm = $DB->get_record('course_modules', array('instance'=> $quizId), '*', MUST_EXIST);
-                course_delete_module($cm->id, false);
-                $quiz = add_moduleinfo($quizObject, $course, null);
-            }
-
-            $quizdao = new ks_quiz();
-
-            if(count($idQuestions) > 0){
-                foreach ($idQuestions as $idQuestion){
-                    if($idQuestion){
-                        quiz_add_quiz_question($idQuestion, $quiz, 0);
-                    }
-                }
-            }
-
-            redirect("/moodle/koolsoft/course/?action=show&id=".$courseid);
-        }
 
         $currentQuiz = null;
         if($id){
@@ -80,6 +49,55 @@ class QuizController extends ApplicationController{
         require_once(__DIR__.'/views/edit.php');
     }
 
+    public function save($courseid, $sectionId, $id) {
+        error_log("dungdv save !");
+        global $DB, $USER;
+        $dao = new ks_quiz();
+        $course = null;
+        if($courseid){
+            $course = $DB->get_record('course', array('id'=> $courseid), '*', MUST_EXIST);
+        }
+        $currentSection = null;
+        if($sectionId){
+            $currentSection = $DB->get_record('course_sections', array('id'=> $sectionId), '*', MUST_EXIST);
+        }
+        $quizId = $_POST["idQuiz"];
+        $typeQuiz = $_POST["typeQuiz"];
+        $timeLimit = $_POST["timeLimit"];
+        if(!$timeLimit){
+            $timeLimit = 0;
+        }else {
+            $timeLimit = $timeLimit * 60;
+        }
 
+        $startTime = $_POST["startTime"];
+        $endTime = $_POST["endTime"];
+        $quizName = $_POST["nameQuiz"];
+        $quizDesc = $_POST["descQuiz"];
+        $idQuestions = explode( ',', $_POST["idQuestions"]);
+        $sumgrades = count($idQuestions);
+        $grade = count($idQuestions);
+        $quizObject = $dao->getData(null, $quizName, $quizDesc, DateUtil::getTimestamp($startTime), DateUtil::getTimestamp($endTime), $currentSection->section, $courseid, $sumgrades, $grade,  $timeLimit, $typeQuiz);
+        error_log("dungdv quiz".json_encode($quizObject));
+        if(!$quizId){
+            $quiz = add_moduleinfo($quizObject, $course, null);
+        }else {
+            $cm = $DB->get_record('course_modules', array('instance'=> $quizId), '*', MUST_EXIST);
+            course_delete_module($cm->id, false);
+            $quiz = add_moduleinfo($quizObject, $course, null);
+        }
+
+        $quizdao = new ks_quiz();
+
+        if(count($idQuestions) > 0){
+            foreach ($idQuestions as $idQuestion){
+                if($idQuestion){
+                    quiz_add_quiz_question($idQuestion, $quiz, 0);
+                }
+            }
+        }
+
+        redirect("/moodle/koolsoft/course/?action=show&id=".$courseid);
+    }
 
 }

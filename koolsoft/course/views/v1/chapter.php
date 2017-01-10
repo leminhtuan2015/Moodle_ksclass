@@ -11,17 +11,8 @@
                     <?php foreach ($sectionLecture->modinfo->cms as $cm) { ?>
                         <?php if ($cm->section == $sectionLecture->id) { ?>
                             <?php if($cm->module == ClientUtil::$resourceTypeQuiz){ ?>
-                                    <div class='dropdown btHTML' >
-                                        <label><?php echo $cm->name ?></label>
-                                        <button class='btn btn-primary dropdown-toggle' type='button' data-toggle='dropdown'>
-                                            <span class='glyphicon glyphicon-cog' aria-hidden='true'></span>
-                                        </button>
-                                        <ul class='dropdown-menu'>
-                                            <li><a data-toggle='pill' class='showQuizBtn btHTML' id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' > Play</a>  </li>;
-                                            <li class='editQuizBtn' id-section='<?php echo $cm->section ?>' id-quiz='<?php echo $cm->instance ?>'> <a >Edit</a></li>";
-                                        </ul>
-                                    </div>
-                                    <br>
+                                <a data-toggle='pill' class='showQuizBtn btnQuiz' id-quiz-instance='<?php echo $cm->instance ?>' id-section='<?php echo $cm->section ?>' id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' > <?php echo $cm->name ?></a>
+                                <br>
 
                                 <?php } ?>
                             <?php } ?>

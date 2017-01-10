@@ -8,7 +8,7 @@
  */
 class DateUtil {
     public static $DATE_FORMAT_HTML = "YYYY/MM/DD";
-    public static $DATE_FORMAT_PHP = "Y/m/d";
+    public static $DATE_FORMAT_PHP = "Y/m/d h:i A";
 
     public static function getTimestamp($humanDate){
         // RETURN INTEGER

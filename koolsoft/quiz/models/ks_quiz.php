@@ -93,7 +93,7 @@ class ks_quiz
         return $quizResults;
     }
 
-    public function getData($quizId, $quizName, $quizDesc, $startTime, $endTime, $currentSection, $courseid, $sumgrades, $grade,  $timeLimit){
+    public function getData($quizId, $quizName, $quizDesc, $startTime, $endTime, $currentSection, $courseid, $sumgrades, $grade,  $timeLimit, $type){
         $quizObject = new stdClass();
         $quizObject->name = $quizName;
         $quizObject->id = $quizId;
@@ -171,6 +171,7 @@ class ks_quiz
         $quizObject->sr = 4;
         $quizObject->competency_rule = 0;
         $quizObject->submitbutton = "Save and display";
+        $quizObject->type = $type;
 
         return $quizObject;
     }

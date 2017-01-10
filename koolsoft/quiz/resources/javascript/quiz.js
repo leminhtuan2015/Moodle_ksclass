@@ -9,10 +9,22 @@ Ks.quiz.questionCurrentIndex = 0;
 Ks.quiz.questions = [];
 Ks.quiz.numberWrongAnswer = 3;
 Ks.quiz.wrongAnswerInputId = "wrongAnserTxt";
+Ks.quiz.typeTest = 2;
+Ks.quiz.typeExercise = 1;
 Ks.quiz.init = function () {
     Ks.quiz.loadLecture();
-    $('#datetimepickerStart').datetimepicker();
-    $('#datetimepickerEnd').datetimepicker();
+
+    var dateTimeFormat = "YYYY/MM/DD h:m A";
+    $("#datetimepickerStart").datetimepicker({
+        format : dateTimeFormat
+    }).on('dp.change',function(event){
+        Ks.quiz.validateDate();
+    });
+    $("#datetimepickerEnd").datetimepicker({
+        format : dateTimeFormat
+    }).on('dp.change',function(event){
+        Ks.quiz.validateDate();
+    });
 
     $.ajax({url: "/moodle/koolsoft/question_tag/rest/question_tag.php?action=listAll",
         success: function(results){
@@ -62,11 +74,19 @@ Ks.quiz.clearDialog = function () {
     Ks.quiz.clearQuestionDetailView();
     $("#nameQuiz").val("");
     $("#descQuiz").val("");
-    $('#datetimepickerStart').data("DateTimePicker").date(null);
-    $('#datetimepickerEnd').data("DateTimePicker").date(null);
+    $("#startTime").val("");
+    $("#endTime").val("");
 
     $('#chapterSelect option')[0].selected = true;
     $('#lectureSelect').html("");
+
+    if($("#idQuiz").val()){
+        $("#questionMainPanel").css("display", "block");
+    }else {
+        $("#questionMainPanel").css("display", "none");
+    }
+
+    Ks.quiz.showTimePanel(Ks.quiz.typeExercise, 0);
 
     Ks.quiz.loadLecture();
 
@@ -77,24 +97,16 @@ Ks.quiz.handler = function () {
         Ks.quiz.loadLecture();
     });
 
-    $("#startTimeText").change(function(){
-        var date = new Date($(this).val());
-        if(date){
-            $("#startTime").val(date.getTime());
-        }else {
-            $("#startTime").val(0);
-        }
+    $("#startTime").on('dp.change',function(event){
+        Ks.quiz.validateDate();
+    });
+    $("#endTimeText").on('dp.change',function(event){
+        Ks.quiz.validateDate();
     });
 
-    $("#endTimeText").change(function(){
-        var date = new Date($(this).val());
-        if(date){
-            $("#endTime").val(date.getTime());
-        }else {
-            $("#endTime").val(0);
-        }
+    $("#typeQuizSelect").change(function () {
+        Ks.quiz.showTimePanel($(this).val(), 0);
     });
-
 
     $("#removeOneQuestionBtn").click(function(){
         var index = $("#questionIndex").val();
@@ -187,27 +199,7 @@ Ks.quiz.handler = function () {
 
         question.wrongAnswer = wrongAnswer;
 
-        var questions = [];
-        questions.push(question);
-
-        var data = {"questions" : JSON.stringify(questions)};
-        $.post({url: "/moodle/koolsoft/question/rest/question.php?action=create"
-            , data : data
-            , success: function(result){
-                var questions = JSON.parse(result);
-                var keys = Object.keys(questions);
-                var question = questions[keys[0]];
-                console.log(question);
-                if(question.resultText != "Success"){
-                    $("#createQuestionErrorText").html(question.resultText);
-                    $("#createQuestionErrorText").css("display", "block");
-                    return;
-                }else {
-                    Ks.quiz.questions[indexQuestion] = question;
-                    window.alert("save question success !");
-                }
-            }
-        });
+        Ks.quiz.questions[indexQuestion] = question;
     });
 
     $("#saveQuiz").click(function (e) {
@@ -221,7 +213,7 @@ Ks.quiz.handler = function () {
         for(var i = 0; i < Ks.quiz.questions.length; i++){
             var question = Ks.quiz.questions[i];
             question.index = i;
-            if(!question.id){
+            if(!question.id || question.id == "undefined"){
                 questionNews[i] = question;
             }else {
                 questionIds.push(question.id);
@@ -278,7 +270,6 @@ Ks.quiz.loadQuiz= function (quizId) {
     $.ajax({url: "/moodle/koolsoft/quiz/rest/quiz_rest.php",
         data : data,
         success: function(quiz){
-            console.log(quiz);
             $("#nameQuiz").val(quiz.name);
             $("#descQuiz").val(quiz.intro);
 
@@ -309,6 +300,8 @@ Ks.quiz.loadQuiz= function (quizId) {
                 }
             });
 
+            Ks.quiz.showTimePanel(quiz.type, quiz.timelimit);
+
             var questions = quiz.questions;
             Ks.quiz.questions = [];
             for(var i = 0; i < questions.length; i++){
@@ -323,6 +316,22 @@ Ks.quiz.loadQuiz= function (quizId) {
             console.log("load quiz error !");
         }
     });
+};
+
+Ks.quiz.showTimePanel = function (typeQuiz, timeLimit) {
+    if(typeQuiz == Ks.quiz.typeTest){
+        $("#typeQuizSelect option")[1].selected = true;
+        $("#timeLimitPanel").css("display", "inline-block");
+        $("#timeQuizPanel").css("display", "block");
+        $("#timeLimit").val(timeLimit);
+    }else {
+        $("#typeQuizSelect option")[0].selected = true;
+        $("#timeLimitPanel").css("display", "none");
+        $("#timeQuizPanel").css("display", "none");
+        $("#timeLimit").val("");
+        $("#startTime").val("");
+        $("#endTime").val("");
+    }
 };
 
 Ks.quiz.genQuestionTitle = function () {
@@ -363,7 +372,7 @@ Ks.quiz.genDetailQuestion = function (question, index) {
     var html = "";
     html += "<div class='form-group' style='display: none'> "
         + "<input ";
-    if(question.id){
+    if(question.id && question.id != "undefined"){
         html +="disabled ";
     }
     html += "class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
@@ -371,13 +380,13 @@ Ks.quiz.genDetailQuestion = function (question, index) {
         + "<input class='form-control' placeholder='question' id='questionIndex' value='" + index + "'> </div>";
     html += "<div class='form-group'> <label for='questionTxt'>Question</label>"
         + "<input ";
-    if(question.id){
+    if(question.id && question.id != "undefined"){
         html +="disabled ";
     }
     html += "style='width: 100%'class='form-control' placeholder='question' id='questionTxt' value='" + question.question + "'> </div>";
     html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input";
 
-    if(question.id){
+    if(question.id && question.id != "undefined"){
         html += " disabled ";
     }
     html += " style='width: 100%' class='form-control' placeholder='answer' id='answerTxt' value='" + question.answer + "'> </div>";
@@ -388,7 +397,7 @@ Ks.quiz.genDetailQuestion = function (question, index) {
         var idDelWrongAnswer = "idDWA" + new Date().getTime() + i;
         var htmlWrongAnswer = "<div class='form-group'> <label for='answerTxt'>Wrong Answer</label> "
             +" <input ";
-        if(question.id){
+        if(question.id && question.id != "undefined"){
             htmlWrongAnswer +="disabled ";
         }
         htmlWrongAnswer += " style='display: inline-block; width: 100%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + i +"' value='" + wrongAnswer[i] + "'>"
@@ -407,7 +416,7 @@ Ks.quiz.genDetailQuestion = function (question, index) {
     $("#selectTagCreateQuestion").val(question.tags).trigger("change");
     $("#selectTagCreateQuestionDiv").css("display", "block");
     $("#removeOneQuestionBtn").css("display", "inline-block");
-    if(question.id){
+    if(question.id && question.id != "undefined"){
         $("#saveOneQuestionBtn").css("display", "none");
         $('#selectTagCreateQuestion').select2("enable", false);
     }else {
@@ -507,14 +516,38 @@ Ks.quiz.convertQuestion = function (question) {
     return questionResult;
 };
 
+Ks.quiz.validateDate = function(){
+    var startDate = $('#startTime').val()
+    var endDate = $('#endTime').val()
+
+    if(!startDate){
+        startDate = 0
+    }
+
+    if(!endDate){
+        endDate = 0
+    }
+
+    var startDate1 = new Date(startDate);
+    var endDate1 = new Date(endDate);
+    var valid = startDate1 <= endDate1
+
+    if(!valid){
+        $('#error_end_time').text("Please makesure end time is more than start time")
+    } else {
+        $('#error_end_time').text("")
+    }
+
+    return valid
+};
+
+Ks.quiz.initQuiz = function (idSection, idQuiz) {
+    $("#idQuiz").val(idQuiz);
+    $("#idSection").val(idSection);
+    $("#createQuizDialog").modal();
+};
+
 $(function () {
-    $(".editQuizBtn").click(function () {
-        var idQuiz = $(this).attr("id-quiz");
-        $("#idQuiz").val(idQuiz);
-        var idSection = $(this).attr("id-section");
-        $("#idSection").val(idSection);
-        $("#createQuizDialog").modal();
-    });
 
     $(".createQuizBtn").click(function () {
         $("#idQuiz").val("");
