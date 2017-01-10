@@ -30,6 +30,9 @@
     <a class='iconFont-Home' href="/moodle/koolsoft" style="margin-left:3%; vertical-align: middle">
         <i class="fa fa-home" style="color:black;width:45px;"></i>
     </a>
+    <a class='iconFont-Home' href="/moodle/koolsoft/course/?action=new" style="vertical-align: middle">
+        <i class="fa fa-plus-circle" style="color:black;width:60px;"></i>
+    </a>
 
     <div class="pull-right" style="display:inline-block;width:30%; vertical-align: middle; margin-top: 10px;">
         <a class='iconFont-Home' href="/moodle/koolsoft/question/?action=edit" style="margin-left:3%;"><i class="fa fa-book" style="color:black;width:45px;"></i></a>

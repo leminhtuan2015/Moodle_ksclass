@@ -7,29 +7,42 @@
                 <?php echo $course->fullname ?>
             </a>
         </h4>
-        <a type="button" class="btn btn-primary" style="display: inline-block;float: right; margin-top: 10px;"
-           data-container="body"
-           data-html="true"
-           data-toggle="popover"
-           data-placement="bottom"
-           title="Create resources"
-           data-content="
-                <div class='row'>
-                    <div class='col-lg-12'>
-                        <h5 style='text-align: center;'>
-                            <a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a>
-                        </h5>
-                        <h5 style='text-align: center;'>
-                            <a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a>
-                        </h5>
-                        <h5 style='text-align: center;'>
-                            <a href='#' data-toggle='modal' class='createQuizBtn'>Create quiz</a>
-                        </h5>
-                    </div>
-                </div>
-            ">
-            <i class="fa fa-plus-circle" style="color:white;"></i>
-        </a>
+<!--        <a type="button" class="btn btn-primary" style="display: inline-block;float: right; margin-top: 10px;"-->
+<!--           data-container="body"-->
+<!--           data-html="true"-->
+<!--           data-toggle="popover"-->
+<!--           data-placement="bottom"-->
+<!--           title="Create resources"-->
+<!--           data-content="-->
+<!--                <div class='row'>-->
+<!--                    <div class='col-lg-12'>-->
+<!--                        <h5 style='text-align: center;'>-->
+<!--                            <a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a>-->
+<!--                        </h5>-->
+<!--                        <h5 style='text-align: center;'>-->
+<!--                            <a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a>-->
+<!--                        </h5>-->
+<!--                        <h5 style='text-align: center;'>-->
+<!--                            <a href='#' data-toggle='modal' class='createQuizBtn'>Create quiz</a>-->
+<!--                        </h5>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            ">-->
+<!--            <i class="fa fa-plus-circle" style="color:white;"></i>-->
+<!--        </a>-->
+
+
+        <div class="dropdown" style="display: inline-block;float: right; margin-top: 5px;">
+            <a class="btn btn-primary dropdown-toggle"
+                    type="button" data-toggle="dropdown">
+                <i class="fa fa-plus-circle" style="color:white;"></i>
+                <span class="caret"></span></a>
+            <ul class="dropdown-menu menuCustom">
+                <li><a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a></li>
+                <li><a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a></li>
+                <li><a href='#' data-toggle='modal' class='createQuizBtn'>Create quiz</a></li>
+            </ul>
+        </div>
     </div>
 
     <div id="Home" class="tab-pane fade in active">

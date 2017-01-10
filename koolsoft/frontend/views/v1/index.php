@@ -25,9 +25,6 @@
 
 <BODY >
 	<DIV class='panelContent'>
-		<a class='iconFont-Home' href="/moodle/koolsoft/course/?action=new" >
-            <i class="fa fa-plus-circle" style="color:black;width:60px;float:right;"></i>
-        </a>
         <?php require_once ("my_following_classes.php")?>
         <?php require_once ("my_created_classes.php")?>
         <?php require_once ("suggestion_classes.php")?>

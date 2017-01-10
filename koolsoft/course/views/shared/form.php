@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="width: 50%">
 
     <form id="createCourseForm" data-toggle="validator" role="form"
           action="<?php echo "$formAction"; ?>" method="post">
