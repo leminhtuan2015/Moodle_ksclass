@@ -18,6 +18,7 @@ switch ($action) {
     case "loadQuiz":
         $quizid  = optional_param('quizId', 0, PARAM_INT);
         $quiz = $dao->loadOneWithQuestion($quizid);
+        $quiz->timelimit = $quiz->timelimit / 60;
         echo json_encode($quiz);
         break;
     case "loadAllResultQuizForUser":

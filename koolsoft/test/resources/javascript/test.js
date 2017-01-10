@@ -8,6 +8,8 @@ var Ks = Ks || {};
 Ks.test = Ks.test || {};
 Ks.test.numberQuestion = 0;
 Ks.test.idTestCurrent = null;
+Ks.test.idTestInstanceCurrent = null;
+Ks.test.idSectionCurrent = null;
 Ks.test.testPanelCurrent = null;
 
 Ks.test.init = function () {
@@ -37,6 +39,7 @@ Ks.test.genPlayView = function (attempt, questionPanel){
     var questionHtml = "";
     var questionFooterHtml = "";
     questionHtml += "<div class='container'>";
+    questionHtml += "<button style='float: right; margin-right: 50px;' class='editQuizBtn btn btn-primary' onclick='Ks.quiz.initQuiz("+Ks.test.idSectionCurrent +"," + Ks.test.idTestInstanceCurrent + ")' id-quiz='" + Ks.test.idTestCurrent + "' id-section='" + Ks.test.idSectionCurrent + "'> Edit</button>";
     questionHtml += "<h4>Start quiz : " + attempt.quiz.name + "</h4>";
     questionHtml += "<form action='/moodle/koolsoft/test/?action=process' method='post' id='formQuestion' role='form'>";
     var questions = attempt.questions;
@@ -86,6 +89,7 @@ Ks.test.genPlayView = function (attempt, questionPanel){
 Ks.test.genReviewView = function (reviewData, questionPanel){
     var idBtnNewTest = new Date().getTime() + "NewTest";
     var html = "<div class='container'>";
+    html += "<button style='float: right; margin-right: 50px;' class='editQuizBtn btn btn-primary' onclick='Ks.quiz.initQuiz("+Ks.test.idSectionCurrent +"," + Ks.test.idTestInstanceCurrent + ")' id-quiz='" + Ks.test.idTestCurrent + "' id-section='" + Ks.test.idSectionCurrent + "'> Edit</button>";
     html += "<h4>Result quiz : " + reviewData.quizName + "</h4>";
     html += "<div class='sumary'>";
     html += "<label>Started on : "+ reviewData.summarydata["startedon"]["content"] + "</label><br>";
@@ -131,6 +135,8 @@ Ks.test.genReviewView = function (reviewData, questionPanel){
 $(function () {
     $(".showQuizBtn").click(function () {
         Ks.test.idTestCurrent = $(this).attr("id-quiz");
+        Ks.test.idTestInstanceCurrent = $(this).attr("id-quiz-instance");
+        Ks.test.idSectionCurrent = $(this).attr("id-section");
         Ks.test.testPanelCurrent = $($(this).attr("href"));
         var data = {};
         data.action = "preForPlay";

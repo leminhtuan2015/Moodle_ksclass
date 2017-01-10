@@ -23,6 +23,7 @@ switch ($action) {
         echo json_encode(CourseUtil::getSectionEqualParent($idSection));
         break;
     case "testtruong":
+        header('Access-Control-Allow-Origin: *');
         $courses = CourseUtil::getCourses();
         echo json_encode($courses);
         break;
