@@ -93,7 +93,7 @@ class ks_quiz
         return $quizResults;
     }
 
-    public function getData($quizId, $quizName, $quizDesc, $startTime, $endTime, $timeLimit){
+    public function getData($quizId, $quizName, $quizDesc, $startTime, $endTime, $currentSection, $courseid, $sumgrades, $grade,  $timeLimit){
         $quizObject = new stdClass();
         $quizObject->name = $quizName;
         $quizObject->id = $quizId;
@@ -101,12 +101,12 @@ class ks_quiz
 
         $quizObject->timeopen = $startTime;
         $quizObject->timeclose = $endTime;
-        $quizObject->timelimit = 0;
+        $quizObject->timelimit = $timeLimit;
         $quizObject->overduehandling = "autosubmit";
         $quizObject->graceperiod = 0;
         $quizObject->gradecat = 2;
-        $quizObject->grade = 10;
-        $quizObject->sumgrades = 10;
+        $quizObject->grade = $grade;
+        $quizObject->sumgrades = $sumgrades;
         $quizObject->attempts = 0;
         $quizObject->grademethod = 1;
         $quizObject->questionsperpage = 1;
@@ -159,9 +159,9 @@ class ks_quiz
         $quizObject->completionattemptsexhausted = 0;
         $quizObject->completionexpected = 0;
         $quizObject->tags = "";
-        $quizObject->course = 3;
+        $quizObject->course = $courseid;
         $quizObject->coursemodule = 0;
-        $quizObject->section = 4;
+        $quizObject->section = $currentSection;
         $quizObject->module = 16;
         $quizObject->modulename = "quiz";
         $quizObject->instance = 0;
