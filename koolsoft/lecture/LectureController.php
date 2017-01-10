@@ -212,7 +212,7 @@ class LectureController extends ApplicationController {
         $label = new Label();
         $lecturesName = $_POST["name"];
 
-        Logger::log($lecturesName);
+//        Logger::log($lecturesName);
 
         foreach ($lecturesName as $lectureName) {
             if($lectureName){
@@ -230,7 +230,7 @@ class LectureController extends ApplicationController {
             }
         }
 
-        Logger::log($arraySection);
+//        Logger::log($arraySection);
 
         $DB->insert_records("course_sections", $arraySection);
         update_course((object)array('id' => $courseId, 'numsections' => $courseformatoptions['numsections']));
