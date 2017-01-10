@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap.3.3.7.min.css">
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="/moodle/koolsoft/resources/css/select2.min.css">
+<link rel="stylesheet" href="/moodle/koolsoft/resources/css/jquery-ui.min.css">
 
 <script src="/moodle/koolsoft/resources/javascript/koolsoft/basic.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/jquery.3.1.0.min.js"></script>
@@ -17,7 +18,7 @@
 <script src="/moodle/koolsoft/resources/javascript/moment.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/bootstrap-datetimepicker.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/clipboard.min.js"></script>
-<!--<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>-->
+<script src="/moodle/koolsoft/resources/javascript/jquery-ui.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/tinymce/js/tinymce/tinymce.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/select2.min.js"></script>
 

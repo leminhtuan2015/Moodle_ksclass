@@ -147,6 +147,10 @@
         width: calc(100% - 100px);
         float: right;
     }
+
+    .titleCourse {
+        width: calc(100% - 40px);
+    }
 </STYLE>
 
 <script src="/moodle/koolsoft/course/views/v1/resources/course.js"></script>
@@ -179,13 +183,53 @@
     <DIV class='postionContent'>
         <?php require_once("column1.php") ?>
 
-        <div class="panelClass-show">
-            <div class="col-xs-4 col-sm-4 col-md-4" style="padding:0px;">
+        <div class="panelClass-show" id="parent_2_window">
+            <div id="div1">
                 <?php require_once("column2.php") ?>
             </div>
-            <div class="col-xs-8 col-sm-8 col-md-8" style="padding:0px;">
+            <div id="div2">
                 <?php require_once("column3.php") ?>
             </div>
         </div>
     </DIV>
 </DIV>
+
+<style>
+    #parent_2_window{
+        /*position:absolute;*/
+        /*height:100%;*/
+        /*margin:0;*/
+        /*padding:0;*/
+        /*width:100%;*/
+    }
+    #div1{
+        position:relative;
+        float:left;
+        height:100%;
+        width:20%;
+        background-color:#A2A;
+    }
+    #div2{
+        position:relative;
+        float:left;
+        height:100%;
+        width:80%;
+        background-color:#BBB;
+    }
+</style>
+
+<script >
+    $("#div1").resizable();
+    $('#div1').resize(function(){
+        $('#div2').width($("#parent_2_window").width()-$("#div1").width());
+    });
+    $(window).resize(function(){
+        $('#div2').width($("#parent_2_window").width()-$("#div1").width());
+        $('#div1').height($("#parent_2_window").height());
+    });
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+
+</script>

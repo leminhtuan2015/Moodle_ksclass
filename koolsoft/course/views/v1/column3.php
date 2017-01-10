@@ -21,6 +21,7 @@
                 <a class='iconPanel iconRight' style="right:5px;" data-toggle="pill" href="">
                     <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
             </h4>
+
             <div>
                 <?php
                     foreach ($section->modinfo->cms as $cm) {
@@ -28,7 +29,7 @@
                             if($cm->module == ClientUtil::$resourceTypeQuiz){
 //                                include (__DIR__."/lecture_content_quiz.php");
                             }else if($cm->module == ClientUtil::$resourceTypeLable){
-                                echo "$cm->content";
+                                echo "<p style='margin-left: 10px'>$cm->content</p>";
                             }
                         }
                     }
@@ -69,8 +70,6 @@
             include ("edit_lecture.php");
         }
     ?>
-
-
 
 <!--    RENDER MEMBER TAB-->
     <?php require_once ("members.php")?>
