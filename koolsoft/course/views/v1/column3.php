@@ -29,7 +29,7 @@
                             if($cm->module == ClientUtil::$resourceTypeQuiz){
 //                                include (__DIR__."/lecture_content_quiz.php");
                             }else if($cm->module == ClientUtil::$resourceTypeLable){
-                                echo "<p style='margin-left: 10px'>$cm->content</p>";
+                                echo "<div style='margin-left: 20px'>$cm->content</div>";
                             }
                         }
                     }

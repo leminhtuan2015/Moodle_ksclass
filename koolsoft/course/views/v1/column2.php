@@ -12,49 +12,25 @@
            data-html="true"
            data-toggle="popover"
            data-placement="bottom"
-           title="Setting"
-           data-content="">
+           title="Create resources"
+           data-content="
+                <div class='row'>
+                    <div class='col-lg-12'>
+                        <h5 style='text-align: center;'>
+                            <a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a>
+                        </h5>
+                        <h5 style='text-align: center;'>
+                            <a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a>
+                        </h5>
+                        <h5 style='text-align: center;'>
+                            <a href='#' data-toggle='modal' class='createQuizBtn'>Create quiz</a>
+                        </h5>
+                    </div>
+                </div>
+            ">
             <i class="fa fa-plus-circle" style="color:white;"></i>
         </a>
     </div>
-
-<!--    <ul class='dropdown-menu menuCustom'>-->
-<!--        <h5 style='text-align: center; font-weight: bold;'>-->
-<!--            New contents-->
-<!--        </h5>-->
-<!--        <h5 style='text-align: center;'>-->
-<!--            <a data-toggle='modal' data-target='#createChapter'>Create Chapter</a>-->
-<!--        </h5>-->
-<!--        <h5 style='text-align: center;'>-->
-<!--            <a data-toggle='modal' data-target='#createLecture'>Create lecture</a>-->
-<!--        </h5>-->
-<!--        <h5 style='text-align: center;'>-->
-<!--            <a data-toggle='modal' class='createQuizBtn'>Create quiz</a>-->
-<!--        </h5>-->
-<!--    </ul>-->
-
-
-
-
-<!--    <div class="dropdown" style="padding-bottom: 30px;">-->
-<!--        <a class='iconPanel dropdown-toggle' data-toggle="dropdown" style="float:right;">-->
-<!--            <i class="fa fa-plus-circle" style="color:white;"></i>-->
-<!--        </a>-->
-<!--        <ul class="dropdown-menu menuCustom">-->
-<!--            <h5 style="text-align: center; font-weight: bold;">-->
-<!--                New contents-->
-<!--            </h5>-->
-<!--            <h5 style="text-align: center;">-->
-<!--                <a data-toggle="modal" data-target="#createChapter">Create Chapter</a>-->
-<!--            </h5>-->
-<!--            <h5 style="text-align: center;">-->
-<!--                <a data-toggle="modal" data-target="#createLecture">Create lecture</a>-->
-<!--            </h5>-->
-<!--            <h5 style="text-align: center;">-->
-<!--                <a data-toggle="modal" class="createQuizBtn">Create quiz</a>-->
-<!--            </h5>-->
-<!--        </ul>-->
-<!--    </div>-->
 
     <div id="Home" class="tab-pane fade in active">
         <div class="panel-group white_color">
