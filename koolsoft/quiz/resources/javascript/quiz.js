@@ -68,6 +68,8 @@ Ks.quiz.clearDialog = function () {
     $('#chapterSelect option')[0].selected = true;
     $('#lectureSelect').html("");
 
+    Ks.quiz.loadLecture();
+
 };
 
 Ks.quiz.handler = function () {
@@ -210,6 +212,10 @@ Ks.quiz.handler = function () {
 
     $("#saveQuiz").click(function (e) {
         e.preventDefault();
+        if(!$("#lectureSelect").val()){
+            window.alert("Please choice lecture !");
+            return;
+        }
         var questionIds = [];
         var questionNews = [];
         for(var i = 0; i < Ks.quiz.questions.length; i++){
