@@ -22,8 +22,9 @@ class ks_question
 
     public function loadByTag($tags){
         global $DB, $USER;
-        $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM ".$DB->get_prefix()."question q RIGHT JOIN ".$DB->get_prefix()."tag_question t ON q.id = t.id_question AND q.createdby=".$USER->id;
+
         if($tags && count($tags) > 0){
+            $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM ".$DB->get_prefix()."question q RIGHT JOIN ".$DB->get_prefix()."tag_question t ON q.id = t.id_question AND q.createdby=".$USER->id;
             $sqlString = $sqlString." AND t.id_tag IN (";
             $length = count($tags);
             for($i = 0; $i < $length; $i ++){
@@ -32,33 +33,36 @@ class ks_question
                 }else {
                     $sqlString = $sqlString.",".$tags[$i];
                 }
-
             }
             $sqlString = $sqlString.")";
+            $sqlString = $sqlString." order by q.timemodified DESC";
+            $questions = $DB->get_records_sql($sqlString, array());
+        }else {
+            $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM ".$DB->get_prefix()."question q WHERE q.createdby=".$USER->id." order by q.timemodified DESC";
+            $questions = $DB->get_records_sql($sqlString, array());
         }
-        $sqlString = $sqlString." order by q.timemodified DESC";
-        $questions = $DB->get_records_sql($sqlString, array());
         return $questions;
     }
 
     public function create($question){
         global $DB, $USER;
         $questionObject = new stdClass();
-        if($question->id && $question->id != "undefined"){
+        if($question->id && $question->id != "undefined" && $question->id != "null"){
             $questionObject->id = $question->id;
         }
         $questionObject->qtype = $question->qtype;
         $questionObject->createdby = $USER->id;
+        $questionObject->qtype = "multichoice";
         $qtypeobj = question_bank::get_qtype($questionObject->qtype);
         $formQuestion = $this->getData($question->wrongAnswer, $question->question, $question->answer, 0, $questionObject->qtype);
         $questionObject = $qtypeobj->save_question_no_context($questionObject, $formQuestion);
 
         $tags = $question->tags;
-//        // delete old tag
-//        $tagQuestions = $this->loadTagQuestion($questionObject->id);
-//        foreach($tagQuestions as $tagQuestion){
-//            $this->deleteTagQuestion($tagQuestion->id);
-//        }
+        // delete old tag
+        $tagQuestions = $this->loadTagQuestion($questionObject->id);
+        foreach($tagQuestions as $tagQuestion){
+            $this->deleteTagQuestion($tagQuestion->id);
+        }
         // add new tag
         foreach($tags as $tag){
             $tagQuestion = new stdClass();

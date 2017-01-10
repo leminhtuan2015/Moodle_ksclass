@@ -9,8 +9,7 @@
         overflow: hidden;
     }
     .panelContent {
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .table-header {
@@ -92,8 +91,7 @@
     .postionContent {
         position: absolute;
         height: calc(100% - 50px);
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .iconLogout {

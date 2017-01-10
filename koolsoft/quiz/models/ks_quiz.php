@@ -84,9 +84,9 @@ class ks_quiz
 
     public function loadAllResultQuizForUser($idCourse, $idUser){
         global $DB;
-        $sql = "SELECT q.id, q.name, q.sumgrades,a.sumgrades as grade, a.state, a.timemodified  FROM ".$DB->get_prefix()."quiz q"
-                    ."LEFT JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ? AND q.course = ?";
-        $quizResults = $DB->get_records_sql(sql, array($idUser, $idCourse));
+        $sql = "SELECT q.id, q.name, q.sumgrades,a.sumgrades as grade, a.state, a.timefinish  FROM ".$DB->get_prefix()."quiz q "
+                    ."LEFT JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ".$idUser." AND q.course = ".$idCourse;
+        $quizResults = $DB->get_records_sql($sql, array());
         foreach($quizResults as $quizResult){
             $quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
         }
