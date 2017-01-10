@@ -191,7 +191,9 @@ Ks.question.handler = function () {
                     var questions = JSON.parse(results);
                     var questionResults = [];
                     for(var i =0; i < questions.length; i++){
-                        questionResults.push(Ks.question.convertQuestion(questions[i]));
+                        var question = Ks.question.convertQuestion(questions[i]);
+                        question.id = null;
+                        questionResults.push(question);
                     }
                     Ks.question.initCreateQuestion(questionResults);
                     $("#createQuestionDialog").modal();

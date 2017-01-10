@@ -93,7 +93,7 @@ Ks.test.genReviewView = function (reviewData, questionPanel){
     html += "<label>Completed on : "+ reviewData.summarydata["completedon"]["content"] + "</label><br>";
     html += "<label>Time taken : "+ reviewData.summarydata["timetaken"]["content"] + "</label><br>";
     html += "<label>Grade : "+ reviewData.summarydata["grade"]["content"] + "</label><br>";
-    html += "<button id='" + idBtnNewTest + "'>New test</button>";
+    html += "<button id='" + idBtnNewTest + "' class='btn btn-primary' >New test</button>";
     html += "</div>";
     html += "</div>";
     questionPanel.html(html);
