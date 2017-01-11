@@ -66,56 +66,6 @@ Ks.question.handler = function () {
         getByTag()
     });
 
-    $("#showAddToQuizDialog").click(function () {
-        var questionIds= [];
-        for(var i = 0; i < Ks.question.numberQuestion; i++){
-            if($("#" + Ks.question.checkboxQuestionId + i).prop("checked")){
-                var questionId = $("#" + Ks.question.checkboxQuestionId + i).attr("question-id");
-                if(questionId){
-                    questionIds.push(questionId);
-                }
-            }
-        }
-        if(questionIds.length > 0){
-            $("#addToQuizDialog").modal();
-        }
-    });
-
-    $("#showCopyQuestionDialog").click(function () {
-        var questionIds= [];
-        for(var i = 0; i < Ks.question.numberQuestion; i++){
-            if($("#" + Ks.question.checkboxQuestionId + i).prop("checked")){
-                var questionId = $("#" + Ks.question.checkboxQuestionId + i).attr("question-id");
-                if(questionId){
-                    questionIds.push(questionId);
-                }
-            }
-        }
-        if(questionIds.length > 0){
-            var data = {};
-            data.id = JSON.stringify(questionIds);
-            data.action = "listByIds";
-            $.ajax({url: "/moodle/koolsoft/question/rest/question.php",
-                data: data,
-                success: function(results){
-                    var questions = JSON.parse(results);
-                    var questionResults = [];
-                    for(var i =0; i < questions.length; i++){
-                        var question = Ks.question.convertQuestion(questions[i]);
-                        question.id = null;
-                        questionResults.push(question);
-                    }
-                    Ks.question.initCreateQuestion(questionResults);
-                    $("#createQuestionDialog").modal();
-                },
-                error: function () {
-                    console.log("get question error !!!!!");
-                }
-            });
-        }
-
-    });
-
     $("#addQuestionBtn").click(function () {
         Ks.question.addNewQuestion();
     });
@@ -123,14 +73,6 @@ Ks.question.handler = function () {
     $("#showAddQuestionDialog").click(function () {
         Ks.question.initCreateQuestion([]);
         $("#createQuestionDialog").modal();
-    });
-
-    $("#addWrongAnswerBtn").click(function () {
-        Ks.question.numberWrongAnswer ++;
-        var idWrongAnswer = Ks.question.wrongAnswerInputId + (Ks.question.numberWrongAnswer - 1);
-        var html ="<div class='form-group'> <label for='" + idWrongAnswer
-            + "'>Wrong Answer</label> <input class='form-control' placeholder='wrong answer' id='" + idWrongAnswer + "'></div>";
-       $("#questionDiv").append(html);
     });
 
     $("#saveQuestion").click(function () {
