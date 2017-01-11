@@ -225,7 +225,7 @@ Ks.question.handler = function () {
     });
 
     $("#saveQuestion").click(function () {
-        Ks.question.saveQuestion();
+        Ks.question.addQuestion();
     });
 
     $("#deleteQuestionBtn").click(function () {
@@ -378,7 +378,7 @@ Ks.question.genQuestion = function (question, no) {
     Ks.question.numberWrongAnswer = question.wrongAnswer.length;
 };
 
-Ks.question.saveQuestion = function () {
+Ks.question.addQuestion = function () {
     Ks.question.saveQuestionLocal();
     var data = {"questions" : JSON.stringify(Ks.question.questions)};
 

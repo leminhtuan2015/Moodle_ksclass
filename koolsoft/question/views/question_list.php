@@ -26,7 +26,7 @@
                 </td>
             </tr>
 
-            <?php include ("edit_question_dialog.php")?>
+            <?php include ("edit_question_dialog.php") ?>
 
         <?php } ?>
         </tbody>

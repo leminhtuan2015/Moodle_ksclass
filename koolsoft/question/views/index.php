@@ -3,6 +3,16 @@
 <script src="resources/javascript/question.js"></script>
 <script src="resources/javascript/rest_question.js"></script>
 
+
+<?php
+    global $CFG;
+
+    require_once ("create_question_dialog.php");
+    require_once ("add_question_to_quiz_dialog.php");
+    require_once ($CFG->dirroot."/koolsoft/shared/views/alert_dialog.php");
+    require_once ($CFG->dirroot."/koolsoft/shared/views/confirm_dialog.php");
+?>
+
 <div class="container" style="margin-top: 20px">
     <div class="container">
         <a href="#" id="showAddQuestionDialog" class="btn btn-primary">
@@ -23,12 +33,4 @@
     </div>
 </div>
 
-<?php
-global $CFG;
-    require_once ("create_question_dialog.php");
-    require_once ("add_question_to_quiz_dialog.php");
-    require_once ("edit_question_dialog.php");
-    require_once ($CFG->dirroot."/koolsoft/shared/views/alert_dialog.php");
-    require_once ($CFG->dirroot."/koolsoft/shared/views/confirm_dialog.php");
-?>
 

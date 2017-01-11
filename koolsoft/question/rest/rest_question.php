@@ -55,9 +55,9 @@ class rest_question {
 
         // save
         foreach ($questions as $question){
-//            $questionObject = $dao->create($question);
-//            $question->resultText = "Success";
-//            $question->id = $questionObject->id;
+            $questionObject = $dao->create($question);
+            $question->resultText = "Success";
+            $question->id = $questionObject->id;
         }
         echo json_encode($questions);
         return;
