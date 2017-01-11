@@ -7,7 +7,7 @@
 <?php
     global $CFG;
 
-    require_once ("create_question_dialog.php");
+    require_once ("new.php");
     require_once ("add_question_to_quiz_dialog.php");
     require_once ($CFG->dirroot."/koolsoft/shared/views/alert_dialog.php");
     require_once ($CFG->dirroot."/koolsoft/shared/views/confirm_dialog.php");
