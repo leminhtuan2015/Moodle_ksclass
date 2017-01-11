@@ -82,6 +82,30 @@ class CourseUtil {
         return $course;
     }
 
+    public static function getCourseDataAll($id){
+        global $DB;
+
+        $course = CourseUtil::getCourse($id);
+
+        $modinfo = get_fast_modinfo($course);
+        $modnames = get_module_types_names();
+        $modnamesplural = get_module_types_names(true);
+        $modnamesused = $modinfo->get_used_module_names();
+        $mods = $modinfo->get_cms();
+        $sections = $modinfo->get_section_info_all();
+
+        $chapters = $DB->get_records('course_sections', array('course'=>$id, "parent_id"=> 0));
+
+        foreach ($sections as $section){
+//            Logger::log($section->id);
+
+            $courseSection = $DB->get_record('course_sections', array('id'=>$section->id));
+            $section->parent_id = $courseSection->parent_id;
+        }
+
+        return $chapters;
+    }
+
     public static function getMyCourses(){
         global $USER;
 

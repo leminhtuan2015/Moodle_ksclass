@@ -63,11 +63,12 @@ Ks.question.initCreateQuestion = function (questions) {
 };
 
 Ks.question.loadQuestionByTag = function () {
+    return;
     var tag = $("#selectTagSearch").val();
     var data = {};
     data.tag = JSON.stringify(tag);
     data.action = "listByTag";
-    $.ajax({url: "/moodle/koolsoft/question/rest/question.php",
+    $.ajax({url: "/moodle/koolsoft/question/rest/index.php/",
         data: data,
         success: function(results){
             var questions = JSON.parse(results);
@@ -380,7 +381,7 @@ Ks.question.genQuestion = function (question, no) {
 Ks.question.addQuestion = function () {
     Ks.question.saveQuestionLocal();
     var data = {"questions" : JSON.stringify(Ks.question.questions)};
-    $.post({url: "/moodle/koolsoft/question/rest/question.php?action=create"
+    $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
         , data : data
         , success: function(result){
             var questions = JSON.parse(result);

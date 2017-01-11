@@ -15,14 +15,14 @@ require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->dirroot . '/koolsoft/utility/DateUtil.php');
 require_once(__DIR__."/../../../question/type/questiontypebase.php");
 
-global $DB;
+global $DB, $USER;
 $dao = new ks_question();
 
-// action add, update, list, delete
-$action = optional_param('action', "", PARAM_TEXT);
-global $USER;
-switch ($action) {
-    case "create":
+class rest_question {
+
+    public function create(){
+        global $dao;
+
         $questionStrings = optional_param('questions', "", PARAM_TEXT);
         $questions = (array) json_decode($questionStrings);
 
@@ -59,35 +59,53 @@ switch ($action) {
         }
         echo json_encode($questions);
         return;
-        break;
-    case "update":
-        ;
-        break;
-    case "listByTag":
+    }
+
+    public function getByTag(){
+        global $dao;
+
         $tagStrings = optional_param('tag', "", PARAM_TEXT);
+        $data_type = optional_param('data_type', "", PARAM_TEXT);
+
         $tags = (array) json_decode($tagStrings);
-        $questions = $dao->loadByTag($tags);
+        $questions = $dao->getByTag($tags);
         foreach ($questions as $question){
             $question->timemodified = DateUtil::getHumanDate($question->timemodified);
         }
-        echo json_encode($questions);
-        break;
-    case "listByIds":
+
+        if($data_type == "html"){
+            include ("../views/question_list.php");
+        } else {
+            echo json_encode($questions);
+        }
+
+    }
+
+    public function getByIds(){
+        global $dao;
+
         $idStrings = optional_param('id', "", PARAM_TEXT);
         $ids = (array) json_decode($idStrings);
-        $questions = $dao->loadByIds($ids);
+        $questions = $dao->getByIds($ids);
 
         echo json_encode($questions);
-        break;
-    case "one":
+    }
+
+    public function get(){
+        global $dao;
+
         $id = optional_param('id', "", PARAM_INT);
-        $question = $dao->loadOne($id);
+        $question = $dao->get($id);
         echo json_encode($question);
-        break;
-    case "delete":
+    }
+
+    public function delete(){
+        global $dao;
+
         $id = optional_param('id', "", PARAM_TEXT);
         $dao->delete($id);
         echo true;
-        break;
+    }
+
 }
 
