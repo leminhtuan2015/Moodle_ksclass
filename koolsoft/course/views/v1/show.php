@@ -55,39 +55,23 @@
     }
 
     .iconHome {
-        color: #999999;
+        color: white;
         width: 70px;
     }
 
     .iconPanel {
         font-size: 2.3em;
     }
-
-    #activeContainer > ul > a.active i {
-        opacity: 1;
-        color: white;
+    .iconPanelHome {
+        font-size: 2.3em;
     }
-
-    #activeContainer > ul > a.active i:AFTER {
-        top: 100%;
-        left: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        z-index: 9;
+    .iconActiveHome:active, .iconActiveHome:hover, .iconActiveHome.active{
+         background-color: #0091ea !important;
+         
     }
-
-    #activeContainer > ul > a > i {
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        padding: 10px;
-        opacity: 0.3;
-        color: white;
-        position: relative;
+    .menuHome>li>a{
+        border-radius: 0px !important;
     }
-
     .postionContent {
         position: absolute;
         height: calc(100% - 50px);
@@ -95,9 +79,9 @@
     }
 
     .iconLogout {
-        position: absolute;
+        position: absolute !important;
         bottom: 0px;
-        display: block;
+        display: block !important;
         padding-left: 5px;
     }
 
@@ -151,9 +135,11 @@
         width: calc(100% - 100px);
         float: right;
     }
-
     .titleCourse {
         width: calc(100% - 40px);
+    }
+    .lectureTitle:visited, .lectureTitle:hover, .lectureTitle:active,.lectureTitle .active{
+         color: #0091ea !important;
     }
 </STYLE>
 
