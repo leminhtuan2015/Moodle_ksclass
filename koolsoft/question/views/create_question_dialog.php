@@ -60,13 +60,11 @@
                     <br>
                     <br>
                     <div class="form-group">
-                        <button style="float: right; margin-right: 15px;" class="btn btn-primary"  id="addQuestionBtn">Add question</button>
+                        <button style="float: right; margin-right: 15px;" class="btn btn-success"  id="addQuestionBtn">Add</button>
                     </div>
 
                 </div>
                 <div style="display: inline-block;" class="col-md-9">
-
-
                     <div id="questionDiv">
                         <div class="form-group">
                             <label for="questionTxt">Question</label>
@@ -106,7 +104,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button submit" class="btn btn-primary" id="saveQuestion">Save</button>
+                <button type="submit" class="btn btn-primary" id="saveQuestion">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

@@ -14,13 +14,9 @@ require_once(__DIR__.'/../../../question/editlib.php');
 require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/formslib.php');
 require_once(__DIR__."/../../../question/type/questiontypebase.php");
-class ks_question
-{
-    function __construct() {
 
-    }
-
-    public function loadByTag($tags){
+class ks_question{
+    public function getByTag($tags){
         global $DB, $USER;
 
         if($tags && count($tags) > 0){
@@ -54,8 +50,8 @@ class ks_question
         $questionObject->createdby = $USER->id;
         $questionObject->qtype = "multichoice";
         $qtypeobj = question_bank::get_qtype($questionObject->qtype);
-        $formQuestion = $this->getData($question->wrongAnswer, $question->question, $question->answer, 0, $questionObject->qtype);
-        $questionObject = $qtypeobj->save_question_no_context($questionObject, $formQuestion);
+        $data = $this->buildQuestionObject($question->wrongAnswer, $question->question, $question->answer, 0, $questionObject->qtype);
+        $questionObject = $qtypeobj->save_question_no_context($questionObject, $data);
 
         $tags = $question->tags;
         // delete old tag
@@ -92,7 +88,7 @@ class ks_question
         $DB->delete_records("tag_question", array("id"=>$id));
     }
 
-    public function loadOne($id){
+    public function get($id){
         global $DB;
         $param = array("id" => $id);
         $question = $DB->get_record("question", $param);
@@ -109,7 +105,7 @@ class ks_question
         return $question;
     }
 
-    public function loadByIds($ids){
+    public function getByIds($ids){
         global $DB;
         $questions = array();
         foreach ($ids as $id){
@@ -156,8 +152,7 @@ class ks_question
         }
     }
 
-
-    public function getData($wrongAnswers, $questionText, $answer, $categoryId, $qtype){
+    private function buildQuestionObject($wrongAnswers, $questionText, $answer, $categoryId, $qtype){
         $question = new stdClass();
         $question->category = $categoryId;
 

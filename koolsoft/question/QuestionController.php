@@ -21,11 +21,11 @@ class QuestionController extends ApplicationController {
         parent::__construct();
     }
 
-    public function edit($idCategory) {
+    public function index($idCategory) {
         $daoQuestionCategories = new ks_question_categories();
         $returnUrl = optional_param("returnUrl", "", PARAM_TEXT);
         $category = $daoQuestionCategories->loadCategory($idCategory);
-        require_once(__DIR__.'/views/show.php');
+        require_once(__DIR__.'/views/index.php');
     }
 
 }
