@@ -4,7 +4,7 @@
         <?php if($sectionLecture->parent_id == $sectionChapter->id){ ?>
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a href="#lecture<?php echo $sectionLecture->id ?>" class="btHTML" data-toggle="pill">
+                    <a href="#lecture<?php echo $sectionLecture->id ?>" class="btHTML lectureTitle" data-toggle="pill">
                         <?php echo $sectionLecture->name ?>
                     </a>
                     <br>
