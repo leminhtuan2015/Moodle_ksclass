@@ -63,7 +63,7 @@ Ks.question.initCreateQuestion = function (questions) {
 };
 
 Ks.question.loadQuestionByTag = function () {
-    return;
+    return; //STUPID
     var tag = $("#selectTagSearch").val();
     var data = {};
     data.tag = JSON.stringify(tag);
@@ -225,7 +225,7 @@ Ks.question.handler = function () {
     });
 
     $("#saveQuestion").click(function () {
-        Ks.question.addQuestion();
+        Ks.question.saveQuestion();
     });
 
     $("#deleteQuestionBtn").click(function () {
@@ -378,7 +378,7 @@ Ks.question.genQuestion = function (question, no) {
     Ks.question.numberWrongAnswer = question.wrongAnswer.length;
 };
 
-Ks.question.addQuestion = function () {
+Ks.question.saveQuestion = function () {
     Ks.question.saveQuestionLocal();
     var data = {"questions" : JSON.stringify(Ks.question.questions)};
     $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
@@ -398,6 +398,8 @@ Ks.question.addQuestion = function () {
 
             $("#createQuestionDialog").modal('hide');
             Ks.question.loadQuestionByTag();
+
+            getByTag();
         }
     });
 };

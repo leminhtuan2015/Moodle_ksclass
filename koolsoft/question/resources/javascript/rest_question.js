@@ -10,7 +10,7 @@ function getByTag(){
     $.ajax({url: "/moodle/koolsoft/question/rest/index.php/",
         data: data,
         success: function(htmlResponse){
-           $("#question_list").replaceWith(htmlResponse);
+           $("#question_list").html(htmlResponse);
         },
         error: function () {
             console.log("get question error !!!!!");

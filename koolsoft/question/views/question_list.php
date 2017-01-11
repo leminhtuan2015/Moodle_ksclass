@@ -7,7 +7,7 @@
         </tr>
         </thead>
 
-        <tbody id="idBodyTableQuestion">
+        <tbody>
         <?php foreach ($questions as $question) { ?>
             <tr>
                 <td><?php echo $question->id ?></td>
