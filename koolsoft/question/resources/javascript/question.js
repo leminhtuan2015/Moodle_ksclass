@@ -381,6 +381,9 @@ Ks.question.genQuestion = function (question, no) {
 Ks.question.saveQuestion = function () {
     Ks.question.saveQuestionLocal();
     var data = {"questions" : JSON.stringify(Ks.question.questions)};
+
+    alert(JSON.stringify(Ks.question.questions));
+
     $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
         , data : data
         , success: function(result){

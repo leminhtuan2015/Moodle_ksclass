@@ -10,12 +10,12 @@
 
 </style>
 
-<div id="editQuestionDialog" class="modal fade" role="dialog">
+<div id="editQuestionDialog<?php echo $question->id ?>" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" id="">Edit questions</h4>
+                <h4 class="modal-title" id="">Edit question: <?php echo $question->data->questiontext ?></h4>
             </div>
             <div class="modal-body">
                     <div id="questionDiv">
@@ -25,28 +25,24 @@
                         </div>
                         <div class="form-group">
                             <label for="questionEditTxt">Question</label>
-                            <input class="form-control" placeholder="question" id="questionEditTxt">
+                            <textarea class="form-control" placeholder="question" id="questionEditTxt"><?php if($question->data->questiontext){echo $question->data->questiontext;}?></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="answerEditTxt">Answer</label>
-                            <input class="form-control" placeholder="answer" id="answerEditTxt">
-                        </div>
-                        <div class="form-group">
-                            <label for="wrongAnserEditTxt0">Wrong Answer</label>
-                            <input class="form-control" placeholder="wrong answer" id="wrongAnserEditTxt0">
-                        </div>
-                        <div class="form-group">
-                            <label for="wrongAnserEditTxt1">Wrong Answer</label>
-                            <input class="form-control" placeholder="wrong answer" id="wrongAnserEditTxt1">
-                        </div>
-                        <div class="form-group">
-                            <label for="wrongAnserEditTxt2">Wrong Answer</label>
-                            <input class="form-control" placeholder="wrong answer" id="wrongAnserEditTxt2">
-                        </div>
+
+                        <label>Answers</label>
+
+                        <?php foreach ($question->data->options->answers as $answer) { ?>
+                            <div class="form-group">
+                                <input type="radio" name="correct_answer<?php echo $question->id ?>" value="1" <?php if($answer->fraction > 0){ echo "checked";}?> >
+                                <input class="" placeholder="answer" value="<?php echo $answer->answer ?>">
+                            </div>
+                        <?php } ?>
+
+
                         <div class="form-group">
                             <label for="selectTagEditQuestion">Tags</label>
                             <select multiple="true" style="width: 100%" id="selectTagEditQuestion"> </select>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <label style="display: none; color: #ff5f50;" id="editQuestionErrorText"></label>

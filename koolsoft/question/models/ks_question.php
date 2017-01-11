@@ -97,6 +97,7 @@ class ks_question{
         // get tag for question
         $tagQuestions = $this->loadTagQuestion($id);
         $tags = array();
+
         foreach($tagQuestions as $tagQuestion){
             array_push($tags, $tagQuestion->id_tag);
         }
@@ -135,12 +136,14 @@ class ks_question{
         return $questions;
     }
     public function delete($id){
+        global $DB;
+
 //        question_require_capability_on($id, 'edit');
         $tagQuestions = $this->loadTagQuestion($id);
         foreach($tagQuestions as $tagQuestion){
             $this->deleteTagQuestion($tagQuestion->id);
         }
-        global $DB;
+
         $tagQuestions = $this->loadTagQuestion($id);
         foreach($tagQuestions as $tagQuestion){
             $this->deleteTagQuestion($tagQuestion->id);
