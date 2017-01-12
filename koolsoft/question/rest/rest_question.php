@@ -26,6 +26,8 @@ class rest_question {
         $questionStrings = optional_param('questions', "", PARAM_TEXT);
         $questions = (array) json_decode($questionStrings);
 
+        error_log(print_r($questions, true));
+
         // validation
         foreach ($questions as $question){
             if(!$question->question){
@@ -62,15 +64,20 @@ class rest_question {
     }
 
     public function getByTag(){
-        global $dao;
+        global $dao, $DB;
 
         $tagStrings = optional_param('tag', "", PARAM_TEXT);
         $data_type = optional_param('data_type', "", PARAM_TEXT);
 
         $tags = (array) json_decode($tagStrings);
         $questions = $dao->getByTag($tags);
+
         foreach ($questions as $question){
             $question->timemodified = DateUtil::getHumanDate($question->timemodified);
+            $question_data = $dao->get($question->id);
+            $question->data = $question_data;
+
+//            error_log(print_r($question, true));
         }
 
         if($data_type == "html"){
