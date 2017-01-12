@@ -35,4 +35,7 @@ if($action == "create"){
 
 } else if($action == "delete"){
     $controller->delete();
+
+} else if($action == "show"){
+    $controller->show();
 }
