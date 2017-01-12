@@ -74,8 +74,8 @@ class rest_question {
 
         foreach ($questions as $question){
             $question->timemodified = DateUtil::getHumanDate($question->timemodified);
-            $question_data = $dao->get($question->id);
-            $question->data = $question_data;
+//            $question_data = $dao->get($question->id);
+//            $question->data = $question_data;
 
 //            error_log(print_r($question, true));
         }

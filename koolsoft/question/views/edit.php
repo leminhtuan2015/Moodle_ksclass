@@ -63,7 +63,7 @@
                 success: function () {
                     $("#editQuestionDialog<?php echo $question->id ?>").modal('hide');
 
-                    getByTag();
+//                    getByTag();
                 }
             });
         });

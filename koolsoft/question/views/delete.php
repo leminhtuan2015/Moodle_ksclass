@@ -12,7 +12,8 @@
             data : data,
             success: function(result){
                 if(result){
-                    getByTag()
+                    $("#question_list_table_row_<?php echo $question->id ?>").html("")
+
                 }else {
                     $("#alertContent").html("Can not delete question!");
                 }
