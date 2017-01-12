@@ -26,41 +26,48 @@ class rest_question {
         $questionStrings = optional_param('questions', "", PARAM_TEXT);
         $questions = (array) json_decode($questionStrings);
 
-        error_log(print_r($questions, true));
-
-        // validation
-        foreach ($questions as $question){
-            if(!$question->question){
-                $question->resultText = "Question is empty!";
-                echo json_encode($questions);
-                return;
-            }else if(!$question->answer){
-                $question->resultText = "Answer is empty!";
-                echo json_encode($questions);
-                return;
-            }else if(!$question->wrongAnswer || count($question->wrongAnswer) <= 0){
-                $question->resultText = "Wrong Answer is empty!";
-                echo json_encode($questions);
-                return;
-            }else {
-                foreach ($question->wrongAnswer as $wrongAnswer){
-                    if(!$wrongAnswer){
-                        $question->resultText = "Wrong Answer is empty!";
-                        echo json_encode($questions);
-                        return;
-                    }
-                }
-            }
-        }
+//        error_log(print_r($questions, true));
 
         // save
         foreach ($questions as $question){
             $questionObject = $dao->create($question);
             $question->resultText = "Success";
             $question->id = $questionObject->id;
+
+            echo "<tr id='question_list_table_row_$question->id'>";
+            include ("../views/question_row.php");
+            echo "</tr>";
         }
-        echo json_encode($questions);
-        return;
+    }
+
+    public function edit(){
+        global $dao;
+
+        $id = optional_param('id', "", PARAM_TEXT);
+        $question = $dao->get($id);
+        $question->data = $question;
+
+        include ("../views/edit.php");
+    }
+
+    public function update(){
+        global $dao;
+
+        $questionStrings = optional_param('questions', "", PARAM_TEXT);
+        $questions = (array) json_decode($questionStrings);
+
+        $question = null;
+
+        foreach ($questions as $q){
+            $questionObject = $dao->create($q);
+            $q->resultText = "Success";
+            $q->id = $questionObject->id;
+
+            $question = $q;
+        }
+//        error_log(print_r($question, true));
+
+        include ("../views/question_row.php");
     }
 
     public function getByTag(){
@@ -74,9 +81,6 @@ class rest_question {
 
         foreach ($questions as $question){
             $question->timemodified = DateUtil::getHumanDate($question->timemodified);
-//            $question_data = $dao->get($question->id);
-//            $question->data = $question_data;
-
 //            error_log(print_r($question, true));
         }
 
