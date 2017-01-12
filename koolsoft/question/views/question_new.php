@@ -21,58 +21,142 @@
             <button href="#" id="add_question" class="btn btn-success pull-left">
                 <span class="glyphicon glyphicon-plus-sign"></span>
             </button>
-            <button form="<?php echo $form_id ?>" type="submit" class="btn btn-primary" id="saveEditQuestion">Save</button>
+            <button form="<?php echo $form_id ?>" type="submit" class="btn btn-primary" id="saveNewQuestion">Save</button>
         </div>
     </div>
 </div>
 
 <script>
     var questionsData = []
+    var currentQuestionNumber = 0
+    var currentQuestionActiveIndex = 0
 
     function clear(){
         questionsData = []
-        $("#new_question_list").empty();
-    }
+        currentQuestionNumber = 0
 
-    function prepareData() {
-        questionsData.push({"questionText": new Date() + ""})
+        $("#new_question_list").empty();
+        $("#new_question_question_text").val("")
     }
     
-    function renderQuestionLink() {
+    function emptyForm() {
+        $("#new_question_question_text").val("")
+    }
+
+    function createEmptyQuestionData() {
+        var question = {
+            "id": "",
+            "question": "",
+            "answer": "Hello",
+            "wrongAnswer": ["1","2","3"],
+            "tags": [],
+            "qtype": "multichoice"
+        }
+        questionsData[currentQuestionNumber] = question
+    }
+    
+    function appendQuestionLinkWhenCreateNew() {
         $("#new_question_list").empty();
 
         for (var i = 0; i < questionsData.length; i++) {
-            var link = "<a href='#' " + "id='" + "question_" + i +"'" + ">" + "Question : " + i + "</a><br>"
+            var link = "<a href='#' class='question_link' " + "id='" + "question_" + i +"'" + ">" + "Question : " + i + "</a><br>"
             $("#new_question_list").append(link);
 
             $("#question_"+i).click(function (event) {
                 id = event.target.id.replace("question_", "")
-                alert(id)
-                renderQuestionToForm(id)
+
+                setActiveHtmlQuestionLink(id)
+                displayQuestionDataToForm(id)
             });
         }
+
+        setActiveHtmlQuestionLink(currentQuestionNumber)
+    }
+
+    function setActiveHtmlQuestionLink(id){
+        $(".question_link").css('color', '');
+        $("#question_"+id).css('color', 'red');
+
+        currentQuestionActiveIndex = id
     }
     
-    function renderQuestionToForm(id) {
+    function displayQuestionDataToForm(id) {
         question = questionsData[id]
-
-        alert(JSON.stringify(question))
+//        alert(JSON.stringify(questionsData))
+        $("#new_question_question_text").val(question.question)
     }
 
-    function saveQuestion(){
-        questionsData.push({"questionText": new Date() + ""})
+    function saveQuestionOnLocal(){
+        questionTextVal = $("#new_question_question_text").val()
+
+        question = questionsData[currentQuestionActiveIndex]
+
+        question.question = questionTextVal
+    }
+    
+    function isLastQuestionIsActive() {
+        return currentQuestionActiveIndex == currentQuestionNumber
+    }
+    
+    function validateNewQuestionForm() {
+        if(isLastQuestionIsActive()){
+            questionText = $("#new_question_question_text").val()
+
+            if(!questionText){
+                return false
+            }
+        } else {
+            lastQuestion = questionsData[currentQuestionNumber]
+
+            if(!lastQuestion.question){
+                displayQuestionDataToForm(currentQuestionNumber)
+                setActiveHtmlQuestionLink(currentQuestionNumber)
+                return false
+            }
+        }
+
+        return true
     }
 
     $("#open_new_question_diaglog").click(function () {
         clear()
-        prepareData()
-        renderQuestionLink()
+        createEmptyQuestionData()
+        appendQuestionLinkWhenCreateNew()
+        displayQuestionDataToForm(0)
+    });
+
+    $("#saveNewQuestion").click(function () {
+
+//       {"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
+
+        var data = {"questions" : JSON.stringify(questionsData)};
+
+        $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
+            , data : data
+            , success: function(result){
+                $("#newQuestionDialog").modal().hide()
+                getByTag();
+            }
+        });
     });
 
     $("#add_question").click(function () {
-        saveQuestion()
 
-        renderQuestionLink()
+        if(!validateNewQuestionForm()){
+            alert("Please fill the form")
+            return
+        }
+
+        emptyForm()
+
+        currentQuestionNumber += 1
+
+        createEmptyQuestionData()
+        appendQuestionLinkWhenCreateNew()
+    });
+
+    $( ".new_question_input" ).change(function() {
+        saveQuestionOnLocal()
     });
 
 
