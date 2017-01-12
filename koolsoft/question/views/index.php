@@ -8,7 +8,6 @@
 <?php
     global $CFG;
 
-    require_once ("new.php");
     require_once ($CFG->dirroot."/koolsoft/shared/views/alert_dialog.php");
     require_once ($CFG->dirroot."/koolsoft/shared/views/confirm_dialog.php");
 ?>
