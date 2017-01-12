@@ -8,7 +8,8 @@
 
         <?php for ($i = 0; $i < 4; $i++) { ?>
             <div class="form-group">
-                <input class="new_question_input" type="radio" name="new_question_correct_answer" id="correct_answer<?php echo $i?>">
+                <input class="new_question_input" type="radio" name="new_question_correct_answer"
+                       id="new_question_correct_answer<?php echo $i?>" <?php if($i==0){echo "checked";} ?> >
                 <input class="new_question_input" id="new_question_question_answer<?php echo $i?>" placeholder="answer"">
             </div>
         <?php } ?>

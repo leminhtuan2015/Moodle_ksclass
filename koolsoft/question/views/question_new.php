@@ -47,7 +47,7 @@
         var question = {
             "id": "",
             "question": "",
-            "answer": "Hello",
+            "answer": "Answer",
             "wrongAnswer": ["1","2","3"],
             "tags": [],
             "qtype": "multichoice"
@@ -87,11 +87,28 @@
     }
 
     function saveQuestionOnLocal(){
-        questionTextVal = $("#new_question_question_text").val()
-
         question = questionsData[currentQuestionActiveIndex]
 
+        questionTextVal = $("#new_question_question_text").val()
+        wrongAnswer = []
+        correctAnswer = "Answer"
+
+        <?php for ($i = 0; $i < 4; $i++) { ?>
+            answer = $("#new_question_question_answer<?php echo $i ?>").val()
+            correct = $('input[id=new_question_correct_answer<?php echo $i ?>]:checked').val()
+
+            if(correct){
+                correctAnswer = answer
+                if(!correctAnswer){correctAnswer = "Correct_Answer"}
+            } else {
+                if(!answer){answer = "Answer_<?php echo $i ?>"}
+                wrongAnswer.push(answer)
+            }
+        <?php } ?>
+
         question.question = questionTextVal
+        question.answer = correctAnswer
+        question.wrongAnswer = wrongAnswer;
     }
     
     function isLastQuestionIsActive() {
@@ -130,6 +147,8 @@
 //       {"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
 
         var data = {"questions" : JSON.stringify(questionsData)};
+
+//        alert(JSON.stringify(data))
 
         $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
             , data : data
