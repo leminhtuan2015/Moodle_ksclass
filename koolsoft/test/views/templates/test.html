@@ -1,0 +1,72 @@
+<script id="templateTest" type="x-tmpl-mustache">
+    <div class="container">
+        <button style="float: right; margin-right: 50px;" class="editQuizBtn btn btn-primary" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})"> Edit</button>
+        <h4>Start quiz : {{attempt.quiz.name}}</h4>
+        <div class="row">
+            <div class="col-sm-9">
+                <form action="/moodle/koolsoft/test/?action=process" method="post" id="formQuestion" role="form">
+                    {{#attempt.questions}}
+                        <div id="questionDiv{{index}}">
+                            <label> Question {{index}} : {{questiontext}}</label> <br>
+                            <input is-submit="true" type="hidden" name="{{sequencecheckName}}" value="{{sequencecheckValue}}">
+                             {{#answers}}
+                                <input is-submit="true" type="radio" value="{{fieldValue}}" name-answer-field="{{fieldClass}}Right" class="{{fieldClass}} answerQuestionLeft"  name="{{fieldName}}"><label>{{answer}}</label> <br>
+                             {{/answers}}
+                        </div>
+                    {{/attempt.questions}}
+
+                    <input type="hidden" is-submit="true" name="action" value="process">
+                    <input type="hidden" is-submit="true" name="finishattempt" value="true">
+                    <input type="hidden" is-submit="true" name="attempt" value="{{attempt.id}}">
+                    <input type="hidden" is-submit="true" name="thispage" value="0">
+                    <input type="hidden" is-submit="true" name="nextpage" value="-1">
+                    <input type="hidden" is-submit="true" name="timeup" value="0" id="timeup">
+                    <input type="hidden" is-submit="true" name="scrollpos" value="" id="scrollpos">
+                    <input type="hidden" is-submit="true" name="slots" value="{{attempt.slotString}}">
+                </form>
+                <input type="hidden" id="numberQuestion" value="{{attempt.questions.length}}">
+                <button id="btnSubmitFormQuestion" class="btn btn-primary"> Finish test </button>
+            </div>
+            <div class="col-sm-3">
+                {{#attempt.questions}}
+                    <div style="border: black solid 1px; background-color: white; padding: 7px;" class="btn-group" data-toggle="buttons">
+                        <label>{{index}}</label>
+                        {{#answers}}
+                        <label style="float:none ;border-radius: 100%;" name="{{fieldClass}}Right" answer-value="{{fieldValue}}"  name-answer-field="{{fieldClass}}" class="answerQuestionRight btn btn-primary" >
+                            <input type="radio"/>{{label}}
+                        </label>
+                        {{/answers}}
+                    </div>
+                {{/attempt.questions}}
+            </div>
+        <div class="row">
+    </div>
+</script>
+
+<script id="templateTestReview" type="x-tmpl-mustache">
+    <div class="container">
+        <button style="float: right; margin-right: 50px;" class="editQuizBtn btn btn-primary" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})"> Edit</button>
+        <div>
+            <h4 style="display: inline-block;">Review quiz : {{attempt.quiz.name}}</h4>
+            <button style="display: inline-block;" id="{{idBtnNewTest}}" class="btn btn-primary" >New test</button>
+        </div>
+        <label>Started on : {{attempt.summarydata.startedon.content}}</label><br>
+        <label>Completed on : {{attempt.summarydata.completedon.content}}</label><br>
+        <label>Time taken : {{attempt.summarydata.timetaken.content}}</label><br>
+        <label>Grade on : {{attempt.sumgrades}}/ {{attempt.quiz.sumgrades}}</label><br>
+        <button data-toggle="collapse" class="btn btn-primary" data-target="#questionResultDetail">Show detail</button>
+
+        <div id="questionResultDetail" class="collapse">
+            {{#attempt.questions}}
+                <div >
+                    <label> Question {{index}} : {{questiontext}}</label> <br>
+                     {{#answers}}
+                        <input disabled {{#answered}} checked {{/answered}} type="radio" ><label>{{answer}}</label>
+                         {{#answered}} {{^correct}} <span class="glyphicon glyphicon-remove"></span> {{/correct}} {{/answered}}
+                         {{#correct}} <span class="glyphicon glyphicon-ok"></span> {{/correct}} <br>
+                     {{/answers}}
+                </div>
+            {{/attempt.questions}}
+        </div>
+    </div>
+</script>

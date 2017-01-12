@@ -741,7 +741,6 @@ function question_preload_questions($questionids = null, $extrafields = '', $joi
         $question->category = 0;
     }
 
-    error_log(json_encode($questions));
     return $questions;
 }
 

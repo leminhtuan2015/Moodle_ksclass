@@ -5,7 +5,8 @@
  * Date: 1/9/17
  * Time: 11:03 AM
  */
-
+    global $CFG;
+    include($CFG->dirroot.'/koolsoft/test/views/templates/test.html');
 ?>
 <div id='quiz<?php echo $cm->id?>' class='tab-pane fade in'>
     <input id='quizPlayId' style="display: none" value='<?php echo $cm->id?>'>

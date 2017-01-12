@@ -16,7 +16,7 @@
             <ul class="dropdown-menu menuCustom">
                 <li><a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a></li>
                 <li><a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a></li>
-                <li><a href='#' data-toggle='modal' class='createQuizBtn'>Create quiz</a></li>
+                <li><a data-toggle='modal' class='createQuizBtn'>Create quiz</a></li>
             </ul>
         </div>
     </div>

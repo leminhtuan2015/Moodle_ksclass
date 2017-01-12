@@ -55,7 +55,7 @@ Ks.quiz.init = function () {
         }
     });
 
-    $('#createQuizDialog').on('shown.bs.modal', function() {
+    $("#createQuizDialog").on("shown.bs.modal", function() {
         Ks.quiz.clearDialog();
         var idQuiz = $("#idQuiz").val();
         if(idQuiz){
@@ -77,8 +77,8 @@ Ks.quiz.clearDialog = function () {
     $("#startTime").val("");
     $("#endTime").val("");
 
-    $('#chapterSelect option')[0].selected = true;
-    $('#lectureSelect').html("");
+    $("#chapterSelect option")[0].selected = true;
+    $("#lectureSelect").html("");
 
     if($("#idQuiz").val()){
         $("#questionMainPanel").css("display", "block");
@@ -165,7 +165,7 @@ Ks.quiz.handler = function () {
             var data = {};
             data.action = "listByIds";
             data.id = JSON.stringify(questionIds);
-            $.ajax({url: "/moodle/koolsoft/question/rest/question.php?",
+            $.ajax({url: "/moodle/koolsoft/question/rest",
                 data: data,
                 success: function(results){
                     var questions = JSON.parse(results);
@@ -219,32 +219,40 @@ Ks.quiz.handler = function () {
                 questionIds.push(question.id);
             }
         }
-
-        var data = {"questions" : JSON.stringify(questionNews)};
-        $.post({url: "/moodle/koolsoft/question/rest/question.php?action=create"
-            , data : data
-            , success: function(result){
-                var questions = JSON.parse(result);
-                var keys = Object.keys(questions);
-                for(var i = 0; i < keys.length ; i++){
-                    var question = questions[keys[i]];
-                    if(question.resultText != "Success"){
-                        Ks.quiz.genDetailQuestion(question, question.index);
-                        $("#createQuestionErrorText").html(question.resultText);
-                        $("#createQuestionErrorText").css("display", "block");
-                        return;
+        if(questionNews.length > 0){
+            var data = {"questions" : JSON.stringify(questionNews)};
+            data.action = "create";
+            $.post({url: "/moodle/koolsoft/question/rest"
+                , data : data
+                , success: function(result){
+                    var questions = JSON.parse(result);
+                    var keys = Object.keys(questions);
+                    for(var i = 0; i < keys.length ; i++){
+                        var question = questions[keys[i]];
+                        if(question.resultText != "Success"){
+                            Ks.quiz.genDetailQuestion(question, question.index);
+                            $("#createQuestionErrorText").html(question.resultText);
+                            $("#createQuestionErrorText").css("display", "block");
+                            return;
+                        }
                     }
+
+                    for(var i = 0; i < keys.length ; i++) {
+                        var question = questions[keys[i]];
+                        questionIds.push(question.id);
+                    }
+
+                    Ks.quiz.submitForm(questionIds);
+
+                }, error: function(){
+                    console.log("create question error");
                 }
 
-                for(var i = 0; i < keys.length ; i++) {
-                    var question = questions[keys[i]];
-                    questionIds.push(question.id);
-                }
+            });
+        }else {
+            Ks.quiz.submitForm(questionIds);
+        }
 
-                $("#idQuestions").val(questionIds.toString());
-                $("#formQuiz").submit();
-            }
-        });
     });
 
     $("#selectTagSearch").change(function(){
@@ -263,6 +271,11 @@ Ks.quiz.handler = function () {
     });
 };
 
+Ks.quiz.submitForm = function (questionIds) {
+    $("#idQuestions").val(questionIds.toString());
+    $("#formQuiz").submit();
+};
+
 Ks.quiz.loadQuiz= function (quizId) {
     var data = {};
     data.action = "loadQuiz";
@@ -273,8 +286,8 @@ Ks.quiz.loadQuiz= function (quizId) {
             $("#nameQuiz").val(quiz.name);
             $("#descQuiz").val(quiz.intro);
 
-            $('#startTime').val(quiz.timeopen);
-            $('#endTime').val(quiz.timeclose);
+            $("#startTime").val(quiz.timeopen);
+            $("#endTime").val(quiz.timeclose);
 
             //load chapter and lecture
             var data= {};
@@ -335,6 +348,7 @@ Ks.quiz.showTimePanel = function (typeQuiz, timeLimit) {
 };
 
 Ks.quiz.genQuestionTitle = function () {
+    $("#questionMainPanel").css("display", "block");
     $("#listQuestion").html("");
     var idQuestions = [];
     for(var i=0; i < Ks.quiz.questions.length; i++){
@@ -418,10 +432,10 @@ Ks.quiz.genDetailQuestion = function (question, index) {
     $("#removeOneQuestionBtn").css("display", "inline-block");
     if(question.id && question.id != "undefined"){
         $("#saveOneQuestionBtn").css("display", "none");
-        $('#selectTagCreateQuestion').select2("enable", false);
+        $("#selectTagCreateQuestion").select2("enable", false);
     }else {
         $("#saveOneQuestionBtn").css("display", "inline-block");
-        $('#selectTagCreateQuestion').select2("enable");
+        $("#selectTagCreateQuestion").select2("enable");
     }
 
 };
@@ -446,7 +460,7 @@ Ks.quiz.loadQuestionByTag = function () {
     var data = {};
     data.tag = JSON.stringify(tag);
     data.action = "listByTag";
-    $.ajax({url: "/moodle/koolsoft/question/rest/question.php",
+    $.ajax({url: "/moodle/koolsoft/question/rest",
         data: data,
         success: function(results){
             var questions = JSON.parse(results);
@@ -517,8 +531,8 @@ Ks.quiz.convertQuestion = function (question) {
 };
 
 Ks.quiz.validateDate = function(){
-    var startDate = $('#startTime').val()
-    var endDate = $('#endTime').val()
+    var startDate = $("#startTime").val()
+    var endDate = $("#endTime").val()
 
     if(!startDate){
         startDate = 0
@@ -530,15 +544,15 @@ Ks.quiz.validateDate = function(){
 
     var startDate1 = new Date(startDate);
     var endDate1 = new Date(endDate);
-    var valid = startDate1 <= endDate1
+    var valid = startDate1 <= endDate1;
 
     if(!valid){
-        $('#error_end_time').text("Please makesure end time is more than start time")
+        $("#error_end_time").text("Please makesure end time is more than start time");
     } else {
-        $('#error_end_time').text("")
+        $("#error_end_time").text("");
     }
 
-    return valid
+    return valid;
 };
 
 Ks.quiz.initQuiz = function (idSection, idQuiz) {

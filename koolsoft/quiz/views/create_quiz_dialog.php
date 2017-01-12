@@ -5,6 +5,7 @@
  * Date: 1/6/17
  * Time: 1:41 PM
  */
+
 ?>
 <script src="/moodle/koolsoft/quiz/resources/javascript/quiz.js"></script>
 <div id="createQuizDialog" class="modal fade" role="dialog" style="overflow-y: auto;">
@@ -67,7 +68,7 @@
                         </div>
                         <div style="display: inline-block; width: 49%" id="timeLimitPanel">
                             <label style="display: inline-block;vertical-align: middle;width: 20%;">Time limit( mins)</label>
-                            <input required type="number" min="0" step="1" style="display: inline-block; width: 79%;" class="form-control" name="timeLimit" id="timeLimit">
+                            <input type="number" min="0" step="1" style="display: inline-block; width: 79%;" class="form-control" name="timeLimit" id="timeLimit">
                         </div>
                     </div>
                     <br>
@@ -76,7 +77,7 @@
                             <label style="display: inline-block;vertical-align: middle;width: 20%;">Time start</label>
                             <div style="width: 79%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerStart'>
-                                    <input required name="startTime" id="startTime" type='text' class="form-control" />
+                                    <input name="startTime" id="startTime" type='text' class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -87,7 +88,7 @@
                             <label style="display: inline-block;vertical-align: middle;width: 20%;">Time end</label>
                             <div style="width: 79%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerEnd'>
-                                    <input required name="endTime" id="endTime" type='text' class="form-control" />
+                                    <input name="endTime" id="endTime" type='text' class="form-control" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>

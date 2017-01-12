@@ -11,46 +11,17 @@ require_once(__DIR__."/../../config.php");
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once($CFG->dirroot . '/koolsoft/quiz/models/ks_quiz.php');
+require_once($CFG->dirroot . '/koolsoft/test/models/QuestionProgress.php');
 require_once($CFG->dirroot . '/koolsoft/question/models/ks_question.php');
 class TestController extends ApplicationController
 {
     function __construct() {
-        parent::__construct();
+//        parent::__construct();
     }
 
-    public function startTest() {
-        global $USER, $DB, $CFG;
-        // Get submitted parameters.
-        $id = required_param('cmid', PARAM_INT); // Course module id
-        $forcenew = optional_param('forcenew', false, PARAM_BOOL); // Used to force a new preview
-        $page = optional_param('page', -1, PARAM_INT); // Page to jump to in the attempt.
-
-        $forcenew = true;
-        if (!$cm = get_coursemodule_from_id('quiz', $id)) {
-            print_error('invalidcoursemodule');
-        }
-
-        if (!$course = $DB->get_record('course', array('id' => $cm->course))) {
-            print_error("coursemisconf");
-        }
-
-        $quizobj = quiz::create($cm->instance, $USER->id);
-
-        // Create an object to manage all the other (non-roles) access rules.
-        $timenow = time();
-        $accessmanager = $quizobj->get_access_manager($timenow);
-
-// Validate permissions for creating a new attempt and start a new preview attempt if required.
-        list($currentattemptid, $attemptnumber, $lastattempt, $messages, $page) =
-            quiz_validate_new_attempt($quizobj, $accessmanager, $forcenew, $page, true);
-
-        $attempt = quiz_prepare_and_start_new_attempt($quizobj, $attemptnumber, $lastattempt);
-
-        // Redirect to the test page.
-        redirect("/moodle/koolsoft/test/?action=play&id=".$attempt->id);
-    }
-
-    public function process() {
+    public function submitPlay(){
+        global $USER;
+        $daoQuestionProgress = new QuestionProgress();
         $timenow = time();
 
         $attemptid     = required_param('attempt',  PARAM_INT);
@@ -64,29 +35,87 @@ class TestController extends ApplicationController
 
         $attemptobj = quiz_attempt::create($attemptid);
         $status = $attemptobj->process_attempt($timenow, $finishattempt, $timeup, $thispage);
+        $slots = $attemptobj->get_slots();
+        foreach ($slots as $slot){
+            $questionAttempt = $attemptobj->get_question_attempt($slot);
+            $daoQuestionProgress->save($USER->id, $questionAttempt->get_question()->id, $questionAttempt->get_fraction());
+        }
 
-        redirect("/moodle/koolsoft/test/?action=review&id=".$attemptid);
+        return  true;
     }
 
-    public function play() {
+    public function startPlay(){
         global $USER, $DB;
+        // Get submitted parameters.
+        $id = required_param('cmid', PARAM_INT); // Course module id
+        $forcenew = optional_param('forcenew', false, PARAM_BOOL); // Used to force a new preview
+        $page = optional_param('page', -1, PARAM_INT); // Page to jump to in the attempt.
+
+        if (!$cm = get_coursemodule_from_id('quiz', $id)) {
+            print_error('invalidcoursemodule');
+        }
+
+        if (!$course = $DB->get_record('course', array('id' => $cm->course))) {
+            print_error("coursemisconf");
+        }
+
+        $quizobj = quiz::create($cm->instance, $USER->id);
+
+
+
+
+        $attempt = $DB->get_record("quiz_attempts", array("userid" => $USER->id, "quiz" => $quizobj->get_quizid()));
+        if ($attempt && $attempt->state == quiz_attempt::FINISHED && !$forcenew) {
+            $result = new stdClass();
+            $result->status = "done";
+            $result->id = $attempt->id;
+            return $result;
+        }else {
+            $forcenew = true;
+            // Create an object to manage all the other (non-roles) access rules.
+            $timenow = time();
+            $accessmanager = $quizobj->get_access_manager($timenow);
+
+            // Validate permissions for creating a new attempt and start a new preview attempt if required.
+            list($currentattemptid, $attemptnumber, $lastattempt, $messages, $page) =
+                quiz_validate_new_attempt($quizobj, $accessmanager, $forcenew, $page, true);
+
+            $attempt = quiz_prepare_and_start_new_attempt($quizobj, $attemptnumber, $lastattempt);
+            $result = new stdClass();
+            $result->status = "start";
+            $result->id = $attempt->id;
+            return $result;
+        }
+    }
+
+    public function loadForPlay($id){
+        global $DB;
         $daoQuestion = new ks_question();
         $daoQuiz = new ks_quiz();
-        $id = optional_param("id", 0, PARAM_INT);
         $attempt = $DB->get_record("quiz_attempts", array("id" => $id));
         $quiz = $daoQuiz->loadOne($attempt->quiz);
-        $quizName = $quiz[$attempt->quiz]->name;
+        $quizName = $quiz->name;
         $attemptobj = quiz_attempt::create($id);
-        $slots = $daoQuiz->load_slots_in_quiz($attempt->quiz);
-        $questionIds = array();
+        $slots = $daoQuiz->loadSlotsInQuiz($attempt->quiz);
         $sequenceChecks = array();
         $slotString = "";
         $indexSlot = 0;
+        $questions = array();
         foreach ($slots as $slot){
             $question_attempts = $attemptobj->all_question_attempts_originally_in_slot($slot->slot);
+            $orderAnswer = $attemptobj->get_question_attempt($slot->slot)->get_step(0)->get_all_data();
+            $question = $attemptobj->get_question_attempt($slot->slot)->get_question();
+            $answerIds = explode( ',',$orderAnswer["_order"]);
+            $answers = array();
+            $answerNoOrders = $question->answers;
+            foreach ($answerIds as $answerId){
+                array_push($answers, $answerNoOrders[$answerId]);
+            }
+            $question->answers = $answers;
+            array_push($questions, $question);
+
             $question_attempt = $question_attempts[0];
             array_push($sequenceChecks, $question_attempt->get_sequence_check_count());
-            array_push($questionIds, $slot->questionid);
             if($indexSlot == 0){
                 $slotString .= $slot->slot;
             }else {
@@ -94,14 +123,18 @@ class TestController extends ApplicationController
             }
             $indexSlot ++;
         }
-        $questions = $daoQuestion->loadByIds($questionIds);
 
-        require_once(__DIR__.'/views/test.php');
+        $attempt->questions = $questions;
+        $attempt->sequenceChecks = $sequenceChecks;
+        $attempt->slotString = $slotString;
+        $attempt->quiz = $quiz;
+
+        return $attempt;
     }
 
-    public function review() {
-        global $USER, $DB;
-        $attemptid = required_param('id',  PARAM_INT);
+    public function loadResult($attemptid){
+
+        global  $DB, $USER;
         $page      = optional_param('page', 0, PARAM_INT);
         $showall   = optional_param('showall', true, PARAM_BOOL);
 
@@ -114,7 +147,36 @@ class TestController extends ApplicationController
         // Work out some time-related things.
         $attempt = $attemptobj->get_attempt();
         $quiz = $attemptobj->get_quiz();
-        $overtime = 0;
+        $options = $attemptobj->get_display_options(true);
+
+        $slots = $attemptobj->get_slots();
+        $questions = array();
+
+        foreach ($slots as $slot){
+            $questionAttempt = $attemptobj->get_question_attempt($slot);
+            $choiceAnswerObject = $questionAttempt->get_step(1)->get_all_data();
+            $orderAnswer = $questionAttempt->get_step(0)->get_all_data();
+            $question = $questionAttempt->get_question();
+            $answerIds = explode( ',',$orderAnswer["_order"]);
+            $choiceAnswer = $choiceAnswerObject["answer"];
+            $answers = array();
+            $answerNoOrders = $question->answers;
+            $indexAnswer = 0;
+            foreach ($answerIds as $answerId){
+                $answer = $answerNoOrders[$answerId];
+                if($indexAnswer == $choiceAnswer){
+                    $answer->answered = true;
+                }
+
+                if($answer->fraction > 0){
+                    $answer->correct = true;
+                }
+                array_push($answers, $answer);
+                $indexAnswer ++;
+            }
+            $question->answers = $answers;
+            array_push($questions, $question);
+        }
 
         if ($attempt->state == quiz_attempt::FINISHED) {
             if ($timetaken = ($attempt->timefinish - $attempt->timestart)) {
@@ -156,7 +218,7 @@ class TestController extends ApplicationController
             }
         }
 
-// Timing information.
+        // Timing information.
         $summarydata['startedon'] = array(
             'title'   => get_string('startedon', 'quiz'),
             'content' => userdate($attempt->timestart),
@@ -185,9 +247,7 @@ class TestController extends ApplicationController
             );
         }
 
-        $options = $attemptobj->get_display_options(true);
-
-        // Show marks (if the user is allowed to see marks at the moment).
+     // Show marks (if the user is allowed to see marks at the moment).
         $grade = quiz_rescale_grade($attempt->sumgrades, $quiz, false);
         if ($options->marks >= question_display_options::MARK_AND_MAX && quiz_has_grades($quiz)) {
 
@@ -244,25 +304,22 @@ class TestController extends ApplicationController
 
         // Summary table end. ==============================================================================
 
-        if ($showall) {
-            $slots = $attemptobj->get_slots();
-            $lastpage = true;
-        } else {
-            $slots = $attemptobj->get_slots($page);
-            $lastpage = $attemptobj->is_last_page($page);
-        }
+        $attempt->questions= $questions;
+        $attempt->summarydata = $summarydata;
+        $attempt->quiz = $quiz;
 
-        foreach ($slots as $slot){
-            $data = $attemptobj->get_question_attempt($slot)->get_question();
 
-        }
+//        $daoQuiz = new ks_quiz();
+//        $quiz = $daoQuiz->loadOne($attempt->quiz);
+//        $quizName = $quiz->name;
+//        $courseId = $quiz->course;
+//
+        $reviewData = new stdClass();
+//        $reviewData->quizName = $quizName;
+//        $reviewData->quizId = $quiz->id;
+//        $reviewData->summarydata = $summarydata;
+        return $attempt;
 
-        $daoQuiz = new ks_quiz();
-        $quiz = $daoQuiz->loadOne($attempt->quiz);
-        $quizName = $quiz->name;
-        $courseId = $quiz->course;
-
-        require_once(__DIR__.'/views/review.php');
     }
 }
 
