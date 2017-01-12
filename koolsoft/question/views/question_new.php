@@ -153,8 +153,8 @@
         $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
             , data : data
             , success: function(result){
-                $("#newQuestionDialog").modal().hide()
-                getByTag();
+                $("#newQuestionDialog").modal("hide")
+                $("#question_list_table_body").prepend(result)
             }
         });
     });

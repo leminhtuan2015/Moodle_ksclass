@@ -1,7 +1,8 @@
 <link rel="stylesheet" type="text/css" href="resources/css/question.css">
-
-<script src="resources/javascript/question.js"></script>
 <script src="resources/javascript/rest_question.js"></script>
+
+<div id="modal_container">
+</div>
 
 
 <?php
@@ -14,15 +15,9 @@
 
 <div class="container" style="margin-top: 20px">
     <div class="container">
-        <a href="#" id="showAddQuestionDialog" class="btn btn-primary">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
-
         <a href="#" id="open_new_question_diaglog" class="btn btn-success" data-toggle="modal" data-target="#newQuestionDialog">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </a>
-
-        <select multiple="true" style="width: 50%" id="selectTagSearch"></select>
     </div>
 
     <br>
@@ -33,5 +28,3 @@
 </div>
 
 <?php require_once ("question_new.php");?>
-
-

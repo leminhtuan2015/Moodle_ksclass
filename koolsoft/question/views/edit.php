@@ -58,12 +58,13 @@
 
             $.ajax({
                 type: 'post',
-                url: '/moodle/koolsoft/question/rest/index.php/?action=create',
+                url: '/moodle/koolsoft/question/rest/index.php/?action=update',
                 data: data,
-                success: function () {
+                success: function (result) {
                     $("#editQuestionDialog<?php echo $question->id ?>").modal('hide');
 
-//                    getByTag();
+                    $("#question_list_table_row_<?php echo $question->id ?>").html(result)
+
                 }
             });
         });
