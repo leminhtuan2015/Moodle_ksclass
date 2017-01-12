@@ -26,4 +26,4 @@
     </div>
 </div>
 
-<?php require_once ("question_new.php");?>
+<?php require_once ("new.php");?>

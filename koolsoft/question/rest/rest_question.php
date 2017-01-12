@@ -118,5 +118,17 @@ class rest_question {
         echo true;
     }
 
+    public function show(){
+        global $dao;
+
+        $id = optional_param('id', "", PARAM_TEXT);
+
+        $question = $dao->get($id);
+
+        error_log(print_r($question, true));
+
+        include ("../views/show.php");
+    }
+
 }
 

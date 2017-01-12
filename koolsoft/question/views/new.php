@@ -14,7 +14,7 @@
 
             </div>
             <div class="col-md-8">
-                <?php require_once ("question_new_form.php")?>
+                <?php require_once ("new_form.php")?>
             </div>
         </div>
         <div class="modal-footer">
