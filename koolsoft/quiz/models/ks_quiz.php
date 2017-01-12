@@ -65,7 +65,7 @@ class ks_quiz
             array_push($idQuestions, $slot->questionid);
         }
 
-        $questions = $daoQuestion->loadByIds($idQuestions);
+        $questions = $daoQuestion->getByIds($idQuestions);
 
         return $questions;
     }

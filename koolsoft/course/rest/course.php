@@ -36,3 +36,5 @@ switch ($action) {
         echo json_encode($courseData, JSON_FORCE_OBJECT);
         break;
 }
+?>
+

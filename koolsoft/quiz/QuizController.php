@@ -50,7 +50,6 @@ class QuizController extends ApplicationController{
     }
 
     public function save($courseid, $sectionId, $id) {
-        error_log("dungdv save !");
         global $DB, $USER;
         $dao = new ks_quiz();
         $course = null;
@@ -78,7 +77,6 @@ class QuizController extends ApplicationController{
         $sumgrades = count($idQuestions);
         $grade = count($idQuestions);
         $quizObject = $dao->getData(null, $quizName, $quizDesc, DateUtil::getTimestamp($startTime), DateUtil::getTimestamp($endTime), $currentSection->section, $courseid, $sumgrades, $grade,  $timeLimit, $typeQuiz);
-        error_log("dungdv quiz".json_encode($quizObject));
         if(!$quizId){
             $quiz = add_moduleinfo($quizObject, $course, null);
         }else {

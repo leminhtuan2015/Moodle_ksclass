@@ -7,6 +7,7 @@
 var Ks = Ks || {};
 Ks.test = Ks.test || {};
 Ks.test.numberQuestion = 0;
+Ks.test.idAttemptCurrent = null;
 Ks.test.idTestCurrent = null;
 Ks.test.idTestInstanceCurrent = null;
 Ks.test.idSectionCurrent = null;
@@ -17,12 +18,60 @@ Ks.test.init = function () {
 };
 
 Ks.test.handler = function () {
-    Ks.test.numberQuestion = $("#numberQuestion").val();
-    for(var i = 1; i <= Ks.test.numberQuestion; i++){
-        $("#questionBtn" + i).click(function () {
-            Ks.test.showQuestion($(this).attr("indexQuestion"));
+    $(".answerQuestionRight").click(function () {
+        var value = $(this).attr("answer-value");
+        var nameAnswerField = $(this).attr("name-answer-field");
+        $("." + nameAnswerField)[value].checked = true;
+    });
+
+    $("#btnSubmitFormQuestion").click(function () {
+        var value = $(this).attr("answer-value");
+        var nameAnswerField = $(this).attr("name-answer-field");
+        var data = {};
+        var inputDatas = $("input[is-submit=true]");
+        var length = inputDatas.length;
+        for(var i = 0; i < length; i++){
+            var input = $(inputDatas[i]);
+            if(input.attr("name")){
+                if(input.attr("type") != "radio"){
+                    data[input.attr("name")] = input.val();
+                }else {
+                    if(input.prop("checked") == true){
+                        data[input.attr("name")] = input.val();
+                    }
+                }
+
+            }
+        }
+
+        data.action = "submitPlay";
+        $.post({
+            url: "/moodle/koolsoft/test/rest/test.php",
+            data: data,
+            success: function (result) {
+                var startPlay = JSON.parse(result);
+                Ks.test.idAttemptCurrent = startPlay.id;
+                Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
+            },
+            error : function () {
+                console.log("submit for play error!");
+            }
+
         });
-    }
+    });
+
+    $(".answerQuestionLeft").click(function () {
+        var value = $(this).val();
+        var nameAnswerField = $(this).attr("name-answer-field");
+        var length = $("label[name="+ nameAnswerField + "]").length;
+        for(var i = 0 ; i < length; i++){
+            if(value == i){
+                $($("label[name="+ nameAnswerField + "]")[i]).addClass("active");
+            }else {
+                $($("label[name="+ nameAnswerField + "]")[i]).removeClass("active");
+            }
+        }
+    });
 };
 
 Ks.test.showQuestion = function (index) {
@@ -36,51 +85,26 @@ Ks.test.showQuestion = function (index) {
 };
 
 Ks.test.genPlayView = function (attempt, questionPanel){
-    var questionHtml = "";
-    var questionFooterHtml = "";
-    questionHtml += "<div class='container'>";
-    questionHtml += "<button style='float: right; margin-right: 50px;' class='editQuizBtn btn btn-primary' onclick='Ks.quiz.initQuiz("+Ks.test.idSectionCurrent +"," + Ks.test.idTestInstanceCurrent + ")' id-quiz='" + Ks.test.idTestCurrent + "' id-section='" + Ks.test.idSectionCurrent + "'> Edit</button>";
-    questionHtml += "<h4>Start quiz : " + attempt.quiz.name + "</h4>";
-    questionHtml += "<form action='/moodle/koolsoft/test/?action=process' method='post' id='formQuestion' role='form'>";
+    var template = $("#templateTest").html();
+    var labelAnswer = ["A", "B", "C", "D", "E", "F"];
     var questions = attempt.questions;
     var sequenceChecks = attempt.sequenceChecks;
     for (var i = 0; i < questions.length; i++){
-        var question = questions[i];
-        var prefix = "";
-        if(i != 0){
-            prefix = " style='display: none;' ";
+        questions[i].index = i + 1;
+        questions[i].uniqueid = attempt.uniqueid;
+        questions[i].sequencecheckName = "q" + attempt.uniqueid + ":"+ (i + 1) + "_:sequencecheck";
+        questions[i].sequencecheckValue = sequenceChecks[i];
+
+        for(var j =0; j < questions[i].answers.length; j++){
+            questions[i].answers[j].fieldValue = j;
+            questions[i].answers[j].fieldName = "q"+ attempt.uniqueid +":" + (i + 1) + "_answer";
+            questions[i].answers[j].fieldClass = "q"+ attempt.uniqueid + (i + 1) + "_answer";
+            questions[i].answers[j].label = labelAnswer[j];
         }
-        var answers = question.options.answers;
-        var keys= Object.keys(answers);
-        questionHtml += "<div " + prefix + " id='questionDiv" + (i + 1) + "'> <label> Question " + (i + 1) + " : " + question.name + "</label> <br>";
-        questionHtml += "<input type='hidden' name='q" + attempt.uniqueid + ":"+ (i + 1) + "_:sequencecheck' value='" + sequenceChecks[i] + "'>";
-
-        for(var j =0; j < keys.length; j++){
-            var answer = answers[keys[j]];
-            questionHtml += "<input type='radio' value='"+ j +"' name='q"+ attempt.uniqueid +":" + (i + 1) + "_answer'><label>" + answer.answer + "</label> <br>";
-        }
-
-        questionHtml += "</div>";
-
-        questionFooterHtml += "<button class='btn btn-primary' indexQuestion='" + (i + 1)+ "' id='questionBtn" + (i + 1) + "'>" + (i + 1) + "</button>";
     }
 
-    questionHtml += "<input type='hidden' name='action' value='process' >";
-    questionHtml += "<input type='hidden' name='finishattempt' value='true' >";
-    questionHtml += "<input type='hidden' name='attempt' value=" + attempt.id + " >";
-    questionHtml += "<input type='hidden' name='thispage' value='0' >";
-    questionHtml += "<input type='hidden' name='nextpage' value='-1' >";
-    questionHtml += "<input type='hidden' name='timeup' value='0' id='timeup'>";
-    questionHtml += "<input type='hidden' name='scrollpos' value='' id='scrollpos'>";
-    questionHtml += "<input type='hidden' name='slots' value="+ attempt.slotString + " >";
-    questionHtml += "</form>";
-
-    questionHtml += "<input type='hidden' id='numberQuestion' value='"+ questions.length + "' >";
-    questionHtml += "<div class='container'>";
-    questionHtml += questionFooterHtml;
-
-    questionHtml += "</div>";
-    questionHtml += "<br> <br> <button type='submit' form='formQuestion' class='btn btn-primary'> Finish test </button> </div>";
+    Mustache.parse(template);
+    var questionHtml = Mustache.render(template, {attempt : attempt, sectionId: Ks.test.idSectionCurrent, quizId: Ks.test.idTestInstanceCurrent});
 
     questionPanel.html(questionHtml);
     Ks.test.handler();
@@ -88,43 +112,27 @@ Ks.test.genPlayView = function (attempt, questionPanel){
 
 Ks.test.genReviewView = function (reviewData, questionPanel){
     var idBtnNewTest = new Date().getTime() + "NewTest";
-    var html = "<div class='container'>";
-    html += "<button style='float: right; margin-right: 50px;' class='editQuizBtn btn btn-primary' onclick='Ks.quiz.initQuiz("+Ks.test.idSectionCurrent +"," + Ks.test.idTestInstanceCurrent + ")' id-quiz='" + Ks.test.idTestCurrent + "' id-section='" + Ks.test.idSectionCurrent + "'> Edit</button>";
-    html += "<h4>Result quiz : " + reviewData.quizName + "</h4>";
-    html += "<div class='sumary'>";
-    html += "<label>Started on : "+ reviewData.summarydata["startedon"]["content"] + "</label><br>";
-    html += "<label>State : "+ reviewData.summarydata["state"]["content"] + "</label><br>";
-    html += "<label>Completed on : "+ reviewData.summarydata["completedon"]["content"] + "</label><br>";
-    html += "<label>Time taken : "+ reviewData.summarydata["timetaken"]["content"] + "</label><br>";
-    html += "<label>Grade : "+ reviewData.summarydata["grade"]["content"] + "</label><br>";
-    html += "<button id='" + idBtnNewTest + "' class='btn btn-primary' >New test</button>";
-    html += "</div>";
-    html += "</div>";
-    questionPanel.html(html);
+    var template = $("#templateTestReview").html();
+    Mustache.parse(template);
+    var reviewHtml = Mustache.render(template, {attempt : reviewData,idBtnNewTest : idBtnNewTest, sectionId: Ks.test.idSectionCurrent, quizId: Ks.test.idTestInstanceCurrent});
+
+    questionPanel.html(reviewHtml);
 
     $("#" + idBtnNewTest).click(function () {
         var data = {};
-        data.action = "preForPlay";
+        data.action = "startPlay";
         data.cmid = Ks.test.idTestCurrent;
-        data.newTest = true;
+        data.forcenew = true;
         $.ajax({
             url: "/moodle/koolsoft/test/rest/test.php",
             data: data,
             success: function (result) {
-                //gen view play
-                var preResult = JSON.parse(result);
-                if(preResult.status == "start"){
-                    $.ajax({
-                        url: "/moodle/koolsoft/test/rest/test.php",
-                        data: {action : "loadForPlay", id : preResult.id},
-                        success: function (result) {
-                            Ks.test.genPlayView(JSON.parse(result), Ks.test.testPanelCurrent);
-                        },
-                        error : function () {
-                            console.log("load for play error!");
-                        }
-
-                    });
+                var startPlay = JSON.parse(result);
+                Ks.test.idAttemptCurrent = startPlay.id;
+                if(startPlay.typeResult == "review"){
+                    Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
+                }else if(startPlay.typeResult == "play"){
+                    Ks.test.genPlayView(startPlay, Ks.test.testPanelCurrent);
                 }
             }
         });
@@ -139,38 +147,18 @@ $(function () {
         Ks.test.idSectionCurrent = $(this).attr("id-section");
         Ks.test.testPanelCurrent = $($(this).attr("href"));
         var data = {};
-        data.action = "preForPlay";
+        data.action = "startPlay";
         data.cmid = Ks.test.idTestCurrent;
         $.ajax({
             url: "/moodle/koolsoft/test/rest/test.php",
             data: data,
             success: function (result) {
-                //gen view play
-                var preResult = JSON.parse(result);
-                if(preResult.status == "start"){
-                    $.ajax({
-                        url: "/moodle/koolsoft/test/rest/test.php",
-                        data: {action : "loadForPlay", id : preResult.id},
-                        success: function (result) {
-                            Ks.test.genPlayView(JSON.parse(result), Ks.test.testPanelCurrent);
-                        },
-                        error : function () {
-                            console.log("load for play error!");
-                        }
-
-                        });
-                }else {
-                    $.ajax({
-                        url: "/moodle/koolsoft/test/rest/test.php",
-                        data: {action : "loadTestResult", id : preResult.id},
-                        success: function (result) {
-                            Ks.test.genReviewView(JSON.parse(result), Ks.test.testPanelCurrent);
-                        },
-                        error : function () {
-                            console.log("load for play error!");
-                        }
-
-                    });
+                var startPlay = JSON.parse(result);
+                Ks.test.idAttemptCurrent = startPlay.id;
+                if(startPlay.typeResult == "review"){
+                    Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
+                }else if(startPlay.typeResult == "play"){
+                    Ks.test.genPlayView(startPlay, Ks.test.testPanelCurrent);
                 }
             }
         });
