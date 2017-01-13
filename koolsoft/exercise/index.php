@@ -6,7 +6,7 @@
  * Time: 11:12 AM
  */
 
-require_once("TestController.php");
+require_once("ExerciseController.php");
 $action = 'index';
 $controller = new TestController();
 

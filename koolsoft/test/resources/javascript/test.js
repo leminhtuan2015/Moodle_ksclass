@@ -44,14 +44,14 @@ Ks.test.handler = function () {
             }
         }
 
-        data.action = "submitPlay";
-        $.post({
-            url: "/moodle/koolsoft/test/rest/test.php",
+        data.action = "play";
+        $.ajax({
+            url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
-                var startPlay = JSON.parse(result);
-                Ks.test.idAttemptCurrent = startPlay.id;
-                Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
+                var resultObject = JSON.parse(result);
+                Ks.test.idAttemptCurrent = resultObject.id;
+                Ks.test.genReviewView(resultObject, Ks.test.testPanelCurrent);
             },
             error : function () {
                 console.log("submit for play error!");
@@ -110,30 +110,26 @@ Ks.test.genPlayView = function (attempt, questionPanel){
     Ks.test.handler();
 };
 
-Ks.test.genReviewView = function (reviewData, questionPanel){
+Ks.test.genReviewView = function (quiz, questionPanel){
     var idBtnNewTest = new Date().getTime() + "NewTest";
     var template = $("#templateTestReview").html();
     Mustache.parse(template);
-    var reviewHtml = Mustache.render(template, {attempt : reviewData,idBtnNewTest : idBtnNewTest, sectionId: Ks.test.idSectionCurrent, quizId: Ks.test.idTestInstanceCurrent});
+    var reviewHtml = Mustache.render(template, {quiz : quiz, idBtnNewTest : idBtnNewTest, sectionId: Ks.test.idSectionCurrent, quizId: Ks.test.idTestInstanceCurrent});
 
     questionPanel.html(reviewHtml);
 
     $("#" + idBtnNewTest).click(function () {
         var data = {};
-        data.action = "startPlay";
+        data.action = "start";
         data.cmid = Ks.test.idTestCurrent;
         data.forcenew = true;
         $.ajax({
-            url: "/moodle/koolsoft/test/rest/test.php",
+            url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
-                var startPlay = JSON.parse(result);
-                Ks.test.idAttemptCurrent = startPlay.id;
-                if(startPlay.typeResult == "review"){
-                    Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
-                }else if(startPlay.typeResult == "play"){
-                    Ks.test.genPlayView(startPlay, Ks.test.testPanelCurrent);
-                }
+                var testObject = JSON.parse(result);
+                Ks.test.idAttemptCurrent = testObject.id;
+                Ks.test.genPlayView(testObject, Ks.test.testPanelCurrent);
             }
         });
     });
@@ -147,19 +143,14 @@ $(function () {
         Ks.test.idSectionCurrent = $(this).attr("id-section");
         Ks.test.testPanelCurrent = $($(this).attr("href"));
         var data = {};
-        data.action = "startPlay";
-        data.cmid = Ks.test.idTestCurrent;
+        data.action = "loadResult";
+        data.quiz = Ks.test.idTestInstanceCurrent;
         $.ajax({
-            url: "/moodle/koolsoft/test/rest/test.php",
+            url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
-                var startPlay = JSON.parse(result);
-                Ks.test.idAttemptCurrent = startPlay.id;
-                if(startPlay.typeResult == "review"){
-                    Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
-                }else if(startPlay.typeResult == "play"){
-                    Ks.test.genPlayView(startPlay, Ks.test.testPanelCurrent);
-                }
+                var resutTest = JSON.parse(result);
+                Ks.test.genReviewView(resutTest, Ks.test.testPanelCurrent);
             }
         });
     });

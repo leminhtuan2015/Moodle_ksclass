@@ -280,9 +280,10 @@ Ks.quiz.loadQuiz= function (quizId) {
     var data = {};
     data.action = "loadQuiz";
     data.quizId = quizId;
-    $.ajax({url: "/moodle/koolsoft/quiz/rest/quiz_rest.php",
+    $.ajax({url: "/moodle/koolsoft/quiz/rest",
         data : data,
-        success: function(quiz){
+        success: function(result){
+            var quiz = JSON.parse(result);
             $("#nameQuiz").val(quiz.name);
             $("#descQuiz").val(quiz.intro);
 

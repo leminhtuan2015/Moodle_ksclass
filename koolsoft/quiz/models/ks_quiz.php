@@ -24,6 +24,12 @@ class ks_quiz
         return $quiz;
     }
 
+    public function loadByCourse($courseId){
+        global $DB;
+        $quizs = $DB->get_records("quiz", array("course" => $courseId));
+        return $quizs;
+    }
+
     public function removeSlot($slotId){
         global $DB;
         $DB->delete_records('quiz_slots', array('id' => $slotId));
@@ -50,10 +56,9 @@ class ks_quiz
     public function loadOneWithQuestion($id){
         global $DB;
         $quiz = $DB->get_record("quiz", array("id" => $id));
-        $quiz->timeopen = DateUtil::getHumanDate($quiz->timeopen);
-        $quiz->timeclose = DateUtil::getHumanDate($quiz->timeclose);
         $quetions = $this->loadQuestionByQuiz($id);
         $quiz->questions = $quetions;
+        $quiz->numberQuestion = count($quetions);
         return $quiz;
     }
 
@@ -76,9 +81,15 @@ class ks_quiz
                 SELECT slot.id AS slotid, slot.slot, slot.questionid, slot.page, slot.maxmark,
                         slot.requireprevious, q.*
                   FROM {quiz_slots} slot
-                  LEFT JOIN {question} q ON q.id = slot.questionid
+                  JOIN {question} q ON q.id = slot.questionid
                  WHERE slot.quizid = ?
               ORDER BY slot.slot", array($id));
+        return $slots;
+    }
+
+    public function loadSlotsOnlyInQuiz($id){
+        global $DB;
+        $slots = $DB->get_records("quiz_slots", array("quizid" => $id));
         return $slots;
     }
 

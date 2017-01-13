@@ -5,11 +5,13 @@
  * Date: 12/15/16
  * Time: 9:41 PM
  */
+global $CFG;
 require_once(__DIR__."/../../config.php");
 
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once (__DIR__."/../category/CategoryController.php");
 require_once (__DIR__."/models/CourseUtil.php");
+require_once($CFG->dirroot."/koolsoft/quiz/models/ks_quiz.php");
 
 class CourseController extends ApplicationController {
 
@@ -52,6 +54,9 @@ class CourseController extends ApplicationController {
 
         $forumId = $forumData["forumId"];
         $discussions = $forumData["discussions"];
+
+        $daoQuiz = new ks_quiz();
+        $quizs = $daoQuiz->loadByCourse($id);
 
 //        require_once(__DIR__.'/views/show.php');
         require_once(__DIR__.'/views/v1/show.php');

@@ -8,6 +8,8 @@
 class ClientUtil {
     public static $resourceTypeQuiz = 16;
     public static $resourceTypeLable = 12;
+    public static $typeTest = 2;
+    public static $typeExercise = 1;
     public static  function  is_manager(){
         global $USER;
         global  $DB;
