@@ -43,39 +43,6 @@ Ks.questionCategory.handler = function () {
         $("#createCategoryDialog").modal();
     });
 
-    $("#btnCreateExercise").click(function () {
-        var categoryId = $("#categoryParentId").val();
-        var userId = $("#userId").val();
-        var name = "Exercise " + new Date().getTime();
-        var info = name;
-
-        var data = {};
-        data.action = "create";
-        data.categoryid = categoryId;
-        data.userid = userId;
-        data.name = name;
-        data.info = info;
-        data.type = 2;
-
-        $.post({ url: "/moodle/koolsoft/question_categories/rest/question_categories.php",
-            data: data,
-            success: function(result){
-                if(result){
-                    var category = JSON.parse(result);
-                    if(category.resultText == "Success"){
-                        window.location.href = "http://" + window.location.host + "/moodle/koolsoft/question/?action=edit&category=" + category.id + "&returnUrl=" + encodeURI(window.location.href);
-                    }else {
-                        $("#alertDialog").modal();
-                        $("#alertContent").html("Can not create new exercise!");
-                    }
-                }else {
-                    $("#alertDialog").modal();
-                    $("#alertContent").html("Can not create new exercise!");
-                }
-            }
-        });
-    });
-
     $("#btnAddCategory").click(function () {
         var categoryId = $("#categoryParentId").val();
         var id = $("#categoryId").val();
