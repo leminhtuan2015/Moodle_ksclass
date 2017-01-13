@@ -123,6 +123,14 @@ class ks_question {
         return $question;
     }
 
+    public function getByIdOnlyOption($id){
+        global $DB;
+        $param = array("id" => $id);
+        $question = $DB->get_record("question", $param);
+        get_question_options($question, true);
+
+        return $question;
+    }
     public function getByIds($ids){
         global $DB;
         $questions = array();

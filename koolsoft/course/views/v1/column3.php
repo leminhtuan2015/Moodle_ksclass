@@ -2,6 +2,9 @@
 <!--    RENDER LECTURE CONTENT-->
 
     <script src="/moodle/koolsoft/test/resources/javascript/test.js"></script>
+    <script src="/moodle/koolsoft/exercise/resources/javascript/exercise.js"></script>
+    <link rel="stylesheet" href="/moodle/koolsoft/exercise/resources/css/exercise.css" />
+
     <?php foreach ($sections as $section) { ?>
         <?php if($section->section == 0 || $section->parent_id == 0){continue;} ?>
 
@@ -41,7 +44,12 @@
             foreach ($section->modinfo->cms as $cm) {
                 if ($cm->section == $section->id) {
                     if($cm->module == ClientUtil::$resourceTypeQuiz){
-                        include (__DIR__."/../../../test/views/test_panel.php");
+                        $quiz = $quizs[$cm->instance];
+                        if($quiz->type == ClientUtil::$typeTest){
+                            include (__DIR__."/../../../test/views/test_panel.php");
+                        }else {
+                            include (__DIR__."/../../../exercise/views/exercise_panel.php");
+                        }
                     }
                 }
             }

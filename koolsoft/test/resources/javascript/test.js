@@ -49,9 +49,9 @@ Ks.test.handler = function () {
             url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
-                var resultObject = JSON.parse(result);
-                Ks.test.idAttemptCurrent = resultObject.id;
-                Ks.test.genReviewView(resultObject, Ks.test.testPanelCurrent);
+                var startPlay = JSON.parse(result);
+                Ks.test.idAttemptCurrent = startPlay.id;
+                Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
             },
             error : function () {
                 console.log("submit for play error!");
@@ -127,9 +127,9 @@ Ks.test.genReviewView = function (quiz, questionPanel){
             url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
-                var testObject = JSON.parse(result);
-                Ks.test.idAttemptCurrent = testObject.id;
-                Ks.test.genPlayView(testObject, Ks.test.testPanelCurrent);
+                var startPlay = JSON.parse(result);
+                Ks.test.idAttemptCurrent = startPlay.id;
+                Ks.test.genPlayView(startPlay, Ks.test.testPanelCurrent);
             }
         });
     });
@@ -149,6 +149,7 @@ $(function () {
             url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
+                console.log(result);
                 var resutTest = JSON.parse(result);
                 Ks.test.genReviewView(resutTest, Ks.test.testPanelCurrent);
             }

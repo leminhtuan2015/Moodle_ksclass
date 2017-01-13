@@ -10,6 +10,12 @@ class ClientUtil {
     public static $resourceTypeLable = 12;
     public static $typeTest = 2;
     public static $typeExercise = 1;
+    public static $questionBoxNo = -1;
+    public static $questionBoxWrong = 0;
+    public static $questionBox1= 1;
+    public static $questionBox2 = 2;
+    public static $questionBox3 = 3;
+    public static $questionBoxN = 4;
     public static  function  is_manager(){
         global $USER;
         global  $DB;

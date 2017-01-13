@@ -8,9 +8,6 @@
 require_once("../../../config.php");
 require_once("../../quiz/models/ks_quiz.php");
 
-$action  = optional_param('action', 0, PARAM_TEXT);
-
-
 class rest_quiz {
     public function loadQuiz(){
         $dao = new ks_quiz();

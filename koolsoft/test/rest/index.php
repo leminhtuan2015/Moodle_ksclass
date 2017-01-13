@@ -6,6 +6,8 @@
  * Time: 10:09 AM
  */
 
+header('Access-Control-Allow-Origin: *');
+
 global $CFG;
 require_once(__DIR__."/../../../config.php");
 require_once($CFG->dirroot . "/koolsoft/test/rest/rest_test.php");

@@ -4,40 +4,261 @@
 
 var Ks = Ks || {};
 Ks.exercise = Ks.exercise || {};
-Ks.exercise.numberQuestion = 0;
-Ks.exercise.idExerciseCurrent = null;
-Ks.exercise.idExerciseInstanceCurrent = null;
+Ks.exercise.quiz = {};
+Ks.exercise.idQuizCurrent = null;
 Ks.exercise.idSectionCurrent = null;
 Ks.exercise.exercisePanelCurrent = null;
+Ks.exercise.questionPanelCurrent = null;
+Ks.exercise.questionResult = [];
 
 Ks.exercise.init = function () {
-    Ks.test.handler();
+    Ks.exercise.handler();
 };
 
-Ks.exercise.handler = function () {
+Ks.exercise.handler = function (idBtnFinishExercise, idBtnNewExercise) {
+
+    $(".questionNumber").click(function () {
+        var divQuestion = $("#" + $(this).attr("id-div"));
+        $(".questionDiv").css("display", "none");
+        divQuestion.css("display", "inline-block");
+
+        $(".footerQuestionNumber").css("display", "none");
+        var footerQuestionNumber = $("#" + $(this).attr("footer-id"));
+        footerQuestionNumber.css("display", "block");
+    });
+
+    $(".questionExercise").click(function () {
+        var index = $(this).attr("index-question");
+        var divQuestionNumber = $("#" + $(this).attr("div-question-number"));
+        divQuestionNumber.removeClass("questionNoAnswer");
+        var nameInput = $(this).attr("name");
+        var inputAnswers = $("input[name=" + nameInput + "]");
+
+        for(var i = 0; i < inputAnswers.length; i++){
+            var inputAnswer = $(inputAnswers[i]);
+            inputAnswer.prop("disabled", true);
+            var divAnswer = $("#" + inputAnswer.attr("div-id"));
+            if(inputAnswer.attr("value") == "true"){
+                divAnswer.addClass("correctAnswer");
+            }
+        }
+
+        var divAnswer = $("#" + $(this).attr("div-id"));
+        var divResult = $("#" + $(this).attr("div-result"));
+        divResult.css("display", "block");
+        Ks.exercise.quiz.questions[index - 1].finished = true;
+        if($(this).attr("value") == "true"){
+            Ks.exercise.quiz.questions[index - 1].fraction = 1;
+            divAnswer.addClass("correctAnswer");
+            divResult.addClass("divCorrect");
+            divQuestionNumber.addClass("questionCorrectAnswer");
+        }else {
+            Ks.exercise.quiz.questions[index - 1].fraction = 0;
+            divAnswer.addClass("wrongAnswer");
+            divResult.addClass("divWrong");
+            divQuestionNumber.addClass("questionWrongAnswer");
+        }
+
+        if(Ks.exercise.questionResult.length == Ks.exercise.quiz.questions.length){
+            $("#" + idBtnFinishExercise).css("display", "block");
+        }
+    });
+
+    $(".boxName").change(function () {
+        var value = $(this).val();
+
+        if(value == -1){
+            Ks.exercise.genQuestion(label, Ks.exercise.quiz.questions);
+            var label = "All question";
+        }else if(value == 0){
+            var label = "Questions that you answered incorrectly";
+            Ks.exercise.genQuestion(label, Ks.exercise.quiz.questionBoxWrong);
+        }else if(value == 1){
+            var label = "Questions that you answered correctly once";
+            Ks.exercise.genQuestion(label, Ks.exercise.quiz.questionBox1);
+        }else if(value == 2){
+            var label = "Questions that you answered correctly twice";
+            Ks.exercise.genQuestion(label, Ks.exercise.quiz.questionBox2);
+        }else if(value == 3){
+            var label = "Questions that you answered correctly thrice";
+            Ks.exercise.genQuestion(label, Ks.exercise.quiz.questionBox3);
+        }else if(value == 4){
+            var label = "Questions that you already passed";
+            Ks.exercise.genQuestion(label, Ks.exercise.quiz.questionBoxN);
+        }
+    });
+
+    if(idBtnFinishExercise){
+        $("." + idBtnFinishExercise).click(function () {
+            var dataQuestion = Ks.exercise.getDataSubmit();
+            if(dataQuestion){
+                var data = {};
+                data.action = "play";
+                data.questionData = JSON.stringify(dataQuestion);
+                data.quiz = Ks.exercise.idQuizCurrent;
+                $.ajax({
+                    url: "/moodle/koolsoft/exercise/rest",
+                    data: data,
+                    success: function (result) {
+                        var quiz = JSON.parse(result);
+                        Ks.exercise.genReviewView(quiz, Ks.exercise.exercisePanelCurrent);
+                    }
+                });
+            }else {
+                var index = $(this).attr("index-question") - 1;
+                var questions = Ks.exercise.quiz.questions;
+                for(var i = 0; i < questions.length; i++){
+                    var question = questions[i];
+                    if(!question.finished){
+                        Ks.exercise.gotoQuestion(i);
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    if(idBtnNewExercise){
+        $("#" + idBtnNewExercise).click(function () {
+            var currentBox = $("input[name=boxName]:checked").val();
+            if(!currentBox){
+                currentBox = -1;
+            }
+            if(currentBox == -1){
+                if(Ks.exercise.quiz.questions.length == 0){
+                    window.alert("Not question to play!");
+                    return;
+                }
+            }else if(currentBox == 0){
+                if(Ks.exercise.quiz.questionBoxWrong.length == 0){
+                    window.alert("Not question to play!");
+                    return;
+                }
+            }else if(currentBox == 1){
+                if(Ks.exercise.quiz.questionBox1.length == 0){
+                    window.alert("Not question to play!");
+                    return;
+                }
+            }else if(currentBox == 2){
+                if(Ks.exercise.quiz.questionBox2.length == 0){
+                    window.alert("Not question to play!");
+                    return;
+                }
+            }else if(currentBox == 3){
+                if(Ks.exercise.quiz.questionBox3.length == 0){
+                    window.alert("Not question to play!");
+                    return;
+                }
+            }else if(currentBox == 4){
+                if(Ks.exercise.quiz.questionBoxN.length == 0){
+                    window.alert("Not question to play!");
+                    return;
+                }
+            }
+
+            var data = {};
+            data.action = "start";
+            data.quiz = Ks.exercise.idQuizCurrent;
+            data.box = currentBox;
+            $.ajax({
+                url: "/moodle/koolsoft/exercise/rest",
+                data: data,
+                success: function (result) {
+                    Ks.exercise.quiz = JSON.parse(result);
+                    Ks.exercise.genPlayView(Ks.exercise.quiz, Ks.exercise.exercisePanelCurrent);
+                }
+            });
+        });
+    }
+
 
 };
 
-Ks.exercise.showQuestion = function (index) {
+Ks.exercise.gotoQuestion = function (index){
+    var idBtnQuestionNumber = "questionNumber" + Ks.exercise.quiz.questions[index].id;
+    $("#" + idBtnQuestionNumber).click();
+}
 
+Ks.exercise.getDataSubmit = function (){
+    var data = [];
+    for(var i = 0; i < Ks.exercise.quiz.questions.length; i ++){
+        var question = Ks.exercise.quiz.questions[i];
+        if(question.finished){
+            data.push({questionId : question.id, fraction : question.fraction});
+        }else {
+            return null;
+        }
+    }
+
+    return data;
+}
+
+Ks.exercise.genPlayView = function (quiz, questionPanel){
+    var idBtnFinishExercise = new Date().getTime() + "FinishExercise";
+    var template = $("#templateExercisePlay").html();
+    Mustache.parse(template);
+    var questionHtml = Mustache.render(template, {quiz : quiz, idBtnFinishExercise : idBtnFinishExercise, sectionId: Ks.exercise.idSectionCurrent, quizId: Ks.exercise.idQuizCurrent});
+    questionPanel.html(questionHtml);
+
+    Ks.exercise.handler(idBtnFinishExercise, null);
 };
 
-Ks.exercise.genPlayView = function (attempt, questionPanel){
+Ks.exercise.genReviewView = function (quiz, reviewPanel){
 
+    var questions = [];
+    questions = questions.concat(quiz.questionBoxWrong);
+    questions = questions.concat(quiz.questionBoxNo);
+    questions = questions.concat(quiz.questionBox1);
+    questions = questions.concat(quiz.questionBox2);
+    questions = questions.concat(quiz.questionBox3);
+    questions = questions.concat(quiz.questionBoxN);
+    quiz.questions = questions;
+    Ks.exercise.quiz = quiz;
+    Ks.exercise.quiz.allBox = questions.length;
+
+
+    var idBtnNewExercise = new Date().getTime() + "NewExercise";
+    var idQuestionPanel = new Date().getTime() + "questionPanel";
+
+    var template = $("#templateExerciseReview").html();
+    Mustache.parse(template);
+    var reviewHtml = Mustache.render(template, {quiz : quiz, idQuestionPanel: idQuestionPanel, idBtnNewExercise : idBtnNewExercise,sectionId: Ks.exercise.idSectionCurrent, quizId: Ks.exercise.idQuizCurrent});
+    reviewPanel.html(reviewHtml);
+
+    Ks.exercise.questionPanelCurrent = $("#" + idQuestionPanel);
+    var label = "All questions";
+    Ks.exercise.genQuestion(label, Ks.exercise.quiz.questions);
+
+    Ks.exercise.handler(null, idBtnNewExercise);
 };
 
-Ks.exercise.genReviewView = function (reviewData, questionPanel){
-
-
+Ks.exercise.genQuestion = function (label, questions) {
+    for(var i=0; i < questions.length; i++){
+        questions[i].index = i + 1;
+    }
+    var templateQuestion = $("#templateExerciseReviewQuestion").html();
+    Mustache.parse(templateQuestion);
+    var questionHtml = Mustache.render(templateQuestion, {label: label, questions : questions});
+    Ks.exercise.questionPanelCurrent.html(questionHtml);
 };
 
 $(function () {
     $(".showExerciseBtn").click(function () {
-        Ks.exercise.idExerciseCurrent = $(this).attr("id-quiz");
-        Ks.exercise.idExerciseInstanceCurrent = $(this).attr("id-quiz-instance");
+        Ks.exercise.idQuizCurrent = $(this).attr("id-quiz-instance");
         Ks.exercise.idSectionCurrent = $(this).attr("id-section");
         Ks.exercise.exercisePanelCurrent = $($(this).attr("href"));
+        var data = {};
+        data.action = "loadOverview";
+        data.quiz = Ks.exercise.idQuizCurrent;
+        $.ajax({
+            url: "/moodle/koolsoft/exercise/rest",
+            data: data,
+            success: function (result) {
+                var quiz = JSON.parse(result);
+                Ks.exercise.genReviewView(quiz, Ks.exercise.exercisePanelCurrent);
+            }
+        });
 
     });
-    Ks.test.init();
+    Ks.exercise.init();
 });
