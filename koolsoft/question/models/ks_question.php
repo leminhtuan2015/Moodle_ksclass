@@ -52,10 +52,9 @@ class ks_question {
         $questionObject->qtype = $question->qtype;
         $questionObject->createdby = $USER->id;
         $questionObject->qtype = "multichoice";
+
         $qtypeobj = question_bank::get_qtype($questionObject->qtype);
-        $data = $this->buildQuestionObject($question->wrongAnswer,
-            $question->question, $question->answer,
-            ks_question::$DEFAULT_CATEGORY_ID, $questionObject->qtype);
+        $data = $this->buildQuestionObject($question, ks_question::$DEFAULT_CATEGORY_ID, $questionObject->qtype);
         $questionObject = $qtypeobj->save_question_no_context($questionObject, $data);
 
         $tags = $question->tags;
@@ -165,11 +164,15 @@ class ks_question {
         }
     }
 
-    private function buildQuestionObject($wrongAnswers, $questionText, $answer, $categoryId, $qtype){
+    private function buildQuestionObject($questionData, $categoryId, $qtype){
+        $wrongAnswers = $questionData->wrongAnswer;
+        $questionText = $questionData->question;
+        $answer = $questionData->answer;
+
         $question = new stdClass();
         $question->category = $categoryId;
 
-        $question->name = $questionText;
+        $question->name = substr($questionText, 0, 250);
         $question->id = optional_param('id', "", PARAM_INT);
         $question->length = "1";
         $question->penalty = "0.3333333";

@@ -17,6 +17,9 @@
         <a href="#" id="open_new_question_diaglog" class="btn btn-success" data-toggle="modal" data-target="#newQuestionDialog">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </a>
+
+        <?php require_once ("import_form.php")?>
+
     </div>
 
     <br>
