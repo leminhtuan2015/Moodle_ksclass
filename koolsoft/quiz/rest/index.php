@@ -19,4 +19,7 @@ switch ($action) {
     case "loadAllResultQuizForUser":
         $controller->loadAllResultQuizForUser();
         break;
+    case "loadBySection":
+        $controller->loadBySection();
+        break;
 }
