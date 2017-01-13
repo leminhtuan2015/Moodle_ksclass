@@ -14,6 +14,10 @@ require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->dirroot . '/koolsoft/utility/DateUtil.php');
 require_once(__DIR__."/../../../question/type/questiontypebase.php");
+require_once($CFG->dirroot . '/koolsoft/dependency/Spout/Autoloader/autoload.php');
+
+use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Common\Type;
 
 global $DB, $USER;
 $dao = new ks_question();
@@ -123,9 +127,58 @@ class rest_question {
 
         $id = optional_param('id', "", PARAM_TEXT);
         $question = $dao->get($id);
-//        error_log(print_r($question, true));
+//      error_log(print_r($question, true));
 
         include ("../views/show.php");
+    }
+
+    public function import(){
+        global $dao;
+
+        error_log(print_r($_FILES['file'], true));
+
+        if(!strpos($_FILES['file']["name"], "xls")){
+            echo false;
+            return;
+        }
+
+        $reader = ReaderFactory::create(Type::XLSX);
+        $fileSaveTo = $_FILES['file']['tmp_name'].round(microtime(true) * 1000);
+        $status = move_uploaded_file( $_FILES['file']['tmp_name'], $fileSaveTo);
+        $reader->open($fileSaveTo);
+
+        foreach ($reader->getSheetIterator() as $sheet) {
+            foreach ($sheet->getRowIterator() as $row) {
+                // $row is a array , each cell is a element in array
+                $question = $this->buildQuestionObjectFromRowExcel($row);
+//                error_log(print_r($question, true));
+                $dao->create($question);
+            }
+        }
+
+        unlink ($fileSaveTo);
+        $reader->close();
+        echo true;
+    }
+
+    private function buildQuestionObjectFromRowExcel($row){
+        //       {"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
+
+        $question = new stdClass();
+
+        $questionText = $row[0];
+        $answer = $row[2];
+        $wrongAnswer1 = "$row[3]";
+        $wrongAnswer2 = "$row[4]";
+        $wrongAnswer3 = "$row[5]";
+
+        $question->id = "";
+        $question->question = $questionText;
+        $question->answer = $answer;
+        $question->qtype = "multichoice";
+        $question->wrongAnswer = [$wrongAnswer1, $wrongAnswer2, $wrongAnswer3];
+
+        return $question;
     }
 
 }

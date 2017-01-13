@@ -38,4 +38,7 @@ if($action == "create"){
 
 } else if($action == "show"){
     $controller->show();
+
+} else if($action == "import"){
+    $controller->import();
 }
