@@ -29,6 +29,13 @@ class rest_quiz {
         $quizReslut = $dao->loadAllResultQuizForUser($idCourse, $idUser);
         echo json_encode($quizReslut);
     }
+
+    public function loadBySection(){
+        $dao = new ks_quiz();
+        $sectionId  = optional_param('section', 0, PARAM_INT);
+        $quizs= $dao->loadBySection($sectionId);
+        echo json_encode($quizs);
+    }
 }
 
 

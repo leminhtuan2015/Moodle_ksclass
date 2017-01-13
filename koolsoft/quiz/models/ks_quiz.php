@@ -30,6 +30,14 @@ class ks_quiz
         return $quizs;
     }
 
+    public function loadBySection($sectionId){
+        global $DB;
+        $sql = "SELECT distinct q.* FROM ".$DB->get_prefix()."quiz q inner JOIN ".$DB->get_prefix()."course_modules m ON q.course = m.course WHERE m.section = ?";
+        error_log("dungdvsql".json_encode($sql));
+        $quizs = $DB->get_records_sql($sql, array("section" => $sectionId));
+        return $quizs;
+    }
+
     public function removeSlot($slotId){
         global $DB;
         $DB->delete_records('quiz_slots', array('id' => $slotId));
