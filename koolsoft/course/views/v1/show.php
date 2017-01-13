@@ -97,6 +97,11 @@
         padding-left: 40px;
     }
 
+    .btnExercise {
+        color: #00b3ee;
+        padding-left: 40px;
+    }
+
     .headerRightPanel {
         padding: 10px 10px 12px 10px;
         border-bottom: 2px solid #797979;

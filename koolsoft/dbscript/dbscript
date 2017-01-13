@@ -11,12 +11,15 @@ ALTER TABLE moodle.ks_course ADD creator_id BIGINT(10);
 CREATE TABLE `moodle`.`ks_question_progress` (
   `id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `question_id` BIGINT(10) NOT NULL,
+  `quiz_id` BIGINT(10) NOT NULL,
   `user_id` BIGINT(10) NOT NULL,
   `box` BIGINT(10),
   `history` TEXT,
   `last_result` TINYINT(10),
   `review_date` BIGINT(10),
   PRIMARY KEY (`id`));
+
+ALTER TABLE `moodle`.`ks_question_progress` ADD COLUMN `quiz_id` BIGINT(10) NOT NULL AFTER `question_id`;
 
 CREATE TABLE `moodle`.`ks_tag_new` (
   `id` BIGINT(10) NOT NULL AUTO_INCREMENT,

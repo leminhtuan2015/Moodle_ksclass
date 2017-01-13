@@ -1,7 +1,20 @@
 <script id="templateTest" type="x-tmpl-mustache">
+    <h4 class="headerRightPanel">
+        <a class="iconPanel" style="vertical-align:middle;padding-top:3px;">
+            <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
+        </a>
+
+        <a class="iconPanel iconRight" style="right:110px;margin-top:3px;" >
+            <i class="fa fa-cog" style="color:white;width:45px;"></i>
+        </a>
+        {{attempt.quiz.name}}
+        <a class="iconPanel iconRight" style="right:55px;margin-top:3px;" href="#" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})">
+            <i class="fa fa-pencil-square-o" style="color:white;width:45px;"></i></a>
+
+        <a class="iconPanel iconRight" style="right:5px;" >
+            <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
+    </h4>
     <div class="container">
-        <button style="float: right; margin-right: 50px;" class="editQuizBtn btn btn-primary" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})"> Edit</button>
-        <h4>Start quiz : {{attempt.quiz.name}}</h4>
         <div class="row">
             <div class="col-sm-9">
                 <form action="/moodle/koolsoft/test/?action=process" method="post" id="formQuestion" role="form">
@@ -15,7 +28,6 @@
                         </div>
                     {{/attempt.questions}}
 
-                    <input type="hidden" is-submit="true" name="action" value="process">
                     <input type="hidden" is-submit="true" name="finishattempt" value="true">
                     <input type="hidden" is-submit="true" name="attempt" value="{{attempt.id}}">
                     <input type="hidden" is-submit="true" name="thispage" value="0">
@@ -44,29 +56,46 @@
 </script>
 
 <script id="templateTestReview" type="x-tmpl-mustache">
+    <h4 class="headerRightPanel">
+        <a class="iconPanel" style="vertical-align:middle;padding-top:3px;">
+            <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
+        </a>
+
+        <a class="iconPanel iconRight" style="right:110px;margin-top:3px;" >
+            <i class="fa fa-cog" style="color:white;width:45px;"></i>
+        </a>
+        {{quiz.name}}
+        <a class="iconPanel iconRight" style="right:55px;margin-top:3px;" href="#" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})">
+            <i class="fa fa-pencil-square-o" style="color:white;width:45px;"></i></a>
+
+        <a class="iconPanel iconRight" style="right:5px;" >
+            <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
+    </h4>
+
     <div class="container">
-        <button style="float: right; margin-right: 50px;" class="editQuizBtn btn btn-primary" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})"> Edit</button>
+        <label>Timelimit : {{quiz.timelimit}} (minutes) -- {{quiz.numberQuestion}} question</label><br>
+        <label>Time start : {{quiz.timeopen}}</label> -- <label>Time end : {{quiz.timeclose}}</label><br>
         <div>
-            <h4 style="display: inline-block;">Review quiz : {{attempt.quiz.name}}</h4>
             <button style="display: inline-block;" id="{{idBtnNewTest}}" class="btn btn-primary" >New test</button>
         </div>
-        <label>Started on : {{attempt.summarydata.startedon.content}}</label><br>
-        <label>Completed on : {{attempt.summarydata.completedon.content}}</label><br>
-        <label>Time taken : {{attempt.summarydata.timetaken.content}}</label><br>
-        <label>Grade on : {{attempt.sumgrades}}/ {{attempt.quiz.sumgrades}}</label><br>
-        <button data-toggle="collapse" class="btn btn-primary" data-target="#questionResultDetail">Show detail</button>
+        {{#quiz.state}}
+            <label>Result :</label><br>
+            <label>Started on : {{quiz.timestart}}</label> -- <label>Completed on : {{quiz.timefinish}}</label><br>
+            <label>Grade on : {{quiz.sumgradeUsers}}/ {{quiz.sumgrades}}</label><br>
+            <button data-toggle="collapse" class="btn btn-primary" data-target="#questionResultDetail">Show detail</button>
 
-        <div id="questionResultDetail" class="collapse">
-            {{#attempt.questions}}
-                <div >
-                    <label> Question {{index}} : {{questiontext}}</label> <br>
-                     {{#answers}}
-                        <input disabled {{#answered}} checked {{/answered}} type="radio" ><label>{{answer}}</label>
-                         {{#answered}} {{^correct}} <span class="glyphicon glyphicon-remove"></span> {{/correct}} {{/answered}}
-                         {{#correct}} <span class="glyphicon glyphicon-ok"></span> {{/correct}} <br>
-                     {{/answers}}
-                </div>
-            {{/attempt.questions}}
-        </div>
+            <div id="questionResultDetail" class="collapse">
+                {{#quiz.questions}}
+                    <div >
+                        <label> Question {{index}} : {{questiontext}}</label> <br>
+                         {{#answers}}
+                            <input disabled {{#answered}} checked {{/answered}} type="radio" ><label>{{answer}}</label>
+                             {{#answered}} {{^correct}} <span class="glyphicon glyphicon-remove"></span> {{/correct}} {{/answered}}
+                             {{#correct}} <span class="glyphicon glyphicon-ok"></span> {{/correct}} <br>
+                         {{/answers}}
+                    </div>
+                {{/quiz.questions}}
+            </div>
+          {{/quiz.state}}
     </div>
 </script>

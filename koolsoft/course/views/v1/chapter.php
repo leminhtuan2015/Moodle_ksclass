@@ -8,12 +8,20 @@
                         <?php echo $sectionLecture->name ?>
                     </a>
                     <br>
+
                     <?php foreach ($sectionLecture->modinfo->cms as $cm) { ?>
                         <?php if ($cm->section == $sectionLecture->id) { ?>
-                            <?php if($cm->module == ClientUtil::$resourceTypeQuiz){ ?>
-                                <a data-toggle='pill' class='showQuizBtn btnQuiz' id-quiz-instance='<?php echo $cm->instance ?>' id-section='<?php echo $cm->section ?>' id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' > <?php echo $cm->name ?></a>
-                                <br>
-
+                            <?php if($cm->module == ClientUtil::$resourceTypeQuiz){?>
+                                <?php $quiz = $quizs[$cm->instance]; ?>
+                                <?php if($quiz->type == ClientUtil::$typeTest){ ?>
+                                    <a data-toggle='pill' class='showQuizBtn btnQuiz' id-quiz-instance='<?php echo $cm->instance ?>' id-section='<?php echo $cm->section ?>'
+                                       id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' > <?php echo $cm->name ?></a>
+                                    <br>
+                                <?php }else { ?>
+                                    <a data-toggle='pill' class='showExerciseBtn btnExercise' id-quiz-instance='<?php echo $cm->instance ?>' id-section='<?php echo $cm->section ?>'
+                                       id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' > <?php echo $cm->name ?></a>
+                                    <br>
+                                <?php } ?>
                                 <?php } ?>
                             <?php } ?>
                         <?php } ?>

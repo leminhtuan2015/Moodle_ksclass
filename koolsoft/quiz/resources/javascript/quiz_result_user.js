@@ -19,7 +19,7 @@ $(function () {
         data.idUser = idUser;
         $("#quizResultForUserHeader").html("Progess for user :" + nameUser);
         $("#quizResultForUserDialog").modal();
-        $.ajax({url: "/moodle/koolsoft/quiz/rest/quiz_rest.php",
+        $.ajax({url: "/moodle/koolsoft/quiz/rest",
             data: data,
             success: function(quizResults){
                 var html = "";
