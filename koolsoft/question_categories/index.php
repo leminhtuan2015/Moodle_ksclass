@@ -8,7 +8,7 @@
 
 require_once(__DIR__."/QuestionCategoryController.php");
 
-$action = 'show';
+$action = 'index';
 $controller = new QuestionCategoryController();
 
 if (isset($_GET['action'])) {
@@ -17,7 +17,5 @@ if (isset($_GET['action'])) {
 if($action == "index"){
     $idCategory = optional_param('id', 0, PARAM_INT);
     $controller->index($idCategory);
-}else if($action == "show"){
-    $idCategory = optional_param('id', 0, PARAM_INT);
-    $controller->show($idCategory);
+
 }

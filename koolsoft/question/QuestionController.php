@@ -16,6 +16,7 @@ require_once(__DIR__."/models/ks_question.php");
 require_once($CFG->dirroot."/koolsoft/question_categories/models/ks_question_categories.php");
 
 class QuestionController extends ApplicationController {
+    public static $EMPTY_QUESTION = "ks_mark_emptyquestion_1108";
 
     function __construct() {
         parent::__construct();
@@ -25,6 +26,7 @@ class QuestionController extends ApplicationController {
         $daoQuestionCategories = new ks_question_categories();
         $returnUrl = optional_param("returnUrl", "", PARAM_TEXT);
         $category = $daoQuestionCategories->loadCategory($idCategory);
+
         require_once(__DIR__.'/views/index.php');
     }
 

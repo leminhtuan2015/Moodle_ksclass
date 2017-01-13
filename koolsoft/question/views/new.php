@@ -41,14 +41,18 @@
     
     function emptyForm() {
         $("#new_question_question_text").val("")
+        $("#new_question_question_correct_answer").val("");
+        <?php for ($i = 0; $i < 3; $i++) { ?>
+            $("#new_question_question_wrong_answer<?php echo $i?>").val("");
+        <?php } ?>
     }
 
     function createEmptyQuestionData() {
         var question = {
             "id": "",
             "question": "",
-            "answer": "Answer",
-            "wrongAnswer": ["1","2","3"],
+            "answer": "",
+            "wrongAnswer": ["","",""],
             "tags": [],
             "qtype": "multichoice"
         }
@@ -82,33 +86,48 @@
     
     function displayQuestionDataToForm(id) {
         question = questionsData[id]
+        emptyMark = "<?php echo QuestionController::$EMPTY_QUESTION?>"
+
+        if(question.question == emptyMark){
+            question.question = ""
+        }
+
+        if(question.answer == emptyMark){
+            question.answer = ""
+        }
+
 //        alert(JSON.stringify(questionsData))
         $("#new_question_question_text").val(question.question)
+        $("#new_question_question_correct_answer").val(question.answer);
+
+        <?php for ($i = 0; $i < 3; $i++) { ?>
+            wa = question.wrongAnswer[<?php echo $i?>]
+
+            if(wa == emptyMark){
+                wa = ""
+            }
+
+            $("#new_question_question_wrong_answer<?php echo $i?>").val(wa);
+        <?php } ?>
+
     }
 
     function saveQuestionOnLocal(){
         question = questionsData[currentQuestionActiveIndex]
+        emptyMark = "<?php echo QuestionController::$EMPTY_QUESTION?>"
 
         questionTextVal = $("#new_question_question_text").val()
-        wrongAnswer = []
-        correctAnswer = "Answer"
+        correctAnswerVal = $("#new_question_question_correct_answer").val();
+        wrongAnswerVal = []
 
-        <?php for ($i = 0; $i < 4; $i++) { ?>
-            answer = $("#new_question_question_answer<?php echo $i ?>").val()
-            correct = $('input[id=new_question_correct_answer<?php echo $i ?>]:checked').val()
-
-            if(correct){
-                correctAnswer = answer
-                if(!correctAnswer){correctAnswer = "Correct_Answer"}
-            } else {
-                if(!answer){answer = "Answer_<?php echo $i ?>"}
-                wrongAnswer.push(answer)
-            }
+        <?php for ($i = 0; $i < 3; $i++) { ?>
+            wa = $("#new_question_question_wrong_answer<?php echo $i ?>").val()
+            wrongAnswerVal.push(wa || emptyMark)
         <?php } ?>
 
         question.question = questionTextVal
-        question.answer = correctAnswer
-        question.wrongAnswer = wrongAnswer;
+        question.answer = correctAnswerVal || emptyMark
+        question.wrongAnswer = wrongAnswerVal;
     }
     
     function isLastQuestionIsActive() {
@@ -135,6 +154,20 @@
         return true
     }
 
+    function cleanDataBeforeSubmit(questionsData){
+
+        questionsDataCleaned = []
+
+        for (i = 0; i < questionsData.length; i++) {
+
+            if(questionsData[i].question != ""){
+                questionsDataCleaned.push(questionsData[i])
+            }
+        }
+
+        return questionsDataCleaned;
+    }
+
     $("#open_new_question_diaglog").click(function () {
         clear()
         createEmptyQuestionData()
@@ -146,9 +179,11 @@
 
 //       {"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
 
+        questionsData = cleanDataBeforeSubmit(questionsData)
+
         var data = {"questions" : JSON.stringify(questionsData)};
 
-//        alert(JSON.stringify(data))
+//        alert(JSON.stringify(questionsData))
 
         $.post({url: "/moodle/koolsoft/question/rest/index.php?action=create"
             , data : data

@@ -7,17 +7,22 @@
         <div class="modal-body">
             <div id="questionDiv">
                 <div class="form-group">
-                    <label for="questionEditTxt">Question</label>
+                    <label class="text-primary">Question</label>
                     <textarea class="form-control new_question_input" placeholder="question" disabled><?php echo $question->questiontext ?></textarea>
                 </div>
-                <label>Answers</label>
 
                 <?php foreach ($question->options->answers as $answer) { ?>
-                    <div class="form-group">
-                        <input class="new_question_input" type="radio" name="new_question_correct_answer"
-                            <?php if($answer->fraction > 0){ echo "checked";} else {echo "disabled";}?>>
-                        <input class="new_question_input"  placeholder="answer" disabled value="<?php echo $answer->answer ?>">
-                    </div>
+                    <?php if($answer->fraction > 0){?>
+                        <label class="text-success">Correct Answer </label>
+                        <div class="form-group">
+                            <input disabled value="<?php if($answer->answer != rest_question::$EMPTY_QUESTION) {echo $answer->answer;} ?>"/>
+                        </div>
+                        <label class="text-danger">Wrong Answers</label>
+                    <? } else { ?>
+                        <div class="form-group">
+                            <input disabled value="<?php if($answer->answer != rest_question::$EMPTY_QUESTION) {echo $answer->answer;} ?>"/>
+                        </div>
+                    <?php } ?>
                 <?php } ?>
 
                 <div class="form-group">
@@ -26,6 +31,8 @@
                 </div>
 
             </div>
+
+
         </div>
         <div class="modal-footer">
 
