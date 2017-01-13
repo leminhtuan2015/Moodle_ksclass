@@ -19,6 +19,7 @@ global $DB, $USER;
 $dao = new ks_question();
 
 class rest_question {
+    public static $EMPTY_QUESTION = "ks_mark_emptyquestion_1108";
 
     public function create(){
         global $dao;
@@ -28,7 +29,6 @@ class rest_question {
 
 //        error_log(print_r($questions, true));
 
-        // save
         foreach ($questions as $question){
             $questionObject = $dao->create($question);
             $question->resultText = "Success";
@@ -89,7 +89,6 @@ class rest_question {
         } else {
             echo json_encode($questions);
         }
-
     }
 
     public function getByIds(){
@@ -115,6 +114,7 @@ class rest_question {
 
         $id = optional_param('id', "", PARAM_TEXT);
         $dao->delete($id);
+//        error_log(print_r($status, true));
         echo true;
     }
 
@@ -122,10 +122,8 @@ class rest_question {
         global $dao;
 
         $id = optional_param('id', "", PARAM_TEXT);
-
         $question = $dao->get($id);
-
-        error_log(print_r($question, true));
+//        error_log(print_r($question, true));
 
         include ("../views/show.php");
     }

@@ -15,7 +15,9 @@ require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/formslib.php');
 require_once(__DIR__."/../../../question/type/questiontypebase.php");
 
-class ks_question{
+class ks_question {
+    private static $DEFAULT_CATEGORY_ID = 0;
+
     public function getByTag($tags){
         global $DB, $USER;
 
@@ -42,6 +44,7 @@ class ks_question{
 
     public function create($question){
         global $DB, $USER;
+
         $questionObject = new stdClass();
         if($question->id && $question->id != "undefined" && $question->id != "null"){
             $questionObject->id = $question->id;
@@ -50,7 +53,9 @@ class ks_question{
         $questionObject->createdby = $USER->id;
         $questionObject->qtype = "multichoice";
         $qtypeobj = question_bank::get_qtype($questionObject->qtype);
-        $data = $this->buildQuestionObject($question->wrongAnswer, $question->question, $question->answer, 0, $questionObject->qtype);
+        $data = $this->buildQuestionObject($question->wrongAnswer,
+            $question->question, $question->answer,
+            ks_question::$DEFAULT_CATEGORY_ID, $questionObject->qtype);
         $questionObject = $qtypeobj->save_question_no_context($questionObject, $data);
 
         $tags = $question->tags;
@@ -137,21 +142,26 @@ class ks_question{
     }
     public function delete($id){
         global $DB;
+        $status = 0;
 
 //        question_require_capability_on($id, 'edit');
         $tagQuestions = $this->loadTagQuestion($id);
+
         foreach($tagQuestions as $tagQuestion){
             $this->deleteTagQuestion($tagQuestion->id);
         }
 
         $tagQuestions = $this->loadTagQuestion($id);
+
         foreach($tagQuestions as $tagQuestion){
             $this->deleteTagQuestion($tagQuestion->id);
         }
+
         if (questions_in_use(array($id))) {
             $DB->set_field('question', 'hidden', 1, array('id' => $id));
         } else {
-            $DB->delete_records('question', array('id' => $id));
+//            $DB->delete_records('question', array('id' => $id));
+            question_delete_question($id);
         }
     }
 
