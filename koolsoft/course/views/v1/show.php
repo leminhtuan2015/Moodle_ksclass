@@ -146,7 +146,7 @@
         overflow: hidden;
     }
     .chapterName{
-        width: calc(100% - 45px);
+        width: calc(100% - 50px);
         display: inline-block;
     }
     .active_link_lecture_test_color {
