@@ -8,7 +8,7 @@
  */
 
 require_once(__DIR__."/../application/ApplicationController.php");
-require_once(__DIR__."/../course/models/CourseUtil.php");
+require_once(__DIR__."/../course/models/Course.php");
 
 class FrontendController extends ApplicationController {
 
@@ -19,9 +19,9 @@ class FrontendController extends ApplicationController {
     public function index(){
         global $USER;
 
-        $courses = CourseUtil::getCourses();
-        $myFollowingCourses = CourseUtil::getMyCourses();
-        $myCreatedCourses = CourseUtil::getCoursesByCreator($USER->id);
+        $courses = Course::getCourses();
+        $myFollowingCourses = Course::getMyCourses();
+        $myCreatedCourses = Course::getCoursesByCreator($USER->id);
 
 //        require_once("views/index.php");
         require_once("views/v1/index.php");

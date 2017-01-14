@@ -8,7 +8,7 @@
  */
 
 require_once(__DIR__."/../application/ApplicationController.php");
-require_once(__DIR__."/../course/models/CourseUtil.php");
+require_once(__DIR__."/../course/models/Course.php");
 require_once(__DIR__."/../../config.php");
 require_once(__DIR__."/../../koolsoft/utility/DateUtil.php");
 
@@ -27,7 +27,7 @@ class SearchController extends ApplicationController {
 
     public function show($keyword){
 
-        $courses = CourseUtil::search($keyword);
+        $courses = Course::search($keyword);
 
         require_once(__DIR__.'/views/show.php');
     }

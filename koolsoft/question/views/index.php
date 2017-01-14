@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="resources/css/question.css">
-<script src="resources/javascript/rest_question.js"></script>
+
+<script src="resources/javascripts/question.js"></script>
 
 <div id="modal_container">
 </div>
@@ -22,6 +23,8 @@
 
     </div>
 
+    <?php include ("paging.php")?>
+
     <br>
 
     <div id="question_list">
@@ -30,3 +33,7 @@
 </div>
 
 <?php require_once ("new.php");?>
+
+<script>
+    getByTag(1);
+</script>

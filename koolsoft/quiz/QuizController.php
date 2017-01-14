@@ -14,7 +14,7 @@ require_once(__DIR__.'/../../question/editlib.php');
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once(__DIR__.'/models/ks_quiz.php');
 require_once(__DIR__."/../../koolsoft/question_categories/models/ks_question_categories.php");
-require_once($CFG->dirroot . '/koolsoft/course/models/CourseUtil.php');
+require_once($CFG->dirroot . '/koolsoft/course/models/Course.php');
 
 class QuizController extends ApplicationController{
 
