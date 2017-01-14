@@ -15,7 +15,7 @@ class ks_question_progress
        global $DB;
        $questionProgess = $DB->get_record("question_progress", array("quiz_id"=> $quizId, "question_id"=> $questionId, "user_id" => $userId));
        if(!$questionProgess){
-            $this->create($userId, $quizId, $questionId, -1);
+           $questionProgess = $this->create($userId, $quizId, $questionId, -1);
        }
 
        return $questionProgess;
@@ -40,25 +40,29 @@ class ks_question_progress
         $historyArray = explode( ',', $questionProgess->history);
         if($faction > 0){
             array_push($historyArray, 1);
+            if($questionProgess->box == -1){
+                $questionProgess->box = 1;
+            }else {
+                $questionProgess->box = $questionProgess->box + 1;
+            }
         }else {
             array_push($historyArray, 0);
+            $questionProgess->box = 0;
         }
         $questionProgess->history = implode(",", $historyArray);
-
-        $countRightAnswer = 0;
-        foreach ($historyArray as $history){
-            if($history == 1){
-                $countRightAnswer += 1;
-            }
-        }
-        $questionProgess->box = $countRightAnswer;
 
         $DB->update_record("question_progress", $questionProgess);
     }
 
+    public function getByBox($userId, $quizId, $box, $ofset, $limit){
+        global $DB;
+        $questionProgess = $DB->get_records("question_progress", array("quiz_id"=> $quizId, "user_id" => $userId, "box" => $box), "", "*", $ofset, $limit);
+        return $questionProgess;
+    }
+
     public function getByUserAndQuiz($userId, $quizId){
         global $DB;
-        $questionProgess = $DB->get_records("question_progress", array("quiz_id"=> $quizId, "user_id" => $userId, "sort"=> "box DESC"));
+        $questionProgess = $DB->get_records("question_progress", array("quiz_id"=> $quizId, "user_id" => $userId), "box DESC");
         return $questionProgess;
     }
 

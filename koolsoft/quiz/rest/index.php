@@ -5,6 +5,7 @@
  * Date: 1/13/17
  * Time: 1:16 AM
  */
+header('Access-Control-Allow-Origin: *');
 
 global $CFG;
 require_once("../../../config.php");

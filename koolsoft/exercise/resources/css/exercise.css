@@ -1,0 +1,48 @@
+.wrongAnswer{
+    background-color: #fdf0ef;
+}
+
+.correctAnswer{
+    background-color: #d8ebd2;
+}
+
+.divWrong{
+    color: #e22128;
+    background-color: #fdf0ef;
+    padding: 5px;
+}
+
+.divCorrect{
+    color: #00ad7c;
+    background-color: #d8ebd2;
+    padding: 5px;
+}
+
+.questionNoAnswer{
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border: solid 1px #0c0c0c;
+}
+
+.questionCorrectAnswer{
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: #00ad7c;
+    border: none;
+}
+
+.questionWrongAnswer{
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: #e22128;
+    border: none;
+}
+
+
+
+
+

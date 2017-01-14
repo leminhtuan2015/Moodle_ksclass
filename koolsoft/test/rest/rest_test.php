@@ -66,6 +66,7 @@ class rest_test
 
     public function startPlay(){
         global $USER, $DB;
+
         // Get submitted parameters.
         $id = required_param('cmid', PARAM_INT); // Course module id
         $forcenew = optional_param('forcenew', false, PARAM_BOOL); // Used to force a new preview
@@ -81,7 +82,6 @@ class rest_test
 
         $quizobj = quiz::create($cm->instance, $USER->id);
 
-
         // Create an object to manage all the other (non-roles) access rules.
         $timenow = time();
         $accessmanager = $quizobj->get_access_manager($timenow);
@@ -93,7 +93,6 @@ class rest_test
         $attempt = quiz_prepare_and_start_new_attempt($quizobj, $attemptnumber, $lastattempt);
         $result = new stdClass();
         $result->id = $attempt->id;
-
         return $result;
     }
 

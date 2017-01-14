@@ -17,7 +17,7 @@
                     <?php foreach ($sectionLecture->modinfo->cms as $cm) { ?>
                         <?php if ($cm->section == $sectionLecture->id) { ?>
                             <?php if($cm->module == ClientUtil::$resourceTypeQuiz){?>
-                                <?php $quiz = $quizs[$cm->instance]; ?>
+                                <?php $quiz = $quizs[$cm->instance];?>
                                 <?php if($quiz->type == ClientUtil::$typeTest){ ?>
                                     <div style="padding:10px;color:white;margin-left:25px;cursor: pointer;" 
                                         class="active_link_lecture_test textOverflow"
@@ -33,14 +33,14 @@
                                         <br>
                                     </div>
                                 <?php }else { ?>
-                                    <div style="padding:10px;color:white;margin-left:25px;cursor: pointer;" 
+                                    <div style="padding:10px;color:white;margin-left:25px;cursor: pointer;"
                                          class="active_link_lecture_test textOverflow" 
                                          parent-id="<?php echo $sectionLecture->id ?>">
                                         <img src="../resources/images/star-01.png" width="10px" style="margin-left: 5px;">
                                         <span data-toggle='pill' class='showExerciseBtn btnExercise' 
                                            id-quiz-instance='<?php echo $cm->instance ?>' 
                                            id-section='<?php echo $cm->section ?>'
-                                           id-quiz='<?php echo $cm->id ?>' href='#quiz<?php echo $cm->id ?>' >
+                                           id-quiz='<?php echo $cm->id ?>' href='#exercise<?php echo $cm->id ?>' >
                                            <?php echo $cm->name ?>
                                        </span>
                                         <br>
