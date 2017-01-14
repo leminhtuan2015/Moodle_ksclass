@@ -29,6 +29,7 @@ class Discussion{
     public static function getDefaultForum($modinfo){
         global $DB;
 
+        // ($modinfo->instances["forum"])[0] BECAUSE when you create new course => Moodle will automaticlly create one forum
         $info = array_values($modinfo->instances["forum"])[0];
         $forumId = $info->instance;
         $courseModuleId = $info->id;
@@ -41,7 +42,11 @@ class Discussion{
             $discussion->post = $post_of_discusstion;
             $discussion->replycount = forum_count_replies($post_of_discusstion);
 
-//            Logger::log($post_of_discusstion);
+            $posts = forum_get_all_discussion_posts($discussion->id, "p.created ASC")[$parent]->children;
+
+            $discussion->children = $posts;
+//            $firstpost = forum_get_firstpost_from_discussion($discussion->id);
+//            Logger::log($discussion);
         }
 
         return array("forumId" => $forumId, "discussions" => $discussions);
