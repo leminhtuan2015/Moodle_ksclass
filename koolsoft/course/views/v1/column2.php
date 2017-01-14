@@ -1,17 +1,14 @@
 <div class="tab-content listCategory" style="overflow:scroll; overflow-x: hidden;">
-    <div style="border-bottom: 2px solid #797979;">
-        <h4 style="padding: 5px 5px 7px 5px;color:white;display: inline-block">
-            <a class="titleCourse"
-               href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>"
-               style="color: whitesmoke">
+    <div>
+        <h5 class="titleCourse textOverflow" style="padding: 5px 5px 7px 5px;color:white;display: inline-block;">
+            <a href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>"
+               style="color: whitesmoke;padding-left: 5px;">
                 <?php echo $course->fullname ?>
             </a>
-        </h4>
-
-
+        </h5>
         <div class="dropdown" style="display: inline-block;float: right; margin-top: 5px;">
             <a class="dropdown-toggle iconPanel" data-toggle="dropdown">
-                <i class="fa fa-plus-circle" style="color:white;"></i>
+                <img src="../resources/images/add-01.png" class="iconHome">
             </a>
             <ul class="dropdown-menu menuCustom">
                 <li><a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a></li>
@@ -28,13 +25,15 @@
                 <?php if($sectionChapter->section == 0){continue;} ?>
 
                 <?php if($sectionChapter->parent_id == 0){ ?>
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
+                    <div>
+                        <h5 class="panel-title chapterName textOverflow" style="padding-left:10px;vertical-align:middle;">
                             <a data-toggle="collapse" data-parent="#chapter<?php echo $sectionChapter->id?>"
                                href="#collapse_chapter<?php echo $sectionChapter->id?>">
                                 <?php echo "$sectionChapter->name"?>
                             </a>
-                        </h4>
+                        </h5>
+                        <h6 style="display:inline-block;vertical-align:middle;">7/12</h6>
+                        <img src="../resources/images/more-01.png" width="10px" style="display:inline-block;vertical-align:middle;margin-left:3px">
                     </div>
 
                     <div id="collapse_chapter<?php echo $sectionChapter->id?>" class="panel-collapse collapse in">
