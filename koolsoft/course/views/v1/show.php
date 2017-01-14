@@ -20,8 +20,7 @@
 
     .container1 {
         width: 100px;
-        background-color: #1B1B1B;
-        border-right: 2px solid #797979;
+        background-color: #1C262F;
         vertical-align: top;
         float: left;
         height: 100%;
@@ -44,9 +43,9 @@
 
     .listCategory {
         vertical-align: top;
-        background-color: #282828;
+        background-color: #2E3D49;
         height: 100%;
-        padding: 5px;
+        padding: 5px 5px 5px 0px;
     }
 
     .rightPanel {
@@ -56,17 +55,18 @@
 
     .iconHome {
         color: white;
-        width: 70px;
+        width: 35px;
     }
 
     .iconPanel {
         font-size: 2.3em;
+        width: 100px;
     }
     .iconPanelHome {
         font-size: 2.3em;
     }
     .iconActiveHome:active, .iconActiveHome:hover, .iconActiveHome.active{
-         background-color: #0091ea !important;
+         background-color: #2E3D49 !important;
          
     }
     .menuHome>li>a{
@@ -78,13 +78,6 @@
         width: 100%;
     }
 
-    .iconLogout {
-        position: absolute !important;
-        bottom: 0px;
-        display: block !important;
-        padding-left: 5px;
-    }
-
     .white_color {
         color: white;
     }
@@ -93,13 +86,9 @@
         padding-left: 20px;
     }
 
-    .btnQuiz {
-        padding-left: 40px;
-    }
-
     .btnExercise {
-        color: #00b3ee;
-        padding-left: 40px;
+        padding-left: 5px;
+        font-size: 0.9em;
     }
 
     .headerRightPanel {
@@ -146,6 +135,25 @@
     .lectureTitle:visited, .lectureTitle:hover, .lectureTitle:active,.lectureTitle .active{
          color: #0091ea !important;
     }
+    .menuHome>li.active>a{
+        color: #fff !important;
+        background-color: #2E3D49 !important;  
+    }
+    .textOverflow{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .chapterName{
+        width: calc(100% - 45px);
+        display: inline-block;
+    }
+    .active_link_lecture_test_color {
+        background-color: #24323E;
+    }
+    .active_link_lecture:hover,.active_link_lecture_test:hover{
+        background-color: #24323E;
+    }
 </STYLE>
 
 <script src="/moodle/koolsoft/course/views/v1/resources/course.js"></script>
@@ -160,7 +168,7 @@
     require_once ($CFG->dirroot."/koolsoft/quiz/views/question_category_dialog.php");
 ?>
 
-<div class="container">
+<!-- <div class="container">
     <?php if(!$course->isEnroled){ ?>
         <?php if($course->isFree){ ?>
             <div class="alert alert-success">
@@ -172,7 +180,7 @@
             </div>
         <?php } ?>
     <?php } ?>
-</div>
+</div> -->
 
 <DIV class='panelContent'>
     <DIV class='postionContent'>
@@ -228,3 +236,5 @@
     });
 
 </script>
+
+<script src="/moodle/koolsoft/course/views/v1/resources/chapter.js"></script>
