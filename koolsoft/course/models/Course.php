@@ -14,7 +14,7 @@ require_once($CFG->libdir. '/coursecatlib.php');
 require_once(__DIR__."/../../utility/DateUtil.php");
 require_once(__DIR__."/../../../mod/forum/lib.php");
 
-class CourseUtil {
+class Course {
 
     public static function createDiscussion($forum, $message, $courseId){
         require_once(__DIR__."/../../utility/DateUtil.php");
@@ -56,16 +56,16 @@ class CourseUtil {
 //        Logger::log($courses);
 
         foreach ($courses as $course) {
-            $course->isEnroled = CourseUtil::isEnrolled1($course->id);
-            $course->isFree = CourseUtil::isFree($course->id);
-            $course->isPresent = CourseUtil::isPresent($course);
+            $course->isEnroled = Course::isEnrolled1($course->id);
+            $course->isFree = Course::isFree($course->id);
+            $course->isPresent = Course::isPresent($course);
         }
     }
 
     public static function getCourses($categoryid){
         $courses = get_courses($categoryid);
 
-        CourseUtil::prepare_courses($courses);
+        Course::prepare_courses($courses);
 
         return $courses;
     }
@@ -75,9 +75,9 @@ class CourseUtil {
 
         $params = array('id' => $id);
         $course = $DB->get_record('course', $params, '*', MUST_EXIST);
-        $course->isEnroled = CourseUtil::isEnrolled1($id);
-        $course->isFree = CourseUtil::isFree($id);
-        $course->isPresent = CourseUtil::isPresent($course);
+        $course->isEnroled = Course::isEnrolled1($id);
+        $course->isFree = Course::isFree($id);
+        $course->isPresent = Course::isPresent($course);
 
         return $course;
     }
@@ -85,7 +85,7 @@ class CourseUtil {
     public static function getCourseDataAll($id){
         global $DB;
 
-        $course = CourseUtil::getCourse($id);
+        $course = Course::getCourse($id);
 
         $modinfo = get_fast_modinfo($course);
         $modnames = get_module_types_names();
@@ -111,7 +111,7 @@ class CourseUtil {
 
         $courses = enrol_get_all_users_courses($USER->id, true, "startdate, enddate, summary", 'visible DESC, sortorder ASC');
 
-        CourseUtil::prepare_courses($courses);
+        Course::prepare_courses($courses);
 
         return $courses;
     }
@@ -122,7 +122,7 @@ class CourseUtil {
         $sqlString = "SELECT * FROM ".$DB->get_prefix()."course WHERE creator_id = $creatorId";
         $courses = $DB->get_records_sql($sqlString, array());
 
-        CourseUtil::prepare_courses($courses);
+        Course::prepare_courses($courses);
 
         return $courses;
     }
@@ -254,7 +254,7 @@ class CourseUtil {
 
         $courses = coursecat::search_courses($search);
 
-        CourseUtil::prepare_courses($courses);
+        Course::prepare_courses($courses);
 
         return $courses;
     }

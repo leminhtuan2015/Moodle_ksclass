@@ -10,7 +10,7 @@ require_once(__DIR__."/../../config.php");
 
 require_once(__DIR__."/../application/ApplicationController.php");
 require_once (__DIR__."/../category/CategoryController.php");
-require_once (__DIR__."/models/CourseUtil.php");
+require_once (__DIR__."/models/Course.php");
 require_once($CFG->dirroot."/koolsoft/quiz/models/ks_quiz.php");
 
 class CourseController extends ApplicationController {
@@ -20,7 +20,7 @@ class CourseController extends ApplicationController {
     }
 
     public function index($categoryid) {
-        $courses = CourseUtil::getCourses($categoryid);
+        $courses = Course::getCourses($categoryid);
 
         require_once(__DIR__.'/views/index.php');
     }
@@ -31,7 +31,7 @@ class CourseController extends ApplicationController {
         $lectureActive = optional_param('lectureActive', "", PARAM_TEXT);
         $tabActive = optional_param('tabActive', "", PARAM_TEXT);
 
-        $course = CourseUtil::getCourse($id);
+        $course = Course::getCourse($id);
 
         $modinfo = get_fast_modinfo($course);
         $modnames = get_module_types_names();
@@ -49,8 +49,8 @@ class CourseController extends ApplicationController {
             $section->parent_id = $courseSection->parent_id;
         }
 
-        $enrolledUsers = CourseUtil::enrolledUsers($id);
-        $forumData = CourseUtil::getDefaultForum($modinfo);
+        $enrolledUsers = Course::enrolledUsers($id);
+        $forumData = Course::getDefaultForum($modinfo);
 
         $forumId = $forumData["forumId"];
         $discussions = $forumData["discussions"];
@@ -107,7 +107,7 @@ class CourseController extends ApplicationController {
 
     public function myCourse(){
         global $USER;
-        $courses = CourseUtil::getMyCourses();
+        $courses = Course::getMyCourses();
 
         require_once(__DIR__.'/views/my_course.php');
     }
@@ -122,7 +122,7 @@ class CourseController extends ApplicationController {
             $categoryController = new CategoryController();
             $categories = $categoryController->getAllCategories();
             $categoriesName = $categoryController->getPathCategory($categories);
-            $isFree = CourseUtil::isFree($id);
+            $isFree = Course::isFree($id);
 
             $course->startdate = DateUtil::getHumanDate($course->startdate);
             $course->enddate = DateUtil::getHumanDate($course->enddate);
@@ -175,7 +175,7 @@ class CourseController extends ApplicationController {
 
         $id = $_GET['id'];
 
-        CourseUtil::selfEnrol($id, $USER->id);
+        Course::selfEnrol($id, $USER->id);
 
         redirect("/moodle/koolsoft/course/?action=show&id=$id");
     }
@@ -184,7 +184,7 @@ class CourseController extends ApplicationController {
         global $USER;
 
         $id = $_GET['id'];
-        CourseUtil::unEnrol($id, $USER->id);
+        Course::unEnrol($id, $USER->id);
 
         redirect("/moodle/koolsoft/");
     }
@@ -194,7 +194,7 @@ class CourseController extends ApplicationController {
         $forum = $_POST["forum"];
         $message = $_POST["message"];
 
-        CourseUtil::createDiscussion($forum, $message, $courseId);
+        Course::createDiscussion($forum, $message, $courseId);
 
         redirect("/moodle/koolsoft/course/?action=show&id=$courseId&tabActive=discussionBox");
     }
@@ -210,6 +210,6 @@ class CourseController extends ApplicationController {
             $isFree = false;
         }
 
-        CourseUtil::enableSelfEnrol($courseId, $isFree);
+        Course::enableSelfEnrol($courseId, $isFree);
     }
 }
