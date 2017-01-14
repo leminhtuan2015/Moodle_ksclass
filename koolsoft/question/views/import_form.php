@@ -1,4 +1,6 @@
-<input type="file" id="importQuestionButton" name="fileupload"/>
+<div class="pull-right">
+    <input type="file" id="importQuestionButton" name="fileupload"/>
+</div>
 
 <div id='ajax_loader' style="position: fixed; left: 50%; top: 50%; display: none;">
     <img src="https://www.drupal.org/files/issues/ajax-loader.gif"></img>
@@ -34,7 +36,7 @@
                     $("#ajax_loader").hide();
                 });
 
-                getByTag();
+                getByTag(1);
 
                 if(!result){
                     alert("Please make sure you are submitting .xls or xlsx file");

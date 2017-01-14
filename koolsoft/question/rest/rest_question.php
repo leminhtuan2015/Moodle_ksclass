@@ -79,9 +79,10 @@ class rest_question {
 
         $tagStrings = optional_param('tag', "", PARAM_TEXT);
         $data_type = optional_param('data_type', "", PARAM_TEXT);
+        $page = optional_param('page', "", PARAM_TEXT);
 
         $tags = (array) json_decode($tagStrings);
-        $questions = $dao->getByTag($tags);
+        $questions = $dao->getByTag($tags, $page);
 
         foreach ($questions as $question){
             $question->timemodified = DateUtil::getHumanDate($question->timemodified);

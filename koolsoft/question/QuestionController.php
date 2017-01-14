@@ -23,9 +23,14 @@ class QuestionController extends ApplicationController {
     }
 
     public function index($idCategory) {
+        global $DB, $USER;
+
         $daoQuestionCategories = new ks_question_categories();
         $returnUrl = optional_param("returnUrl", "", PARAM_TEXT);
         $category = $daoQuestionCategories->loadCategory($idCategory);
+
+        $count = $DB->count_records('question', array('createdby' => $USER->id));
+        $pageZise = $count/20;
 
         require_once(__DIR__.'/views/index.php');
     }

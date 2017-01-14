@@ -18,13 +18,20 @@ require_once(__DIR__."/../../../question/type/questiontypebase.php");
 class ks_question {
     private static $DEFAULT_CATEGORY_ID = 0;
 
-    public function getByTag($tags){
+    public function getByTag($tags="", $page=0, $item_per_page=20){
         global $DB, $USER;
+        $offset = $page * $item_per_page;
 
         if($tags && count($tags) > 0){
-            $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM ".$DB->get_prefix()."question q RIGHT JOIN ".$DB->get_prefix()."tag_question t ON q.id = t.id_question AND q.createdby=".$USER->id;
+            $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM "
+                .$DB->get_prefix()."question q RIGHT JOIN "
+                .$DB->get_prefix()
+                ."tag_question t ON q.id = t.id_question AND q.createdby="
+                .$USER->id;
+
             $sqlString = $sqlString." AND t.id_tag IN (";
             $length = count($tags);
+
             for($i = 0; $i < $length; $i ++){
                 if($i == $length || $i == 0){
                     $sqlString = $sqlString.$tags[$i];
@@ -32,11 +39,17 @@ class ks_question {
                     $sqlString = $sqlString.",".$tags[$i];
                 }
             }
+
             $sqlString = $sqlString.")";
             $sqlString = $sqlString." order by q.timemodified DESC";
             $questions = $DB->get_records_sql($sqlString, array());
         }else {
-            $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM ".$DB->get_prefix()."question q WHERE q.createdby=".$USER->id." order by q.timemodified DESC";
+            $sqlString = "SELECT DISTINCT q.id, q.name, q.timemodified FROM "
+                .$DB->get_prefix()
+                ."question q WHERE q.createdby="
+                .$USER->id." order by q.timemodified DESC "
+                ."LIMIT $item_per_page OFFSET $offset";
+
             $questions = $DB->get_records_sql($sqlString, array());
         }
         return $questions;
