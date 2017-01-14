@@ -129,7 +129,7 @@
 </script>
 
 <div>
-    <form action="/moodle/koolsoft/course/?action=createDiscussion" method="post">
+    <form action="/moodle/koolsoft/discussion/?action=create" method="post">
         <input type="hidden" name="forum" value="<?php echo $forumId ?>"/>
         <input type="hidden" name="courseId" value="<?php echo $course->id ?>"/>
 

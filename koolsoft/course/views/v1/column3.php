@@ -74,5 +74,5 @@
     <!--    RENDER MEMBER TAB-->
     <?php require_once ("members.php")?>
 
-    <?php require_once ("discussion.php")?>
+    <?php require_once (__DIR__."/../../../discussion/views/discussion.php");?>
 </div>

@@ -2,9 +2,10 @@
     <div class="input-group">
         <input class="form-control" placeholder="Add a comment" type="text">
         <span class="input-group-addon">
-                        <a href="#"><i class="fa fa-edit"></i></a>
-                    </span>
+            <a href="#"><i class="fa fa-edit"></i></a>
+        </span>
     </div>
+
     <ul class="comments-list">
         <li class="comment">
             <ul class="comments-list">

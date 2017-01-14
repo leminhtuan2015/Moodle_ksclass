@@ -12,6 +12,7 @@ require_once(__DIR__."/../application/ApplicationController.php");
 require_once (__DIR__."/../category/CategoryController.php");
 require_once (__DIR__."/models/Course.php");
 require_once($CFG->dirroot."/koolsoft/quiz/models/ks_quiz.php");
+require_once($CFG->dirroot."/koolsoft/discussion/models/Discussion.php");
 
 class CourseController extends ApplicationController {
 
@@ -50,7 +51,8 @@ class CourseController extends ApplicationController {
         }
 
         $enrolledUsers = Course::enrolledUsers($id);
-        $forumData = Course::getDefaultForum($modinfo);
+
+        $forumData = Discussion::getDefaultForum($modinfo);
 
         $forumId = $forumData["forumId"];
         $discussions = $forumData["discussions"];
@@ -187,16 +189,6 @@ class CourseController extends ApplicationController {
         Course::unEnrol($id, $USER->id);
 
         redirect("/moodle/koolsoft/");
-    }
-
-    public function createDiscussion(){
-        $courseId = $_POST["courseId"];
-        $forum = $_POST["forum"];
-        $message = $_POST["message"];
-
-        Course::createDiscussion($forum, $message, $courseId);
-
-        redirect("/moodle/koolsoft/course/?action=show&id=$courseId&tabActive=discussionBox");
     }
 
     private function setSelfEnrolment($courseId, $cost){
