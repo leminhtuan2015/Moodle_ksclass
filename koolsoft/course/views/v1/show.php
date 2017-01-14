@@ -51,6 +51,7 @@
     .rightPanel {
         vertical-align: top;
         height: 100%;
+        background-color: white;
     }
 
     .iconHome {
