@@ -26,6 +26,14 @@ class Discussion{
         forum_add_discussion($discussion);
     }
 
+    public static function createReply($reply){
+        global $DB;
+
+        $parent = forum_get_post_full($reply);
+        $discussion = $DB->get_record('forum_discussions', array('id' => $parent->discussion));
+        forum_add_discussion($discussion);
+    }
+
     public static function getDefaultForum($modinfo){
         global $DB;
 

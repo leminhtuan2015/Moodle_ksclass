@@ -1,6 +1,6 @@
 <div class="post-footer">
     <div class="input-group">
-        <input class="form-control" placeholder="Add a comment" type="text">
+        <input class="form-control" placeholder="Add a comment" type="text" id="reply_discussion_input">
         <span class="input-group-addon">
             <a href="#"><i class="fa fa-edit"></i></a>
         </span>
