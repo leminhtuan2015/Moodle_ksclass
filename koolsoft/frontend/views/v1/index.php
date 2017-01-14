@@ -19,7 +19,7 @@
 	}
 	.itemCategory-Home{
 		width: calc(100% - 35px);
-		color: white;
+		color: black;
 	}
 </STYLE>
 
