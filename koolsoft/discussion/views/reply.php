@@ -1,6 +1,6 @@
 <li class="comment">
     <a class="pull-left" href="#">
-        <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+        <img class="avatar" src="/moodle/koolsoft/resources/images/user_3.jpg" alt="avatar">
     </a>
     <div class="comment-body">
         <div class="comment-heading">
