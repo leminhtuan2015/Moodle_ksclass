@@ -88,7 +88,7 @@
         theme: 'modern',
         plugins: [
             'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-            'searchreplace wordcount visualblocks visualchars code fullscreen placeholder',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
             'insertdatetime media nonbreaking save table contextmenu directionality',
             'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
         ],
@@ -103,35 +103,12 @@
             '//www.tinymce.com/css/codepen.min.css'
         ]
     });
-
-    tinymce.PluginManager.add('placeholder', function (editor) {
-        editor.on('init', function () {
-            var label = new Label;
-            onBlur();
-            tinymce.DOM.bind(label.el, 'click', onFocus);
-            editor.on('focus', onFocus);
-            editor.on('blur', onBlur);
-            editor.on('change', onBlur);
-            editor.on('setContent', onBlur);
-            function onFocus() { if (!editor.settings.readonly === true) { label.hide(); } editor.execCommand('mceFocus', false); }
-            function onBlur() { if (editor.getContent() == '') { label.show(); } else { label.hide(); } }
-        });
-        var Label = function () {
-            var placeholder_text = editor.getElement().getAttribute("placeholder") || editor.settings.placeholder;
-            var placeholder_attrs = editor.settings.placeholder_attrs || { style: { position: 'absolute', top: '2px', left: 0, color: '#aaaaaa', padding: '.25%', margin: '5px', width: '80%', 'font-size': '17px !important;', overflow: 'hidden', 'white-space': 'pre-wrap' } };
-            var contentAreaContainer = editor.getContentAreaContainer();
-            tinymce.DOM.setStyle(contentAreaContainer, 'position', 'relative');
-            this.el = tinymce.DOM.add(contentAreaContainer, "label", placeholder_attrs, placeholder_text);
-        }
-        Label.prototype.hide = function () { tinymce.DOM.setStyle(this.el, 'display', 'none'); }
-        Label.prototype.show = function () { tinymce.DOM.setStyle(this.el, 'display', ''); }
-    });
 </script>
 
 <div>
-    <form action="/moodle/koolsoft/discussion/?action=create" method="post">
-        <input type="hidden" name="forum" value="<?php echo $forumId ?>"/>
-        <input type="hidden" name="courseId" value="<?php echo $course->id ?>"/>
+    <form action="/moodle/koolsoft/discussion/?action=create" method="post" id="new_discussion_form">
+        <input type="hidden" name="forum" id="new_discussion_form_forum" value="<?php echo $forumId ?>"/>
+        <input type="hidden" name="courseId" id="new_discussion_form_courseId" value="<?php echo $course->id ?>"/>
 
         <textarea id="newPostForm" name="message" placeholder="What are you doing right now?">
         </textarea>
@@ -141,6 +118,33 @@
         <br>
     </form>
 </div><!-- Status Upload  -->
+
+<script>
+    // SUBMIT FORM BY AJAX
+    $(function () {
+        $("#new_discussion_form").on('submit', function (e) {
+            e.preventDefault();
+
+            forumId = $("#new_discussion_form_forum").val()
+            courseId = $("#new_discussion_form_courseId").val()
+            discussionMessage = $("#newPostForm").val()
+
+//            alert(forumId + courseId + discussionMessage)
+
+            data = {"forum" : forumId, "courseId": courseId, "message": discussionMessage};
+
+            $.ajax({
+                type: 'post',
+                url: '/moodle/koolsoft/discussion/index.php/?action=create',
+                data: data,
+                success: function (result) {
+//                    alert(result)
+                    $("#list_discussion_of_course").prepend(result)
+                }
+            });
+        });
+    });
+</script>
 
 
 

@@ -52,8 +52,7 @@ class CourseController extends ApplicationController {
 
         $enrolledUsers = Course::enrolledUsers($id);
 
-        $forumData = Discussion::getDefaultForum($modinfo);
-
+        $forumData = Discussion::allDiscussionOfCourse($modinfo);
         $forumId = $forumData["forumId"];
         $discussions = $forumData["discussions"];
 
