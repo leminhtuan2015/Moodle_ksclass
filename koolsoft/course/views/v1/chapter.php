@@ -27,7 +27,7 @@
                                             id-quiz-instance='<?php echo $cm->instance ?>' 
                                             id-section='<?php echo $cm->section ?>'
                                             id-quiz='<?php echo $cm->id ?>' 
-                                            href='#quiz<?php echo $cm->id ?>' > 
+                                            href='#testPanel' > 
                                             <?php echo $cm->name ?>
                                         </span>
                                         <br>
@@ -40,7 +40,7 @@
                                         <span data-toggle='pill' class='showExerciseBtn btnExercise' 
                                            id-quiz-instance='<?php echo $cm->instance ?>' 
                                            id-section='<?php echo $cm->section ?>'
-                                           id-quiz='<?php echo $cm->id ?>' href='#exercise<?php echo $cm->id ?>' >
+                                           id-quiz='<?php echo $cm->id ?>' href='#exercisePanel' >
                                            <?php echo $cm->name ?>
                                        </span>
                                         <br>

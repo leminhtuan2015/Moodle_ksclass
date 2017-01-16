@@ -8,7 +8,7 @@
     global $CFG;
     include('templates/exercise.html');
 ?>
-<div id='exercise<?php echo $cm->id?>' class='tab-pane fade in'>
+<div id='exercisePanel' class='tab-pane fade in'>
     <div id='contentExercise' ></div>
 </div>
 

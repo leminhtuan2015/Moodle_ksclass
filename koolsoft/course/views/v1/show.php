@@ -93,10 +93,8 @@
     }
 
     .headerRightPanel {
-        padding: 10px 10px 12px 10px;
+        padding: 7px 7px 7px 7px;
         border-bottom: 2px solid #797979;
-        color: white;
-        background-color: black;
         margin-top: 0px;
         width: 100%;
     }

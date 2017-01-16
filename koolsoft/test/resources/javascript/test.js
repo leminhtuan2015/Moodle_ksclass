@@ -12,6 +12,7 @@ Ks.test.idTestCurrent = null;
 Ks.test.idTestInstanceCurrent = null;
 Ks.test.idSectionCurrent = null;
 Ks.test.testPanelCurrent = null;
+Ks.test.Timeinterval = null;
 
 Ks.test.init = function () {
     Ks.test.handler();
@@ -25,39 +26,19 @@ Ks.test.handler = function () {
     });
 
     $("#btnSubmitFormQuestion").click(function () {
-        var value = $(this).attr("answer-value");
-        var nameAnswerField = $(this).attr("name-answer-field");
-        var data = {};
-        var inputDatas = $("input[is-submit=true]");
-        var length = inputDatas.length;
-        for(var i = 0; i < length; i++){
-            var input = $(inputDatas[i]);
-            if(input.attr("name")){
-                if(input.attr("type") != "radio"){
-                    data[input.attr("name")] = input.val();
-                }else {
-                    if(input.prop("checked") == true){
-                        data[input.attr("name")] = input.val();
-                    }
-                }
-
-            }
-        }
-
-        data.action = "play";
-        $.ajax({
-            url: "/moodle/koolsoft/test/rest",
-            data: data,
-            success: function (result) {
-                var startPlay = JSON.parse(result);
-                Ks.test.idAttemptCurrent = startPlay.id;
-                Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
-            },
-            error : function () {
-                console.log("submit for play error!");
-            }
-
-        });
+    	Ks.test.submitForm();
+    });
+    
+    $(".tagQuestion").click(function () {
+    	var indexQuestion = $(this).attr("question-index");
+    	var tagType = $(this).attr("type-tag");
+    	if(tagType == 0){
+    		$("#" + indexQuestion).css("background-color", "rgb(57, 247, 134)");
+    	}else if(tagType == 1){
+    		$("#" + indexQuestion).css("background-color", "rgb(66, 238, 234)");
+    	}else if(tagType == 2){
+    		$("#" + indexQuestion).css("background-color", "rgb(236, 152, 68)");
+    	}
     });
 
     $(".answerQuestionLeft").click(function () {
@@ -73,6 +54,40 @@ Ks.test.handler = function () {
         }
     });
 };
+
+Ks.test.submitForm = function () {
+    var data = {};
+    var inputDatas = $("input[is-submit=true]");
+    var length = inputDatas.length;
+    for(var i = 0; i < length; i++){
+        var input = $(inputDatas[i]);
+        if(input.attr("name")){
+            if(input.attr("type") != "radio"){
+                data[input.attr("name")] = input.val();
+            }else {
+                if(input.prop("checked") == true){
+                    data[input.attr("name")] = input.val();
+                }
+            }
+
+        }
+    }
+
+    data.action = "play";
+    $.ajax({
+        url: "/moodle/koolsoft/test/rest",
+        data: data,
+        success: function (result) {
+            var startPlay = JSON.parse(result);
+            Ks.test.idAttemptCurrent = startPlay.id;
+            Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
+        },
+        error : function () {
+            console.log("submit for play error!");
+        }
+    });
+    clearClock();
+}
 
 Ks.test.showQuestion = function (index) {
     for(var i = 1; i <= Ks.test.numberQuestion; i++){
@@ -108,6 +123,15 @@ Ks.test.genPlayView = function (attempt, questionPanel){
 
     questionPanel.html(questionHtml);
     Ks.test.handler();
+    var deadline = new Date(Date.parse(new Date()) + attempt.quiz.timelimit * 1000);
+    Ks.test.initializeClock('clockdiv', deadline, function overTime(){
+    	if($("#testPanel").css("display") != "none"){
+    		$("#overTimeDialog").modal();
+        	$("#overTimeDialog").on("hidden.bs.modal", function() {
+        		Ks.test.submitForm();
+            });
+    	}
+    });
 };
 
 Ks.test.genReviewView = function (quiz, questionPanel){
@@ -136,8 +160,47 @@ Ks.test.genReviewView = function (quiz, questionPanel){
 
 };
 
+
+Ks.test.getTimeRemaining = function (endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  return {
+    'total': t,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+Ks.test.initializeClock = function (id, endtime, callback) {
+  var clock = document.getElementById(id);
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = Ks.test.getTimeRemaining(endtime);
+
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(Ks.test.Timeinterval);
+      return callback();
+    }
+  }
+
+  updateClock();
+  Ks.test.Timeinterval = setInterval(updateClock, 1000);
+}
+
+Ks.test.clearClock = function (){
+	clearInterval(Ks.test.Timeinterval);
+}
+
+
 $(function () {
     $(".showQuizBtn").click(function () {
+    	Ks.test.clearClock();
         Ks.test.idTestCurrent = $(this).attr("id-quiz");
         Ks.test.idTestInstanceCurrent = $(this).attr("id-quiz-instance");
         Ks.test.idSectionCurrent = $(this).attr("id-section");
@@ -149,7 +212,6 @@ $(function () {
             url: "/moodle/koolsoft/test/rest",
             data: data,
             success: function (result) {
-                console.log(result);
                 var resutTest = JSON.parse(result);
                 Ks.test.genReviewView(resutTest, Ks.test.testPanelCurrent);
             }

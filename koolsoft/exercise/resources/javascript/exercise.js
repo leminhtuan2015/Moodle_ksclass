@@ -10,6 +10,7 @@ Ks.exercise.idSectionCurrent = null;
 Ks.exercise.exercisePanelCurrent = null;
 Ks.exercise.questionPanelCurrent = null;
 Ks.exercise.questionResult = [];
+Ks.exercise.pagination = null;
 
 Ks.exercise.init = function () {
     Ks.exercise.handler();
@@ -52,11 +53,15 @@ Ks.exercise.handler = function (idBtnFinishExercise, idBtnNewExercise) {
             divAnswer.addClass("correctAnswer");
             divResult.addClass("divCorrect");
             divQuestionNumber.addClass("questionCorrectAnswer");
+            divResult.find("#correct").css("display", "block");
+            divResult.find("#wrong").css("display", "none");
         }else {
             Ks.exercise.quiz.questions[index - 1].fraction = 0;
             divAnswer.addClass("wrongAnswer");
             divResult.addClass("divWrong");
             divQuestionNumber.addClass("questionWrongAnswer");
+            divResult.find("#correct").css("display", "none");
+            divResult.find("#wrong").css("display", "block");
         }
 
         if(Ks.exercise.questionResult.length == Ks.exercise.quiz.questions.length){
@@ -68,8 +73,8 @@ Ks.exercise.handler = function (idBtnFinishExercise, idBtnNewExercise) {
         var value = $(this).val();
 
         if(value == -1){
+        	var label = "All question";
             Ks.exercise.genQuestion(label, Ks.exercise.quiz.questions);
-            var label = "All question";
         }else if(value == 0){
             var label = "Questions that you answered incorrectly";
             Ks.exercise.genQuestion(label, Ks.exercise.quiz.questionBoxWrong);
@@ -236,10 +241,25 @@ Ks.exercise.genQuestion = function (label, questions) {
     for(var i=0; i < questions.length; i++){
         questions[i].index = i + 1;
     }
-    var templateQuestion = $("#templateExerciseReviewQuestion").html();
-    Mustache.parse(templateQuestion);
-    var questionHtml = Mustache.render(templateQuestion, {label: label, questions : questions});
-    Ks.exercise.questionPanelCurrent.html(questionHtml);
+    $("#labelBoxQuestion").html(label);
+    $("#pagination-question").twbsPagination('destroy');
+    var totalPage = questions.length / 10 + 1;
+    Ks.exercise.pagination = $('#pagination-question').twbsPagination({
+        totalPages: totalPage,
+        visiblePages: 10,
+        first: "",
+        last: "",
+        prev: "",
+        next: "",
+        onPageClick: function (event, page) {
+        	var questionInPages = questions.slice(10 * (page - 1), 10 * page);
+        	var templateQuestion = $("#templateExerciseReviewQuestion").html();
+    	    Mustache.parse(templateQuestion);
+    	    var questionHtml = Mustache.render(templateQuestion, {questions : questionInPages});
+    	    Ks.exercise.questionPanelCurrent.html(questionHtml);
+        }
+    });
+    
 };
 
 $(function () {
