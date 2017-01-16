@@ -20,4 +20,7 @@ if($action == "create"){
 
 } else if($action == "createReply"){
     $controller->createReply();
+
+} else if($action == "index"){
+    $controller->index();
 }

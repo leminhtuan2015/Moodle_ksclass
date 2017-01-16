@@ -23,7 +23,16 @@ class Discussion {
         $discussion->messagetrust = 0;
         $discussion->mailnow = 0;
 
-        forum_add_discussion($discussion);
+        $newDiscussionId = forum_add_discussion($discussion);
+
+        $post_of_discusstion = forum_get_firstpost_from_discussion($newDiscussionId);
+
+        $discussion->post = $post_of_discusstion;
+        $discussion->replycount = forum_count_replies($post_of_discusstion);
+
+//        error_log(print_r($post_of_discusstion, true));
+
+        return $discussion;
     }
 
     public static function createReply($replyId, $replyMessage){
@@ -57,7 +66,7 @@ class Discussion {
             $post_child->message = $replyMessage;
             $post_child->post_time_human = DateUtil::getHumanDateDiscussion($reply->created);
 
-            error_log(print_r($post_child, true));
+//            error_log(print_r($post_child, true));
 
             return $post_child;
         } else {
@@ -65,7 +74,7 @@ class Discussion {
         }
     }
 
-    public static function getDefaultForum($modinfo){
+    public static function allDiscussionOfCourse($modinfo){
         global $DB;
 
         // ($modinfo->instances["forum"])[0] BECAUSE when you create new course => Moodle will automaticlly create one forum
@@ -76,7 +85,7 @@ class Discussion {
         $discussions = $DB->get_records('forum_discussions', array('forum'=>$forumId), 'timemodified DESC');
 
         foreach ($discussions as $discussion) {
-            $parent = $discussion->firstpost;
+            $parent = $discussion->firstpost;  // $parent = firstpost of $discussion = id of post
             $post_of_discusstion = forum_get_post_full($parent);
             $discussion->post = $post_of_discusstion;
             $discussion->replycount = forum_count_replies($post_of_discusstion);
