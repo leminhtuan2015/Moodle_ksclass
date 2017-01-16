@@ -13,6 +13,10 @@
             replyId = $(this).attr("firstpostId")
             replyMessage = $(this).val()
 
+            if(replyMessage == ""){
+                return
+            }
+
             $.post({
                 url: "/moodle/koolsoft/discussion/index.php?action=createReply",
                 data : {"replyId": replyId, "replyMessage": replyMessage},

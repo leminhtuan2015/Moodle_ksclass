@@ -139,7 +139,10 @@
                 data: data,
                 success: function (result) {
 //                    alert(result)
-                    $("#list_discussion_of_course").prepend(result)
+                    if(result){
+                        $("#list_discussion_of_course").prepend(result)
+                        $("#newPostForm").empty()
+                    }
                 }
             });
         });
