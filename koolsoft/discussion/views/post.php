@@ -15,9 +15,9 @@
             <?php echo $discussion->post->message ?>
         </p>
         <div class="stats">
-            <a href="#" class="btn btn-default stat-item">
-                <i class="fa fa-thumbs-up icon"></i>0
-            </a>
+<!--            <a href="#" class="btn btn-default stat-item">-->
+<!--                <i class="fa fa-thumbs-up icon"></i>0-->
+<!--            </a>-->
             <a href="#" class="btn btn-default stat-item">
                 <i class="fa fa-reply icon"></i>
                 <?php echo $discussion->replycount ?>

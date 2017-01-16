@@ -26,12 +26,30 @@ class Discussion{
         forum_add_discussion($discussion);
     }
 
-    public static function createReply($reply){
-        global $DB;
+    public static function createReply($replyId){
+        global $DB, $USER;
 
-        $parent = forum_get_post_full($reply);
-        $discussion = $DB->get_record('forum_discussions', array('id' => $parent->discussion));
-        forum_add_discussion($discussion);
+        $parent = forum_get_post_full($replyId);
+
+        $reply = new stdClass();
+        $reply->discussion  = $parent->discussion;
+        $reply->parent  = $parent->id;
+        $reply->userid  = $USER->id;
+        $reply->created  = 0;
+        $reply->modified  = 0;
+        $reply->mailed  = 0;
+        $reply->subject = "_";
+        $reply->message = "222xxx";
+        $reply->messageformat = 1;
+        $reply->messagetrust = 0;
+        $reply->attachment = 0;
+        $reply->totalscore = 0;
+        $reply->mailnow = 0;
+
+
+        $DB->insert_record('forum_posts', $reply);
+
+        error_log(print_r($reply, true));
     }
 
     public static function getDefaultForum($modinfo){

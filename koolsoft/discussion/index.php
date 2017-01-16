@@ -17,4 +17,7 @@ if (isset($_GET['action'])) {
 
 if($action == "create"){
     $controller->create();
+
+} else if($action == "createReply"){
+    $controller->createReply();
 }

@@ -25,4 +25,13 @@ class DiscussionController extends ApplicationController {
         redirect("/moodle/koolsoft/course/?action=show&id=$courseId&tabActive=discussionBox");
     }
 
+    public function createReply(){
+        $reply = $_POST["reply"];
+
+        Logger::log($reply);
+
+        Discussion::createReply($reply);
+    }
+
+
 }
