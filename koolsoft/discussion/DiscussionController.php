@@ -15,6 +15,9 @@ require_once($CFG->dirroot."/koolsoft/discussion/models/Discussion.php");
 
 class DiscussionController extends ApplicationController {
 
+    function __construct() {
+    }
+
     public function create(){
         $courseId = $_POST["courseId"];
         $forum = $_POST["forum"];
@@ -26,11 +29,13 @@ class DiscussionController extends ApplicationController {
     }
 
     public function createReply(){
-        $reply = $_POST["reply"];
+        $replyId = $_POST["replyId"];
+        $replyMessage = $_POST["replyMessage"];
 
-        Logger::log($reply);
 
-        Discussion::createReply($reply);
+        $post_child = Discussion::createReply($replyId, $replyMessage);
+
+        include ("views/reply.php");
     }
 
 

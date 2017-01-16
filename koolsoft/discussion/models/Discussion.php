@@ -9,7 +9,7 @@
 
 require_once(__DIR__."/../../../mod/forum/lib.php");
 
-class Discussion{
+class Discussion {
 
     public static function createDiscussion($forum, $message, $courseId){
         require_once(__DIR__."/../../utility/DateUtil.php");
@@ -26,7 +26,7 @@ class Discussion{
         forum_add_discussion($discussion);
     }
 
-    public static function createReply($replyId){
+    public static function createReply($replyId, $replyMessage){
         global $DB, $USER;
 
         $parent = forum_get_post_full($replyId);
@@ -35,11 +35,11 @@ class Discussion{
         $reply->discussion  = $parent->discussion;
         $reply->parent  = $parent->id;
         $reply->userid  = $USER->id;
-        $reply->created  = 0;
-        $reply->modified  = 0;
+        $reply->created  = DateUtil::getTimestampNowDiscussion();
+        $reply->modified  = DateUtil::getTimestampNowDiscussion();
         $reply->mailed  = 0;
         $reply->subject = "_";
-        $reply->message = "222xxx";
+        $reply->message = $replyMessage;
         $reply->messageformat = 1;
         $reply->messagetrust = 0;
         $reply->attachment = 0;
@@ -47,9 +47,22 @@ class Discussion{
         $reply->mailnow = 0;
 
 
-        $DB->insert_record('forum_posts', $reply);
+        $id = $DB->insert_record('forum_posts', $reply);
 
-        error_log(print_r($reply, true));
+//        error_log(print_r($id, true));
+
+        if($id){
+            $post_child = new stdClass();
+            $post_child->firstname = $USER->firstname;
+            $post_child->message = $replyMessage;
+            $post_child->post_time_human = DateUtil::getHumanDateDiscussion($reply->created);
+
+            error_log(print_r($post_child, true));
+
+            return $post_child;
+        } else {
+            return false;
+        }
     }
 
     public static function getDefaultForum($modinfo){
@@ -68,7 +81,11 @@ class Discussion{
             $discussion->post = $post_of_discusstion;
             $discussion->replycount = forum_count_replies($post_of_discusstion);
 
-            $posts = forum_get_all_discussion_posts($discussion->id, "p.created ASC")[$parent]->children;
+            $posts = forum_get_all_discussion_posts($discussion->id, "p.created DESC")[$parent]->children;
+
+            foreach ($posts as $post) {
+                $post->post_time_human = DateUtil::getHumanDateDiscussion($post->created);
+            }
 
             $discussion->children = $posts;
 //            $firstpost = forum_get_firstpost_from_discussion($discussion->id);

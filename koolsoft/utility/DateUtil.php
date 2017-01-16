@@ -9,6 +9,7 @@
 class DateUtil {
     public static $DATE_FORMAT_HTML = "YYYY/MM/DD";
     public static $DATE_FORMAT_PHP = "Y/m/d h:i A";
+    public static $DATE_FORMAT_PHP_DISCUSSION = "Y/m/d h:i A";
 
     public static function getTimestamp($humanDate){
         // RETURN INTEGER
@@ -46,6 +47,26 @@ class DateUtil {
         $today = date(DateUtil::$DATE_FORMAT_PHP);
 
         return self::getTimestamp($today);
+    }
+
+    public static function getTimestampNowDiscussion(){
+        // RETURN INTEGER
+
+        $date = date(DateUtil::$DATE_FORMAT_PHP_DISCUSSION);
+        return self::getTimestamp($date);
+
+        return 0;
+    }
+
+    public static function getHumanDateDiscussion($timeStamp){
+        // RETURN STRING
+
+        if($timeStamp){
+            $date = date(DateUtil::$DATE_FORMAT_PHP_DISCUSSION, $timeStamp);
+            return $date;
+        }
+
+        return "";
     }
 
 }
