@@ -34,11 +34,14 @@ class File {
     public static function upload($fileInfo){
         global $DB;
 
+        Logger::log($fileInfo);
+
         $fileTmp = $fileInfo['tmp_name'];
+        $fileName = $fileInfo['name'];
         $status = move_uploaded_file($fileTmp, $fileTmp);
 
         if($status){
-            $file = File::buildFileObject($fileTmp, $fileTmp);
+            $file = File::buildFileObject($fileName, $fileTmp);
             $id = $DB->insert_record('files', $file);
 
             return $id;

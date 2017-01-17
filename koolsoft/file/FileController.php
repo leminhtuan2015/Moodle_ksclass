@@ -17,7 +17,6 @@ require_once($CFG->dirroot.'/repository/upload/lib.php');
 class FileController extends ApplicationController {
 
     function __construct() {
-        parent::__construct();
     }
 
     public function index(){
@@ -43,22 +42,21 @@ class FileController extends ApplicationController {
 
         $file = File::get($idFile);
 
-        if (file_exists($file->filepath)) {
-            Logger::log($file->filepath);
-            Logger::log(filesize($file->filepath));
+        Logger::log($_SERVER);
 
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="phpHrvFkb"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
+        header('Content-Disposition: attachment; filename="'. $file->filename .'"');
+        header('Content-Type: "application/download"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: ".filesize($file->filepath));
+
+        if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
             header('Pragma: public');
-            header('Content-Length: ' . filesize($file->filepath));
-            readfile($file->filepath);
-            exit;
         } else {
-            Logger::log("The file does not exist");
-            echo 'The file does not exist.';
+            header('Pragma: no-cache');
         }
+
+        readfile($file->filepath);
     }
 }
