@@ -4,12 +4,12 @@
     </a>
     <div class="comment-body">
         <div class="comment-heading">
-            <h4 class="user"><?php echo $post_child->firstname ?></h4>
-            <h5 class="time" id="time_ago_of_reply_discussion_<?php echo $post_child->id ?>">
-                <?php echo $post_child->time_ago ?>
-            </h5>
+            <h4 class="user" style="display:inline-block;"><?php echo $post_child->firstname ?></h4>
+            <p style="display:inline-block;margin-bottom:5px;" ><?php echo $post_child->message ?></p>
         </div>
-        <p><?php echo $post_child->message ?></p>
+        <h6 class="time" id="time_ago_of_reply_discussion_<?php echo $post_child->id ?>" style="margin:5px 0px;">
+                <?php echo $post_child->time_ago ?>
+        </h6>
     </div>
 </li>
 
