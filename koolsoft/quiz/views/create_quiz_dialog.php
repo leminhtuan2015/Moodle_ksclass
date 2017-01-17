@@ -95,12 +95,12 @@
                                 </div>
                             </div>
                         </div>
-                        <label style="float: right; margin-right: 2%;" id="error_end_time" class="control-label text-danger"</label>
+                        <label style="float: right; margin-right: 2%;" id="error_end_time" class="control-label text-danger"></label>
                     </div>
 
                 </form>
                     <div id="questionMainPanel" width="100%">
-                        <div style="display: inline-block;height: 500px;" class="col-md-3">
+                        <div style="display: inline-block;" class="col-md-3">
                             <div class="navbar-collapse collapse sidebar-navbar-collapse">
                                 <ul class="nav navbar-nav" style="width: 100%;">
                                     <ul class="nav nav-pills brand-pills nav-stacked" role="tablist" style="height: 500px;border: 1px solid; border-radius: 6px; overflow-y: scroll;" id="listQuestion">

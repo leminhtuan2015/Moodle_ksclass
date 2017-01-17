@@ -36,6 +36,13 @@ class ks_quiz
         $quizs = $DB->get_records_sql($sql, array("section" => $sectionId));
         return $quizs;
     }
+    
+    public function loadBySectionAndType($sectionId, $type){
+    	global $DB;
+    	$sql = "SELECT q.*, m.id as cmid  FROM ".$DB->get_prefix()."quiz q JOIN ".$DB->get_prefix()."course_modules m ON q.id = m.instance WHERE m.section = ? AND q.type = ?";
+    	$quizs = $DB->get_records_sql($sql, array($sectionId, $type));
+    	return $quizs;
+    }
 
     public function removeSlot($slotId){
         global $DB;

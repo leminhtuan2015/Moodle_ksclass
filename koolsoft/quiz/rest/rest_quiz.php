@@ -18,6 +18,15 @@ class rest_quiz {
         $quiz->timeclose = DateUtil::getHumanDate($quiz->timeclose);
         echo json_encode($quiz);
     }
+    
+    public function loadBySectionAndType(){
+    	$dao = new ks_quiz();
+    	$sectionId = optional_param('section', 0, PARAM_INT);
+    	$type = optional_param('type', 0, PARAM_INT);
+    	
+    	$quizs = $dao->loadBySectionAndType($sectionId, $type);
+    	echo json_encode($quizs);
+    }
 
     public function loadAllResultQuizForUser(){
         $dao = new ks_quiz();

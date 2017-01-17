@@ -243,23 +243,24 @@ Ks.exercise.genQuestion = function (label, questions) {
     }
     $("#labelBoxQuestion").html(label);
     $("#pagination-question").twbsPagination('destroy');
-    var totalPage = questions.length / 10 + 1;
-    Ks.exercise.pagination = $('#pagination-question').twbsPagination({
-        totalPages: totalPage,
-        visiblePages: 10,
-        first: "",
-        last: "",
-        prev: "",
-        next: "",
-        onPageClick: function (event, page) {
-        	var questionInPages = questions.slice(10 * (page - 1), 10 * page);
-        	var templateQuestion = $("#templateExerciseReviewQuestion").html();
-    	    Mustache.parse(templateQuestion);
-    	    var questionHtml = Mustache.render(templateQuestion, {questions : questionInPages});
-    	    Ks.exercise.questionPanelCurrent.html(questionHtml);
-        }
-    });
-    
+    if(questions.length > 0){
+    	var totalPage = questions.length / 10 + 1;
+        Ks.exercise.pagination = $('#pagination-question').twbsPagination({
+            totalPages: totalPage,
+            visiblePages: 10,
+            first: "",
+            last: "",
+            prev: "",
+            next: "",
+            onPageClick: function (event, page) {
+            	var questionInPages = questions.slice(10 * (page - 1), 10 * page);
+            	var templateQuestion = $("#templateExerciseReviewQuestion").html();
+        	    Mustache.parse(templateQuestion);
+        	    var questionHtml = Mustache.render(templateQuestion, {questions : questionInPages});
+        	    Ks.exercise.questionPanelCurrent.html(questionHtml);
+            }
+        });
+    }
 };
 
 $(function () {

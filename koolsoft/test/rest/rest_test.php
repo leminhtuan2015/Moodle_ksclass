@@ -41,6 +41,13 @@ class rest_test
 
     public function submitPlay(){
         global $USER;
+        
+    	if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
+        
         $daoQuestionProgress = new ks_question_progress();
         $timenow = time();
 
@@ -66,6 +73,12 @@ class rest_test
 
     public function startPlay(){
         global $USER, $DB;
+        
+    	if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
 
         // Get submitted parameters.
         $id = required_param('cmid', PARAM_INT); // Course module id
@@ -142,6 +155,12 @@ class rest_test
 
     public function loadResultByQuizId(){
         global  $DB, $USER;
+        
+    	if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
 
         $quizId = optional_param('quiz', 0, PARAM_INT);
 
@@ -163,6 +182,12 @@ class rest_test
 
     public function loadResultByAttemptId($attemptid){
         global  $DB, $USER;
+        
+    	if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
 
         $page      = optional_param('page', 0, PARAM_INT);
         $showall   = optional_param('showall', true, PARAM_BOOL);
