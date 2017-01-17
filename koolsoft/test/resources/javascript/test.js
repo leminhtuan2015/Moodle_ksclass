@@ -86,7 +86,7 @@ Ks.test.submitForm = function () {
             console.log("submit for play error!");
         }
     });
-    clearClock();
+    Ks.test.clearClock();
 }
 
 Ks.test.showQuestion = function (index) {
@@ -127,9 +127,6 @@ Ks.test.genPlayView = function (attempt, questionPanel){
     Ks.test.initializeClock('clockdiv', deadline, function overTime(){
     	if($("#testPanel").css("display") != "none"){
     		$("#overTimeDialog").modal();
-        	$("#overTimeDialog").on("hidden.bs.modal", function() {
-        		Ks.test.submitForm();
-            });
     	}
     });
 };
@@ -199,6 +196,9 @@ Ks.test.clearClock = function (){
 
 
 $(function () {
+	$("#overTimeDialog").on("hidden.bs.modal", function() {
+		Ks.test.submitForm();
+    });
     $(".showQuizBtn").click(function () {
     	Ks.test.clearClock();
         Ks.test.idTestCurrent = $(this).attr("id-quiz");

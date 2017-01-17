@@ -1,0 +1,27 @@
+<script id="templateQuestion" type="x-tmpl-mustache">
+	<div class="form-group" style="display: none"> 
+	<input class="form-control" id="questionId" value="undefined"> </div>
+	<div class="form-group" style="display: none"> 
+		<input class="form-control" placeholder="question" id="questionIndex" value="{{index}}"> 
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group"> 
+				<label for="questionTxt">Question</label>
+				<input {{#question.id}} disabled {{/question.id}} style="width: 100%" class="form-control" placeholder="question" id="questionTxt" value="{{question.question}}"> 
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="answerTxt">Answer</label> 
+				<input {{#question.id}} disabled {{/question.id}} style="width: 100%" class="form-control" placeholder="Answer" id="answerTxt" value="{{question.answer}}"> 
+			</div>
+			{{#question.wrongAnswer}}
+				<div class="form-group"> 
+					<label for="answerTxt">Wrong Answer</label> 
+					<input {{#question.id}} disabled {{/question.id}} style="width: 100%" class="form-control" placeholder="Wrong answer" id="wrongAnserTxt{{index}}" value="{{answer}}"> 
+				</div>
+			{{/question.wrongAnswer}}
+		</div>
+	</div>
+</script>
