@@ -4,6 +4,7 @@
     <script src="/moodle/koolsoft/test/resources/javascript/test.js"></script>
     <script src="/moodle/koolsoft/exercise/resources/javascript/exercise.js"></script>
     <link rel="stylesheet" href="/moodle/koolsoft/exercise/resources/css/exercise.css" />
+    <link rel="stylesheet" href="/moodle/koolsoft/test/resources/css/test.css" />
 
     <?php foreach ($sections as $section) { ?>
         <?php if($section->section == 0 || $section->parent_id == 0){continue;} ?>

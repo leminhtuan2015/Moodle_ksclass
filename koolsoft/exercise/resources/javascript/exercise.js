@@ -18,6 +18,8 @@ Ks.exercise.init = function () {
 
 Ks.exercise.handler = function (idBtnFinishExercise, idBtnNewExercise) {
 
+    addHandle();
+
     $(".questionNumber").click(function () {
         var divQuestion = $("#" + $(this).attr("id-div"));
         $(".questionDiv").css("display", "none");
@@ -263,6 +265,14 @@ Ks.exercise.genQuestion = function (label, questions) {
     }
 };
 
+function addHandle(){
+    $(".btnBoxActive").click(function(){
+        $(".btnBoxActive").css("background-color", "white");
+        color_profile = $(this).attr("color_profile");
+        $(this).css("background-color", color_profile);
+    });
+}
+
 $(function () {
     $(".showExerciseBtn").click(function () {
         Ks.exercise.idQuizCurrent = $(this).attr("id-quiz-instance");
@@ -283,3 +293,4 @@ $(function () {
     });
     Ks.exercise.init();
 });
+

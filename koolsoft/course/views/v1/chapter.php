@@ -4,12 +4,13 @@
         <?php if($sectionLecture->parent_id == $sectionChapter->id){ ?>
             <div>
                 <h4 class="panel-title">
-                    <div class="active_link_lecture textOverflow" 
+                    <div href="#lecture<?php echo $sectionLecture->id ?>" 
+                        data-toggle="pill" 
+                        class="active_link_lecture textOverflow" 
                          style="padding:16px;cursor: pointer;" 
                          id="lecture_<?php echo $sectionLecture->id ?>" >
                         <img src="../resources/images/round-01.png" width="8px">
-                        <span href="#lecture<?php echo $sectionLecture->id ?>" 
-                            class="lectureTitle " data-toggle="pill" style="padding-left:5px;font-size: 0.9em;">
+                        <span class="lectureTitle "  style="padding-left:5px;font-size: 0.9em;">
                             <?php echo $sectionLecture->name ?>
                         </span>
                     </div>
@@ -22,7 +23,7 @@
                                     <div data-toggle='pill' id-quiz-instance='<?php echo $cm->instance ?>' 
                                         id-section='<?php echo $cm->section ?>'
                                         id-quiz='<?php echo $cm->id ?>' 
-                                        href='#quiz<?php echo $cm->id ?>' style="padding:10px;color:white;margin-left:25px;cursor: pointer;" 
+                                        href='#testPanel' style="padding:10px;color:white;margin-left:25px;cursor: pointer;" 
                                         class="active_link_lecture_test textOverflow showQuizBtn btnExercise "
                                         parent-id="<?php echo $sectionLecture->id ?>">
                                         <img src="../resources/images/test-01.png" width="10px" style="margin-left: 5px;">
@@ -34,7 +35,7 @@
                                 <?php }else { ?>
                                     <div data-toggle='pill' id-quiz-instance='<?php echo $cm->instance ?>' 
                                        id-section='<?php echo $cm->section ?>'
-                                       id-quiz='<?php echo $cm->id ?>' href='#exercise<?php echo $cm->id ?>' style="padding:10px;color:white;margin-left:25px;cursor: pointer;"
+                                       id-quiz='<?php echo $cm->id ?>' href='#exercisePanel' style="padding:10px;color:white;margin-left:25px;cursor: pointer;"
                                         class="showExerciseBtn btnExercise active_link_lecture_test textOverflow" 
                                          parent-id="<?php echo $sectionLecture->id ?>">
                                         <img src="../resources/images/star-01.png" width="10px" style="margin-left: 5px;">

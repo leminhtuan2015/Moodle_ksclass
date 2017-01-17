@@ -11,30 +11,36 @@
 			<div>
     </h4>
     <div style="text-align: center;">
-        <div style="display: inline-block; padding: 7px;" class="btn-group" data-toggle="buttons">
-            <label style="float:none ;border-radius: 100%;"  class="btn btn-primary" >
+        <div style="display: inline-block; padding: 7px;color:black;" class="btn-group" data-toggle="buttons">
+            <label class="btn btnAllBox btnBoxActive" color_profile="#0096EB">
                 <input type="radio" value="-1" class="boxName" name="boxName"/>{{quiz.allBox}}
+                 <img src="../resources/images/all.png" class="iconboxAll">
             </label>
-            <label style="float:none ;border-radius: 100%;"  class="btn btn-primary" >
+            <label class="btn btnboxWrong btnBoxActive" color_profile="#DE1E1E">
                 <input type="radio" value="0" class="boxName" name="boxName"/>{{quiz.boxWrong}}
+                <img src="../resources/images/red.png" class="boxWrong">
             </label>
-            <label style="float:none ;border-radius: 100%;"  class="btn btn-primary" >
+            <label class="btn btnbox1 btnBoxActive" color_profile="#FF8B5A">
                 <input type="radio" value="1" class="boxName" name="boxName"/>{{quiz.box1}}
+                <img src="../resources/images/cam.png" class="boxWrong">
             </label>
-            <label style="float:none ;border-radius: 100%;"  class="btn btn-primary" >
+            <label class="btn btnbox2 btnBoxActive" color_profile="#FFEDA0">
                 <input type="radio" value="2" class="boxName" name="boxName"/>{{quiz.box2}}
+                <img src="../resources/images/yellow.png" class="boxWrong">
             </label>
-            <label style="float:none ;border-radius: 100%;"  class="btn btn-primary" >
+            <label class="btn btnbox3 btnBoxActive" color_profile="#ADD633">
                 <input type="radio" value="3" class="boxName" name="boxName"/>{{quiz.box3}}
+                <img src="../resources/images/green.png" class="boxWrong">
             </label>
-            <label style="float:none ;border-radius: 100%;"  class="btn btn-primary" >
+            <label class="btn btnboxN btnBoxActive" color_profile="#00B285">
                 <input type="radio" value="4" class="boxName" name="boxName"/>{{quiz.boxN}}
+                <img src="../resources/images/greenicon.png" class="boxWrong">
             </label>
         </div>
 
         <div style="display: inline-block;">
             <div>
-                <button style="display: inline-block;" id="{{idBtnNewExercise}}" class="btn btn-success" >Play</button>
+                <button style="display: inline-block;padding: 6px 30px;" id="{{idBtnNewExercise}}" class="btn btn-success" >Play</button>
             </div>
         </div>
     </div>
@@ -46,6 +52,7 @@
 	
 
 </script>
+
 
 <script id="templateExerciseReviewQuestion" type="x-tmpl-mustache">
     <table class="table">
