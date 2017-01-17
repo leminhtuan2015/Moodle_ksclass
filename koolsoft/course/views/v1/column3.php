@@ -41,18 +41,8 @@
 
         <!-- RENDER TÉT-->
         <?php
-            foreach ($section->modinfo->cms as $cm) {
-                if ($cm->section == $section->id) {
-                    if($cm->module == ClientUtil::$resourceTypeQuiz){
-                        $quiz = $quizs[$cm->instance];
-                        if($quiz->type == ClientUtil::$typeTest){
-                            include (__DIR__."/../../../test/views/test_panel.php");
-                        }else {
-                            include (__DIR__."/../../../exercise/views/exercise_panel.php");
-                        }
-                    }
-                }
-            }
+           include (__DIR__."/../../../test/views/test_panel.php");
+           include (__DIR__."/../../../exercise/views/exercise_panel.php");
         ?>
 
     <?php } ?>

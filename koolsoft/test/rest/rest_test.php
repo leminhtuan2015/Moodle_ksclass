@@ -208,8 +208,15 @@ class rest_test
 
         $quiz->timestart = DateUtil::getHumanDate($attempt->timestart);
         $quiz->timefinish = DateUtil::getHumanDate($attempt->timefinish);
+        $quiz->timeTaken = ($quiz->timestart - $quiz->timefinish) / 60;
         $quiz->questions= $questions;
-        $quiz->sumgradeUsers= $attempt->sumgrades;
+        $quiz->sumgradeUsers= intval($attempt->sumgrades);
+        $quiz->sumgrades= intval($quiz->sumgrades);
+        if(($quiz->sumgradeUsers / $quiz->sumgrades) >= 0.5){
+        	$quiz->pass = true;
+        }else {
+        	$quiz->pass = false;
+        }
         $quiz->numberQuestion= count($questions);
         $quiz->state = true;// finished test
         $quiz->timelimit = $quiz->timelimit / 60;

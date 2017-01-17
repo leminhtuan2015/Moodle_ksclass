@@ -23,7 +23,6 @@ class ks_question_progress
 
     public function create($userId, $quizId, $questionId, $box){
         global $DB;
-        $questionProgess = new stdClass();
         $questionProgess->user_id = $userId;
         $questionProgess->question_id = $questionId;
         $questionProgess->quiz_id = $quizId;

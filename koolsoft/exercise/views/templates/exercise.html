@@ -1,18 +1,14 @@
 <script id="templateExerciseReview" type="x-tmpl-mustache">
     <h4 class="headerRightPanel">
-        <a class="iconPanel" style="vertical-align:middle;padding-top:3px;">
-            <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
-        </a>
-
-        <a class="iconPanel iconRight" style="right:110px;margin-top:3px;" >
-            <i class="fa fa-cog" style="color:white;width:45px;"></i>
-        </a>
-        {{quiz.name}}
-        <a class="iconPanel iconRight" style="right:55px;margin-top:3px;" href="#" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})">
-            <i class="fa fa-pencil-square-o" style="color:white;width:45px;"></i></a>
-
-        <a class="iconPanel iconRight" style="right:5px;" >
-            <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
+			<div style="display: inline-block; width: 85%; text-align: center;">
+            	<img src="/moodle/koolsoft/resources/images/previous-black-01.png" style="width:30px;margin-right:20px;vertical-align:middle;"></img>
+        			{{quiz.name}}
+            	<img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
+            </div>
+			<div style="display: inline-block; float:right">
+				<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+            	<img onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})" src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+			<div>
     </h4>
     <div style="text-align: center;">
         <div style="display: inline-block; padding: 7px;" class="btn-group" data-toggle="buttons">
@@ -38,26 +34,26 @@
 
         <div style="display: inline-block;">
             <div>
-                <button style="display: inline-block;" id="{{idBtnNewExercise}}" class="btn btn-primary" >Play</button>
+                <button style="display: inline-block;" id="{{idBtnNewExercise}}" class="btn btn-success" >Play</button>
             </div>
         </div>
     </div>
     <br>
-
-    <div id="{{idQuestionPanel}}">
-    </div>
+	<div style="margin-bottom: 10px">
+		<label id="labelBoxQuestion"></label> <ul id="pagination-question" class="pagination-sm" style="float : right; margin: 0px !important"></ul>
+	</div>
+    <div id="{{idQuestionPanel}}"> </div>
+	
 
 </script>
 
 <script id="templateExerciseReviewQuestion" type="x-tmpl-mustache">
-    <label>{{label}}</label>
     <table class="table">
         <tbody>
             {{#questions}}
                 <tr>
-                <td class="col-sm-2">{{index}}</td>
-                <td class="col-sm-6">{{questiontext}}</td>
-                <td class="col-sm-4">{{answertext}}</td>
+                <td class="col-sm-7">{{index}}. {{questiontext}}</td>
+                <td class="col-sm-5">{{answertext}}</td>
                 </tr>
             {{/questions}}
         </tbody>
@@ -65,26 +61,22 @@
 </script>
 
 <script id="templateExercisePlay" type="x-tmpl-mustache">
-    <h4 class="headerRightPanel">
-        <a class="iconPanel" style="vertical-align:middle;padding-top:3px;">
-            <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
-        </a>
-
-        <a class="iconPanel iconRight" style="right:110px;margin-top:3px;" >
-            <i class="fa fa-cog" style="color:white;width:45px;"></i>
-        </a>
-        {{quiz.name}}
-        <a class="iconPanel iconRight" style="right:55px;margin-top:3px;" href="#" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})">
-            <i class="fa fa-pencil-square-o" style="color:white;width:45px;"></i></a>
-
-        <a class="iconPanel iconRight" style="right:5px;" >
-            <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
+     <h4 class="headerRightPanel">
+		<div style="display: inline-block; width: 85%; text-align: center;">
+            <img src="/moodle/koolsoft/resources/images/previous-black-01.png" style="width:30px;margin-right:20px;vertical-align:middle;"></img>
+        		{{quiz.name}}
+            <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
+            </div>
+		<div style="display: inline-block; float:right">
+			<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+            <img onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})" src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+		<div>
     </h4>
 
     <div class="container">
         <div>
             {{#quiz.questions}}
-                <div style="display: inline-block;">
+                <div style="display: inline-block; vertical-align: top;">
                     <button style="display: block; margin: 0 auto;" footer-id="footerQuestionNumber{{id}}" class="questionNoAnswer questionNumber" id-div="questionDiv{{id}}"
                         id="questionNumber{{id}}"> {{index}} </button>
                     <img class="footerQuestionNumber" id="footerQuestionNumber{{id}}" style="width:20px; margin: 0 auto; {{^display}}display:none{{/display}}"
@@ -105,8 +97,15 @@
                      {{/answers}}
                      <br>
                      <div style="display: none; padding: 10px;" id="questionResultDiv{{id}}">
-                        <label>Answer : {{answerCorrect}}</label>
-                        <button index-question="{{index}}" class="btn btn-primary {{idBtnFinishExercise}}" style="float: right;">Next</button>
+						<div id="correct">
+                        	<label >Correct</label>
+						</div>
+						<div id="wrong">
+                        	<label >Wrong</label> 
+						</div>
+
+                        <label>Answer : {{answerCorrect}}</label> 
+                        <img src="/moodle/koolsoft/resources/images/Next-green.png" index-question="{{index}}" class="{{idBtnFinishExercise}}" style="float: right; width: 30px; height: 30px">
                     </div>
                 </div>
             {{/quiz.questions}}

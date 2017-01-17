@@ -24,6 +24,7 @@
 <script src="/moodle/koolsoft/resources/javascript/select2.min.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/koolsoft/basic.js"></script>
 <script src="/moodle/koolsoft/resources/javascript/mustache.min.js"></script>
+<script src="/moodle/koolsoft/resources/javascript/jquery.twbsPagination.js"></script>
 
 <?php //require_once ("top.php")?>
 <?php require_once ("v1/top.php")?>

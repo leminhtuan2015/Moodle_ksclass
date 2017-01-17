@@ -1,30 +1,31 @@
 <script id="templateTest" type="x-tmpl-mustache">
-    <h4 class="headerRightPanel">
-        <a class="iconPanel" style="vertical-align:middle;padding-top:3px;">
-            <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
-        </a>
-
-        <a class="iconPanel iconRight" style="right:110px;margin-top:3px;" >
-            <i class="fa fa-cog" style="color:white;width:45px;"></i>
-        </a>
-        {{attempt.quiz.name}}
-        <a class="iconPanel iconRight" style="right:55px;margin-top:3px;" href="#" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})">
-            <i class="fa fa-pencil-square-o" style="color:white;width:45px;"></i></a>
-
-        <a class="iconPanel iconRight" style="right:5px;" >
-            <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
+	<h4 class="headerRightPanel">
+		<div style="display: inline-block; width: 85%; text-align: center;">
+            <img src="/moodle/koolsoft/resources/images/previous-black-01.png" style="width:30px;margin-right:20px;vertical-align:middle;"></img>
+        		{{attempt.quiz.name}}
+            <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
+        </div>
+		<div style="display: inline-block; float:right">
+			<button id="btnSubmitFormQuestion" class="btn btn-success"> Submiss</button>
+		<div>
     </h4>
+    
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
                 <form action="/moodle/koolsoft/test/?action=process" method="post" id="formQuestion" role="form">
                     {{#attempt.questions}}
-                        <div id="questionDiv{{index}}">
+                        <div style="border-bottom: dashed 2px #9e9a9a; margin-bottom: 10px; overflow: hidden;" id="questionDiv{{index}}">
                             <label> Question {{index}} : {{questiontext}}</label> <br>
                             <input is-submit="true" type="hidden" name="{{sequencecheckName}}" value="{{sequencecheckValue}}">
                              {{#answers}}
                                 <input is-submit="true" type="radio" value="{{fieldValue}}" name-answer-field="{{fieldClass}}Right" class="{{fieldClass}} answerQuestionLeft"  name="{{fieldName}}"><label>{{answer}}</label> <br>
                              {{/answers}}
+						     <div style="float: right;">
+							 	<a style="display: inline-block;" question-index="questionIndex{{index}}" class="tagQuestion" type-tag="0" href="#"> Nomal</a>
+							 	- <a style="display: inline-block;" question-index="questionIndex{{index}}" class="tagQuestion" type-tag="1" href="#"> Difficult</a>
+							 	- <a style="display: inline-block;" question-index="questionIndex{{index}}" class="tagQuestion" type-tag="2" href="#"> Not answer</a>
+						     </div>
                         </div>
                     {{/attempt.questions}}
 
@@ -37,12 +38,15 @@
                     <input type="hidden" is-submit="true" name="slots" value="{{attempt.slotString}}">
                 </form>
                 <input type="hidden" id="numberQuestion" value="{{attempt.questions.length}}">
-                <button id="btnSubmitFormQuestion" class="btn btn-primary"> Finish test </button>
             </div>
             <div class="col-sm-3">
+				<div id="clockdiv">
+    				Time left: <span class="minutes"></span>: <span class="seconds"></span>
+				</div>
+
                 {{#attempt.questions}}
                     <div style="border: black solid 1px; background-color: white; padding: 7px;" class="btn-group" data-toggle="buttons">
-                        <label>{{index}}</label>
+                        <label id="questionIndex{{index}}" >{{index}}</label>
                         {{#answers}}
                         <label style="float:none ;border-radius: 100%;" name="{{fieldClass}}Right" answer-value="{{fieldValue}}"  name-answer-field="{{fieldClass}}" class="answerQuestionRight btn btn-primary" >
                             <input type="radio"/>{{label}}
@@ -57,33 +61,36 @@
 
 <script id="templateTestReview" type="x-tmpl-mustache">
     <h4 class="headerRightPanel">
-        <a class="iconPanel" style="vertical-align:middle;padding-top:3px;">
-            <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
-        </a>
-
-        <a class="iconPanel iconRight" style="right:110px;margin-top:3px;" >
-            <i class="fa fa-cog" style="color:white;width:45px;"></i>
-        </a>
-        {{quiz.name}}
-        <a class="iconPanel iconRight" style="right:55px;margin-top:3px;" href="#" onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})">
-            <i class="fa fa-pencil-square-o" style="color:white;width:45px;"></i></a>
-
-        <a class="iconPanel iconRight" style="right:5px;" >
-            <i class="fa fa-angle-right" style="color:white;width:45px;"></i></a>
+		<div style="display: inline-block; width: 85%; text-align: center;">
+            <img src="/moodle/koolsoft/resources/images/previous-black-01.png" style="width:30px;margin-right:20px;vertical-align:middle;"></img>
+        		{{quiz.name}}
+            <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
+        </div>
+		<div style="display: inline-block; float:right">
+			<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+            <img onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})" src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+		<div>
     </h4>
 
     <div class="container">
-        <label>Timelimit : {{quiz.timelimit}} (minutes) -- {{quiz.numberQuestion}} question</label><br>
-        <label>Time start : {{quiz.timeopen}}</label> -- <label>Time end : {{quiz.timeclose}}</label><br>
-        <div>
-            <button style="display: inline-block;" id="{{idBtnNewTest}}" class="btn btn-primary" >New test</button>
+		<label>Desctiption </label> : {{quiz.intro}}<br>
+		<label>Number of question </label> : {{quiz.numberQuestion}} questons<br>
+        <label>Time practice </label> : {{quiz.timelimit}} (minutes)<br>
+        <label>Start time </label> : {{quiz.timeopen}} -<label>End time </label> : {{quiz.timeclose}}<br>
+        <div style="text-align: center;">
+            <button style="display: inline-block;" id="{{idBtnNewTest}}" class="btn btn-success" >Play</button>
         </div>
+		<br>
         {{#quiz.state}}
-            <label>Result :</label><br>
-            <label>Started on : {{quiz.timestart}}</label> -- <label>Completed on : {{quiz.timefinish}}</label><br>
-            <label>Grade on : {{quiz.sumgradeUsers}}/ {{quiz.sumgrades}}</label><br>
-            <button data-toggle="collapse" class="btn btn-primary" data-target="#questionResultDetail">Show detail</button>
-
+			<div class="row">
+            	<label class="col-sm-3" >Correct : {{quiz.sumgradeUsers}}/ {{quiz.sumgrades}}</label>
+            	<label class="col-sm-3" >Total time : {{quiz.timeTaken}} minutes</label>
+            	<label class="col-sm-3" >Date : {{quiz.timefinish}}</label>
+            	<label class="col-sm-3" >{{#quiz.pass}}You pass !{{/quiz.pass}} {{^quiz.pass}}You miss !{{/quiz.pass}}</label>
+			</div>
+			<div style="text-align: center;">
+            	<button data-toggle="collapse" class="btn" data-target="#questionResultDetail">Review question</button>
+			</div>
             <div id="questionResultDetail" class="collapse">
                 {{#quiz.questions}}
                     <div >
