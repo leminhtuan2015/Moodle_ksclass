@@ -89,6 +89,7 @@ class Discussion {
             $post_of_discusstion = forum_get_post_full($parent);
             $discussion->post = $post_of_discusstion;
             $discussion->replycount = forum_count_replies($post_of_discusstion);
+            $discussion->post_time_human = DateUtil::getHumanDate($discussion->timemodified);
 
             $posts = forum_get_all_discussion_posts($discussion->id, "p.created DESC")[$parent]->children;
 
@@ -98,7 +99,7 @@ class Discussion {
 
             $discussion->children = $posts;
 //            $firstpost = forum_get_firstpost_from_discussion($discussion->id);
-//            Logger::log($discussion);
+            Logger::log($discussion);
         }
 
         return array("forumId" => $forumId, "discussions" => $discussions);

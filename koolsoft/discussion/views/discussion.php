@@ -7,7 +7,7 @@
             <div class="title h5">
                 <a href="#"><b><?php echo $discussion->post->firstname?></b></a>
             </div>
-            <h6 class="text-muted time">1 minute ago</h6>
+            <h6 class="text-muted time"><?php echo $discussion->post_time_human ?></h6>
         </div>
     </div>
     <div class="post-description">

@@ -9,6 +9,7 @@
 class DateUtil {
     public static $DATE_FORMAT_HTML = "YYYY/MM/DD";
     public static $DATE_FORMAT_PHP = "Y/m/d h:i A";
+    public static $DATE_FORMAT_MOODLE = "Y/m/d h:i:s A";
     public static $DATE_FORMAT_PHP_DISCUSSION = "Y/m/d h:i:s A";
 
     public static function getTimestamp($humanDate){
@@ -26,7 +27,7 @@ class DateUtil {
         // RETURN STRING
 
         if($timeStamp){
-            $date = date(DateUtil::$DATE_FORMAT_PHP, $timeStamp);
+            $date = date(DateUtil::$DATE_FORMAT_MOODLE, $timeStamp);
             return $date;
         }
 
