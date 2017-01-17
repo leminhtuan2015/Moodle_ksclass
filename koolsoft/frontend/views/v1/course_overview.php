@@ -17,7 +17,7 @@
     }
 </STYLE>
 
-<div class="col-xs-6 col-sm-6 col-md-3 " style="margin:5px 0px;">
+<div class="col-xs-6 col-sm-6 col-md-3 " style="margin:10px 0px;">
     <a href="/moodle/koolsoft/course/?action=show&id=<?php echo $course->id ?>">
         <div style="border:1px solid black;border-radius:5px;cursor: pointer;" class="panelItemHome">
             <div style="background-color:#EEEEEE;padding:5px;border-top-right-radius:5px;border-top-left-radius:5px;">
