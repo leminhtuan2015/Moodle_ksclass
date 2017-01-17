@@ -12,10 +12,6 @@
     .iconFont-Home{
         font-size: 2.3em;
     }
-    .itemCategory-Home{
-        width: calc(100% - 35px);
-        color: white;
-    }
 </STYLE>
 
 <div class="hearder-Home" style="text-align:center">
