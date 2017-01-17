@@ -7,21 +7,19 @@
         <input type="hidden" class="form-control" name="moduleId" value="<?php echo $moduleId; ?>" >
 
         <h5 class="headerRightPanel">
-            <a class='iconPanel' data-toggle="pill">
-                <i class="fa fa-angle-left" style="color:white;width:45px;"></i>
-            </a>
-            <input style="color: #0c0c0c" type="text" name="name" value="<?php echo $sectionEdit->name ?>"/>
-            <a class='iconPanel iconRight' style="right:130px;" data-toggle="pill" href="">
-                <i class="fa fa-cog" style="color:white;width:45px;"></i>
-            </a>
-            <button type="submit" class='iconPanel iconRight' style="right:75px;background-color:transparent;border:none">
-                <i class="fa fa-floppy-o" style="color:white;width:45px;"></i>
-            </button> 
-<!--            <button type="submit" class="btn btn-primary">Save</button>-->
+            <div style="display: inline-block; width: 85%; text-align: center;">
+                <img src="/moodle/koolsoft/resources/images/previous-black-01.png" style="width:30px;margin-right:20px;vertical-align:middle;"></img>
+                    <input style="color: #0c0c0c" type="text" name="name" value="<?php echo $sectionEdit->name ?>"/>
+                <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
+            </div>
+            <div style="display: inline-block; float:right">
+                <img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+                <button type="submit" style="right:75px;background-color:transparent;border:none">
+                   <!--  <img src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img> -->
+                    Save
+                </button> 
+            <div>
 
-            <a class='iconPanel iconRight' style="right:25px;" data-toggle="pill" href="">
-                <i class="fa fa-angle-right" style="color:white;width:45px;"></i>
-            </a>
         </h5>
         <div>
             <textarea id="textEditor<?php echo $sectionEdit->id ?>" name="labelContent"></textarea>
