@@ -16,11 +16,13 @@ class Course {
 
     public static function prepare_courses($courses){
 //        Logger::log($courses);
+        global $DB;
 
         foreach ($courses as $course) {
             $course->isEnroled = Course::isEnrolled1($course->id);
             $course->isFree = Course::isFree($course->id);
             $course->isPresent = Course::isPresent($course);
+            $course->creator = $DB->get_record('user', array('id'=>$course->creator_id));
         }
     }
 

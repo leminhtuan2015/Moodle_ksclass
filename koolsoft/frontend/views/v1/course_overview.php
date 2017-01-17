@@ -40,7 +40,7 @@
                     <h6 style="color:black;margin:2px;">7/10</h6>
                 </div>
             </div>
-            <h5 style="color:black;padding:0px 10px;" class="textOverflow">create by</h5>
+            <h5 style="color:black;padding:0px 10px;" class="textOverflow">Create by: <?php echo $course->creator->firstname ?></h5>
         </div>
     </a>
 </div>
