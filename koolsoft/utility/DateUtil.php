@@ -9,6 +9,7 @@
 class DateUtil {
     public static $DATE_FORMAT_HTML = "YYYY/MM/DD";
     public static $DATE_FORMAT_PHP = "Y/m/d h:i A";
+    public static $DATE_FORMAT_MOODLE = "Y/m/d h:i:s A";
     public static $DATE_FORMAT_PHP_DISCUSSION = "Y/m/d h:i:s A";
 
     public static function getTimestamp($humanDate){
@@ -26,7 +27,7 @@ class DateUtil {
         // RETURN STRING
 
         if($timeStamp){
-            $date = date(DateUtil::$DATE_FORMAT_PHP, $timeStamp);
+            $date = date(DateUtil::$DATE_FORMAT_MOODLE, $timeStamp);
             return $date;
         }
 
@@ -67,6 +68,35 @@ class DateUtil {
         }
 
         return "";
+    }
+
+    public static function timeAgo($datetime, $full = false){
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
 }

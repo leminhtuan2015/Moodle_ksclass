@@ -29,6 +29,7 @@ class Discussion {
 
         $discussion->post = $post_of_discusstion;
         $discussion->replycount = forum_count_replies($post_of_discusstion);
+        $discussion->time_ago = DateUtil::timeAgo($discussion->created);
 
 //        error_log(print_r($post_of_discusstion, true));
 
@@ -62,9 +63,11 @@ class Discussion {
 
         if($id){
             $post_child = new stdClass();
+            $post_child->id = $id;
             $post_child->firstname = $USER->firstname;
             $post_child->message = $replyMessage;
             $post_child->post_time_human = DateUtil::getHumanDateDiscussion($reply->created);
+            $post_child->time_ago = DateUtil::timeAgo($post_child->post_time_human);
 
 //            error_log(print_r($post_child, true));
 
@@ -89,16 +92,19 @@ class Discussion {
             $post_of_discusstion = forum_get_post_full($parent);
             $discussion->post = $post_of_discusstion;
             $discussion->replycount = forum_count_replies($post_of_discusstion);
+            $discussion->post_time_human = DateUtil::getHumanDate($discussion->timemodified);
+            $discussion->time_ago = DateUtil::timeAgo($discussion->post_time_human);
 
             $posts = forum_get_all_discussion_posts($discussion->id, "p.created DESC")[$parent]->children;
 
             foreach ($posts as $post) {
                 $post->post_time_human = DateUtil::getHumanDateDiscussion($post->created);
+                $post->time_ago = DateUtil::timeAgo($post->post_time_human);
             }
 
             $discussion->children = $posts;
 //            $firstpost = forum_get_firstpost_from_discussion($discussion->id);
-//            Logger::log($discussion);
+            Logger::log($discussion);
         }
 
         return array("forumId" => $forumId, "discussions" => $discussions);
