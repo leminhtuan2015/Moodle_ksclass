@@ -262,6 +262,8 @@ Ks.exercise.genQuestion = function (label, questions) {
         	    Ks.exercise.questionPanelCurrent.html(questionHtml);
             }
         });
+    }else {
+         Ks.exercise.questionPanelCurrent.html("");
     }
 };
 
