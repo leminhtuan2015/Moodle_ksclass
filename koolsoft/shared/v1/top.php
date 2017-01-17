@@ -55,7 +55,7 @@
             </div>
 
         <?php } else { ?>
-            <b><a href="/moodle/koolsoft/login" style="color: black">Login</a></b>
+            <b><a href="/moodle/koolsoft/login" style="color: white;padding-left:5px">Login</a></b>
         <?php } ?>
         
     </div>

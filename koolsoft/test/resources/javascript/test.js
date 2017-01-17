@@ -23,6 +23,13 @@ Ks.test.handler = function () {
         var value = $(this).attr("answer-value");
         var nameAnswerField = $(this).attr("name-answer-field");
         $("." + nameAnswerField)[value].checked = true;
+        var classGroup = $(this).attr("class-group");
+        
+        $("." + classGroup).css("background-color", "white");
+        $("." + classGroup).css("color", "black");
+
+        $(this).css("background-color", "gray");
+        $(this).css("color", "white");
     });
 
     $("#btnSubmitFormQuestion").click(function () {

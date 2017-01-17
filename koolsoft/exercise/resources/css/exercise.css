@@ -41,8 +41,96 @@
     background-color: #e22128;
     border: none;
 }
-
-
+.btnAllBox{
+    width: 57px;
+    border:1px solid #0096EB;
+    border-radius: 100% !important;
+    margin: 0px 10px;
+    float: initial !important;
+    padding: 16px 0px !important;
+    position: relative;
+}
+.btnAllBox.focus,.btnAllBox:hover,.btnAllBox:active{
+    outline: none !important;
+    outline-offset:0px !important;
+}
+.btnboxWrong{
+    width: 47px;
+     border:1px solid #DE1E1E;
+    border-radius: 100% !important;
+    margin: 0px 10px;
+    float: initial !important;
+    padding: 10px 0px !important;
+     position: relative;
+}
+.btnboxWrong.focus,.btnboxWrong:hover,.btnboxWrong:active{
+    outline: none !important;
+    outline-offset:0px !important;
+}
+.btnbox1{
+    width: 47px;
+     border:1px solid #FF8B5A;
+    border-radius: 100% !important;
+    margin: 0px 10px;
+    float: initial !important;
+    padding: 10px 0px !important;
+     position: relative;
+}
+.btnbox1.focus,.btnbox1:hover,.btnbox1:active{
+    outline: none !important;
+    outline-offset:0px !important;
+}
+.btnbox2{
+    width: 47px;
+     border:1px solid #FFEDA0;
+    border-radius: 100% !important;
+    margin: 0px 10px;
+    float: initial !important;
+    padding: 10px 0px !important;
+     position: relative;
+}
+.btnbox2.focus,.btnbox2:hover,.btnbox2:active{
+    outline: none !important;
+    outline-offset:0px !important;
+}
+.btnbox3{
+    width: 47px;
+     border:1px solid #ADD633;
+    border-radius: 100% !important;
+    margin: 0px 10px;
+    float: initial !important;
+    padding: 10px 0px !important;
+     position: relative;
+}
+.btnbox3.focus,.btnbox3:hover,.btnbox3:active{
+    outline: none !important;
+    outline-offset:0px !important;
+}
+.btnboxN{
+    width: 47px;
+     border:1px solid #00B285;
+    border-radius: 100% !important;
+    margin: 0px 10px;
+    float: initial !important;
+    padding: 10px 0px !important;
+     position: relative;
+}
+.btnboxN.focus,.btnboxN:hover,.btnboxN:active{
+    outline: none !important;
+    outline-offset:0px !important;
+}
+.iconboxAll{
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 30px;
+}
+.boxWrong{
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 25px;
+}
 
 
 
