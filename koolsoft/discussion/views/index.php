@@ -87,6 +87,7 @@
         display: inline;
         margin-top: 0;
         margin-right: 10px;
+        margin-bottom: 5px;
     }
     .post .post-footer .comments-list .comment .comment-heading .time {
         font-size: 12px;

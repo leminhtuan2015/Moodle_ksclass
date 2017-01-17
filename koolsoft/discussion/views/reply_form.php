@@ -1,5 +1,5 @@
 <div class="input-group">
-    <input class="form-control" placeholder="Add a comment" type="text"
+    <input class="form-control" placeholder="Write a comment..." type="text"
            id="reply_discussion_input_<?php echo $discussion->firstpost ?>"
            firstpostId="<?php echo $discussion->firstpost ?>">
     <span class="input-group-addon">
