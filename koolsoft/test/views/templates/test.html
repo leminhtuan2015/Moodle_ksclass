@@ -12,14 +12,14 @@
     
     <div >
         <div class="row">
-            <div class="col-sm-9 col-md-9">
+            <div style="width: 76%; display: inline-block; padding-left: 30px;">
                 <form action="/moodle/koolsoft/test/?action=process" method="post" id="formQuestion" role="form">
                     {{#attempt.questions}}
-                        <div style="border-bottom: dashed 2px #9e9a9a; margin-bottom: 10px; overflow: hidden;" id="questionDiv{{index}}">
+                        <div style="border-bottom: dashed 2px #9e9a9a; padding-left: 10px; margin-bottom: 10px; overflow: hidden;" id="questionDiv{{index}}">
                             <label> Question {{index}} : {{questiontext}}</label> <br>
                             <input is-submit="true" type="hidden" name="{{sequencecheckName}}" value="{{sequencecheckValue}}">
                              {{#answers}}
-                                <input is-submit="true" type="radio" value="{{fieldValue}}" name-answer-field="{{fieldClass}}Right" class="{{fieldClass}} answerQuestionLeft"  name="{{fieldName}}"><label>{{answer}}</label> <br>
+                                <input style="padding-left: 10px;" is-submit="true" type="radio" value="{{fieldValue}}" name-answer-field="{{fieldClass}}Right" class="{{fieldClass}} answerQuestionLeft"  name="{{fieldName}}"><label style="padding-left: 10px;">{{answer}}</label> <br>
                              {{/answers}}
 						     <div style="float: right;">
 							 	<a style="display: inline-block;" question-index="questionIndex{{index}}" class="tagQuestion" type-tag="0" href="#"> Nomal</a>
@@ -39,22 +39,24 @@
                 </form>
                 <input type="hidden" id="numberQuestion" value="{{attempt.questions.length}}">
             </div>
-            <div class="col-sm-3 col-md-3">
-                <div style="text-align:center;background-color:black;padding:10px 5px;">
+            <div style="width: 15%; height: 70%; border: solid 1px gray; position: fixed; right: 25px; display: inline-block;">
+                <div style="text-align:center;background-color: #2e3d49;padding:10px 5px;">
     				<div id="clockdiv" style="color:#3AD3CD">
         				Time left: <span class="minutes"></span>: <span class="seconds"></span>
     				</div>
                 </div>
-                {{#attempt.questions}}
-                    <div style="background-color: white; padding: 7px;" class="btn-group" data-toggle="buttons">
-                        <label style="padding:12px 3px;" id="questionIndex{{index}}" >{{index}}</label>
-                        {{#answers}}
-                        <label style="float:none ;border-radius: 100%;background-color:white;color:black;border:1px solid black;border-radius;100%;" name="{{fieldClass}}Right" answer-value="{{fieldValue}}"  name-answer-field="{{fieldClass}}" class-group="answerQuestionRight{{index}}" class="answerQuestionRight btn answerQuestionRight{{index}}" >
-                            <input type="radio"/>{{label}}
-                        </label>
-                        {{/answers}}
-                    </div>
-                {{/attempt.questions}}
+				<div style="overflow-y: scroll;height:90%;">
+                	{{#attempt.questions}}
+                    	<div style="background-color: white; padding: 7px;" class="btn-group" data-toggle="buttons">
+                        	<label style="padding:12px 3px;" id="questionIndex{{index}}" >{{index}}</label>
+                        	{{#answers}}
+                        	<label style="float:none ;border-radius: 100%;background-color:white;color:black;border:1px solid black;border-radius;100%;" name="{{fieldClass}}Right" answer-value="{{fieldValue}}"  name-answer-field="{{fieldClass}}" class-group="answerQuestionRight{{index}}" class="answerQuestionRight btn answerQuestionRight{{index}}" >
+                        	    <input type="radio"/>{{label}}
+                       	 </label>
+                       	 {{/answers}}
+                    	</div>
+               	 	{{/attempt.questions}}
+            </div>
             </div>
         <div class="row">
     </div>
@@ -79,7 +81,14 @@
         <label>Time practice </label> : {{quiz.timelimit}} (minutes)<br>
         <label>Start time </label> : {{quiz.timeopen}} -<label>End time </label> : {{quiz.timeclose}}<br>
         <div style="text-align: center;">
-            <button style="display: inline-block;" id="{{idBtnNewTest}}" class="btn btn-success" >Play</button>
+			{{#quiz.expired}}
+            	<button style="display: inline-block;" id="{{idBtnNewTest}}" class="btn btn-success" >
+					{{#quiz.state}}Re-play{{/quiz.state}} {{^quiz.state}}Play{{/quiz.state}}
+				</button>
+			{{/quiz.expired}}
+			{{^quiz.expired}}
+				<span style="display: inline-block;">Not ontime test!</span>
+			{{/quiz.expired}}
         </div>
 		<br>
         {{#quiz.state}}

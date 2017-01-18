@@ -122,6 +122,7 @@ class rest_test
         $slotString = "";
         $indexSlot = 0;
         $questions = array();
+        $indexQuestion = 1;
         foreach ($slots as $slot){
             $question_attempts = $attemptobj->all_question_attempts_originally_in_slot($slot->slot);
             $orderAnswer = $attemptobj->get_question_attempt($slot->slot)->get_step(0)->get_all_data();
@@ -129,20 +130,33 @@ class rest_test
             $answerIds = explode( ',',$orderAnswer["_order"]);
             $answers = array();
             $answerNoOrders = $question->answers;
+            $indexAnswer = 0;
+            $question_attempt = $question_attempts[0];
             foreach ($answerIds as $answerId){
+            	$answer = $answerNoOrders[$answerId];
+            	$answer->indexAnswer = $indexAnswer;
+            	$answer->indexQuestionAnswer = $indexQuestion;
+            	$answer->indexQuestion = $indexQuestion;
+            	$answer->nameQuestion = "q".$attempt->uniqueid.":".$indexQuestion."_:sequencecheck";
+            	$answer->nameSequence = "q".$attempt->uniqueid.":".$indexQuestion."_answer";
+            	$answer->sequenceCheck = $question_attempt->get_sequence_check_count();
                 array_push($answers, $answerNoOrders[$answerId]);
+                $indexAnswer ++;
             }
             $question->answers = $answers;
+            $question->indexQuestion = $indexQuestion;
+            $question->nameQuestion = "q".$attempt->uniqueid.":".$indexQuestion."_:sequencecheck";
+            $question->nameSequence = "q".$attempt->uniqueid.":".$indexQuestion."_answer";
             array_push($questions, $question);
 
-            $question_attempt = $question_attempts[0];
+            $question->sequenceCheck = $question_attempt->get_sequence_check_count();
             array_push($sequenceChecks, $question_attempt->get_sequence_check_count());
-            if($indexSlot == 0){
+            if($indexQuestion == 1){
                 $slotString .= $slot->slot;
             }else {
                 $slotString .= ",".$slot->slot;
             }
-            $indexSlot ++;
+            $indexQuestion ++;
         }
 
         $attempt->questions = $questions;
@@ -170,6 +184,7 @@ class rest_test
         if(!$quizAttempt || $quizAttempt->state != quiz_attempt::FINISHED){
             $daoQuiz = new ks_quiz();
             $quiz = $daoQuiz->loadOneWithQuestion($quizId);
+            $quiz->expired = $this->checkExpiredTime($quiz);
             $quiz->timelimit = $quiz->timelimit / 60;
             $quiz->timeopen = DateUtil::getHumanDate($quiz->timeopen);
             $quiz->timeclose = DateUtil::getHumanDate($quiz->timeclose);
@@ -230,10 +245,15 @@ class rest_test
             $question->answers = $answers;
             array_push($questions, $question);
         }
-
+        
+      
+        
+        $quiz->expired = $this->checkExpiredTime($quiz);
+        
+        $quiz->timeTaken = intval(($attempt->timefinish - $attempt->timestart) / 60);
         $quiz->timestart = DateUtil::getHumanDate($attempt->timestart);
         $quiz->timefinish = DateUtil::getHumanDate($attempt->timefinish);
-        $quiz->timeTaken = ($quiz->timestart - $quiz->timefinish) / 60;
+        
         $quiz->questions= $questions;
         $quiz->sumgradeUsers= intval($attempt->sumgrades);
         $quiz->sumgrades= intval($quiz->sumgrades);
@@ -249,6 +269,15 @@ class rest_test
         $quiz->timeclose = DateUtil::getHumanDate($quiz->timeclose);
 
         return $quiz;
+    }
+    
+    public function checkExpiredTime($quiz){
+    	$toDay = microtime(true);
+    	if($quiz->timeopen > $toDay || $quiz->timeclose < $toDay){
+    		return false;
+    	}else {
+    		return true;
+    	}
     }
 
 }

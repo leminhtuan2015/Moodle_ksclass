@@ -28,5 +28,26 @@
     </div>
 </div>
 
+<div class="modal fade" tabindex="-1" id="submitTestDialog" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 id="header" class="modal-title" id="myModalLabel">Warning !</h4>
+            </div>
+
+            <div class="modal-body">
+                <p class="contentTestSubmit"> You finish 10/20</p>
+            </div>
+        </div>
+    </div>
+    
+<!--     <div class="modal-footer"> -->
+<!--         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+<!--         <a class="btn btn-danger btn-ok submitTest" data-dismiss="modal" >Submit</a> -->
+<!--     </div> -->
+</div>
+
 
 

@@ -9,6 +9,7 @@
 global $CFG;
 require_once($CFG->dirroot."/config.php");
 require_once($CFG->dirroot."/koolsoft/question/models/ks_question.php");
+require_once($CFG->dirroot."/koolsoft/test/models/ks_question_progress.php");
 require_once($CFG->dirroot."/koolsoft/utility/DateUtil.php");
 class ks_quiz
 {
@@ -107,15 +108,29 @@ class ks_quiz
         return $slots;
     }
 
-    public function loadAllResultQuizForUser($idCourse, $idUser){
+    public function loadAllResultTestForUser($idCourse, $idUser){
         global $DB;
         $sql = "SELECT q.id, q.name, q.sumgrades,a.sumgrades as grade, a.state, a.timefinish  FROM ".$DB->get_prefix()."quiz q "
-                    ."LEFT JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ".$idUser." AND q.course = ".$idCourse;
+                    ."INNER JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ".$idUser." AND q.course = ".$idCourse + "q.type = 2";
         $quizResults = $DB->get_records_sql($sql, array());
         foreach($quizResults as $quizResult){
             $quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
         }
         return $quizResults;
+    }
+    
+    public function loadAllResultExerciseForUser($idCourse, $idUser){
+    	global $DB;
+    	$daoQuestionProgress = new ks_question_progress();
+    	$sql = "SELECT q.id, q.name, q.grade  FROM ".$DB->get_prefix()."quiz q "
+    			."INNER JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ".$idUser." AND q.course = ".$idCourse + "q.type = 1";
+    	$quizResults = $DB->get_records_sql($sql, array());
+    	foreach($quizResults as $quizResult){
+    		$quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
+    		$numberQuestionCompleted = $daoQuestionProgress->countCompleted($idUser, $quizResult->id, 4);
+    		$quizResult->progess = intval($numberQuestionCompleted / intval($quizResult->grade));
+    	}
+    	return $quizResults;
     }
 
     public function getData($quizId, $quizName, $quizDesc, $startTime, $endTime, $currentSection, $courseid, $sumgrades, $grade,  $timeLimit, $type){

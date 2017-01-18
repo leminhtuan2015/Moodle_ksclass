@@ -14,8 +14,7 @@ require_once(__DIR__.'/rest_question.php');
 
 $controller = new rest_question();
 
-$action  = optional_param('action', 0, PARAM_TEXT);
-
+$action  = optional_param('action', "", PARAM_TEXT);
 if($action == "create"){
     $controller->create();
 

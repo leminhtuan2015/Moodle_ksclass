@@ -1,6 +1,6 @@
 <script id="templateQuestion" type="x-tmpl-mustache">
 	<div class="form-group" style="display: none"> 
-	<input class="form-control" id="questionId" value="undefined"> </div>
+	<input class="form-control" id="questionId" value="{{question.id}}"> </div>
 	<div class="form-group" style="display: none"> 
 		<input class="form-control" placeholder="question" id="questionIndex" value="{{index}}"> 
 	</div>
@@ -10,6 +10,10 @@
 				<label for="questionTxt">Question</label>
 				<input {{#question.id}} disabled {{/question.id}} style="width: 100%" class="form-control" placeholder="question" id="questionTxt" value="{{question.question}}"> 
 			</div>
+ 			<div class="form-group" id="selectTagCreateQuestionDiv" style="display: none">
+                 <label for="selectTagCreateQuestion">Tags</label>
+                 <select {{#question.id}} disabled {{/question.id}} multiple="true" style="width: 100%" id="selectTagCreateQuestion"> </select>
+         	</div> 
 		</div>
 		<div class="col-sm-6">
 			<div class="form-group">

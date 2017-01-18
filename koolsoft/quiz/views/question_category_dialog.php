@@ -17,6 +17,9 @@
                 Search question by tag <select multiple="true" style="width: 70%" id="selectTagSearch">
 
                 </select>
+                <div style="width: 100%">
+                	<ul id="paginationQuestionBank" class="pagination-sm" style="float: right;" ></ul>
+                </div>
                 <div id="nameQuestions"></div>
                 <table class='table' style="width: 100%">
                     <thead>
@@ -31,7 +34,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button submit" class="btn btn-danger" id="btnAddQuestionInBank">Add</button>
+                <button type="button" class="btn btn-primary" id="btnAddQuestionInBank">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

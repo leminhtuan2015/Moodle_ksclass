@@ -13,8 +13,17 @@ Ks.test.idTestInstanceCurrent = null;
 Ks.test.idSectionCurrent = null;
 Ks.test.testPanelCurrent = null;
 Ks.test.Timeinterval = null;
+Ks.test.forceFinish = false;
 
 Ks.test.init = function () {
+	Ks.test.numberQuestion = 0;
+	Ks.test.idAttemptCurrent = null;
+	Ks.test.idTestCurrent = null;
+	Ks.test.idTestInstanceCurrent = null;
+	Ks.test.idSectionCurrent = null;
+	Ks.test.testPanelCurrent = null;
+	Ks.test.Timeinterval = null;
+	Ks.test.forceFinish = false;
     Ks.test.handler();
 };
 
@@ -26,7 +35,7 @@ Ks.test.handler = function () {
         var classGroup = $(this).attr("class-group");
         
         $("." + classGroup).css("background-color", "white");
-        $("." + classGroup).css("color", "black");
+        $("." + classGroup).css("color", "gray");
 
         $(this).css("background-color", "gray");
         $(this).css("color", "white");
@@ -54,15 +63,18 @@ Ks.test.handler = function () {
         var length = $("label[name="+ nameAnswerField + "]").length;
         for(var i = 0 ; i < length; i++){
             if(value == i){
-                $($("label[name="+ nameAnswerField + "]")[i]).addClass("active");
+            	$($("label[name="+ nameAnswerField + "]")[i]).css("background-color", "gray");
+            	$($("label[name="+ nameAnswerField + "]")[i]).css("color", "white");
             }else {
-                $($("label[name="+ nameAnswerField + "]")[i]).removeClass("active");
+            	$($("label[name="+ nameAnswerField + "]")[i]).css("background-color", "white");
+            	$($("label[name="+ nameAnswerField + "]")[i]).css("color", "gray");
             }
         }
     });
 };
 
 Ks.test.submitForm = function () {
+	var numberQuestionCheck = 0;
     var data = {};
     var inputDatas = $("input[is-submit=true]");
     var length = inputDatas.length;
@@ -74,26 +86,32 @@ Ks.test.submitForm = function () {
             }else {
                 if(input.prop("checked") == true){
                     data[input.attr("name")] = input.val();
+                    numberQuestionCheck ++;
                 }
             }
 
         }
     }
+    
+    if((Ks.test.numberQuestion - numberQuestionCheck) > 0 && !Ks.test.forceFinish){
+    	$("#submitTestDialog").find(".contentTestSubmit").html("You have not completed " + (Ks.test.numberQuestion - numberQuestionCheck) + " question.");
+    	$("#submitTestDialog").modal();
+    }else {
+    	data.action = "play";
+    	$.post(
+                '/moodle/koolsoft/test/rest/', 
+                data,  
+                function(result){ 
+                	var startPlay = JSON.parse(result);
+        			Ks.test.idAttemptCurrent = startPlay.id;
+        			Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
+                }, 
+                'text' 
+        );
 
-    data.action = "play";
-    $.ajax({
-        url: "/moodle/koolsoft/test/rest",
-        data: data,
-        success: function (result) {
-            var startPlay = JSON.parse(result);
-            Ks.test.idAttemptCurrent = startPlay.id;
-            Ks.test.genReviewView(startPlay, Ks.test.testPanelCurrent);
-        },
-        error : function () {
-            console.log("submit for play error!");
-        }
-    });
-    Ks.test.clearClock();
+    	Ks.test.clearClock();
+    }
+    
 }
 
 Ks.test.showQuestion = function (index) {
@@ -107,6 +125,7 @@ Ks.test.showQuestion = function (index) {
 };
 
 Ks.test.genPlayView = function (attempt, questionPanel){
+	Ks.test.numberQuestion = attempt.questions.length;
     var template = $("#templateTest").html();
     var labelAnswer = ["A", "B", "C", "D", "E", "F"];
     var questions = attempt.questions;
@@ -133,6 +152,8 @@ Ks.test.genPlayView = function (attempt, questionPanel){
     var deadline = new Date(Date.parse(new Date()) + attempt.quiz.timelimit * 1000);
     Ks.test.initializeClock('clockdiv', deadline, function overTime(){
     	if($("#testPanel").css("display") != "none"){
+    		Ks.test.forceFinish = true;
+    		$("#submitTestDialog").modal("hide");
     		$("#overTimeDialog").modal();
     	}
     });
@@ -206,7 +227,9 @@ $(function () {
 	$("#overTimeDialog").on("hidden.bs.modal", function() {
 		Ks.test.submitForm();
     });
+	
     $(".showQuizBtn").click(function () {
+    	Ks.test.init();
     	Ks.test.clearClock();
         Ks.test.idTestCurrent = $(this).attr("id-quiz");
         Ks.test.idTestInstanceCurrent = $(this).attr("id-quiz-instance");
@@ -224,5 +247,5 @@ $(function () {
             }
         });
     });
-    Ks.test.init();
+    
 });
