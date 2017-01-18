@@ -110,10 +110,9 @@
         <input type="hidden" name="forum" id="new_discussion_form_forum" value="<?php echo $forumId ?>"/>
         <input type="hidden" name="courseId" id="new_discussion_form_courseId" value="<?php echo $course->id ?>"/>
 
-        <textarea id="newPostForm" name="message" placeholder="What are you doing right now?">
-        </textarea>
+        <textarea id="newPostForm" name="message" placeholder="What are you doing right now?"></textarea>
         <br>
-        <button type="submit" class="btn btn-primary pull-right">Post</button>
+            <button type="submit" class="btn btn-primary pull-right">Post</button>
         <br>
         <br>
     </form>
