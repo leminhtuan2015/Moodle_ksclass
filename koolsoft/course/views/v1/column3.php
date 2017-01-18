@@ -72,4 +72,8 @@
     <?php require_once ("members.php")?>
 
     <?php require_once (__DIR__."/../../../discussion/views/index.php");?>
+
+    <div id="course_file" class="tab-pane fade in">
+        <?php require_once (__DIR__."/../../../file/views/index.php");?>
+    </div>
 </div>

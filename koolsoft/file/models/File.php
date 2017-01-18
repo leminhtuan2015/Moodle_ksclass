@@ -23,6 +23,14 @@ class File {
         return $files;
     }
 
+    public static function filesOfCourse($course_id){
+        global $DB, $USER;
+
+        $files = $DB->get_records("files", array('userid'=>$USER->id, "course_id"=>$course_id));
+
+        return $files;
+    }
+
     public static function get($id){
         global $DB, $USER;
 
@@ -34,20 +42,27 @@ class File {
     public static function upload($fileInfo){
         global $DB;
 
+//        Logger::log($fileInfo);
+        $course_id = optional_param("course_id", 0, PARAM_INT);
+
         $fileTmp = $fileInfo['tmp_name'];
+        $fileName = $fileInfo['name'];
         $status = move_uploaded_file($fileTmp, $fileTmp);
 
         if($status){
-            $file = File::buildFileObject($fileTmp, $fileTmp);
+            $file = File::buildFileObject($fileName, $fileTmp, $course_id);
             $id = $DB->insert_record('files', $file);
 
-            return $id;
+            if($id){
+                $file->id = $id;
+                return $file;
+            }
         }
 
         return "";
     }
 
-    private static function buildFileObject($filename, $filepath){
+    private static function buildFileObject($filename, $filepath, $course_id = 0){
         global $USER;
 
         $file = new stdClass();
@@ -58,6 +73,7 @@ class File {
 
         $file->filename = $filename;
         $file->userid = $USER->id;
+        $file->course_id = $course_id;
         $file->filepath = $filepath;
         $file->status = 0;
         $file->timecreated = 0;
