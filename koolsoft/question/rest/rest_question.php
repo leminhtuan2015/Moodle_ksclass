@@ -147,7 +147,7 @@ class rest_question {
     public function import(){
         global $dao;
 
-        error_log(print_r($_FILES['file'], true));
+//        error_log(print_r($_FILES['file'], true));
 
         if(!strpos($_FILES['file']["name"], "xls")){
             echo false;
@@ -174,7 +174,7 @@ class rest_question {
     }
 
     private function buildQuestionObjectFromRowExcel($row){
-        //       {"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
+        //{"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
 
         $question = new stdClass();
 

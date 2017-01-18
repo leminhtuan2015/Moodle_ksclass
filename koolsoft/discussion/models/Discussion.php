@@ -104,7 +104,7 @@ class Discussion {
 
             $discussion->children = $posts;
 //            $firstpost = forum_get_firstpost_from_discussion($discussion->id);
-            Logger::log($discussion);
+//            Logger::log($discussion);
         }
 
         return array("forumId" => $forumId, "discussions" => $discussions);
