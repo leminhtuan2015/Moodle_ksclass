@@ -137,6 +137,7 @@ Ks.quiz.handler = function () {
     	Ks.quiz.questionInBank = null;
     	Ks.quiz.numberQuestion = 0;
     	$("#bodyTableQuestionBank").html("");
+    	$("#idCheckBoxQuestionBankAll").prop("checked", false);
         $("#questionBankDialog").modal();
     });
 
@@ -214,7 +215,6 @@ Ks.quiz.handler = function () {
                 questionIds.push(question.id);
             }
         }
-        console.log(questionNews);
         if(questionNews.length > 0){
             var data = { };
             data.questions = JSON.stringify(questionNews);
@@ -395,67 +395,6 @@ Ks.quiz.genQuestionTitle = function () {
         Ks.quiz.clearQuestionDetailView();
     }
 };
-
-//Ks.quiz.genDetailQuestion = function (question, index) {
-//    $("#createQuestionErrorText").html("");
-//    $("#createQuestionErrorText").css("display", "none");
-//    Ks.quiz.currentQuestion = question;
-//    var html = "";
-//    html += "<div class='form-group' style='display: none'> "
-//        + "<input ";
-//    if(question.id && question.id != "undefined"){
-//        html +="disabled ";
-//    }
-//    html += "class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
-//    html += "<div class='form-group' style='display: none'> "
-//        + "<input class='form-control' placeholder='question' id='questionIndex' value='" + index + "'> </div>";
-//    html += "<div class='form-group'> <label for='questionTxt'>Question</label>"
-//        + "<input ";
-//    if(question.id && question.id != "undefined"){
-//        html +="disabled ";
-//    }
-//    html += "style='width: 100%'class='form-control' placeholder='question' id='questionTxt' value='" + question.question + "'> </div>";
-//    html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input";
-//
-//    if(question.id && question.id != "undefined"){
-//        html += " disabled ";
-//    }
-//    html += " style='width: 100%' class='form-control' placeholder='answer' id='answerTxt' value='" + question.answer + "'> </div>";
-//    $("#questionDiv").html(html);
-//
-//    var wrongAnswer = question.wrongAnswer;
-//    for(var i = 0; i < wrongAnswer.length; i++){
-//        var idDelWrongAnswer = "idDWA" + new Date().getTime() + i;
-//        var htmlWrongAnswer = "<div class='form-group'> <label for='answerTxt'>Wrong Answer</label> "
-//            +" <input ";
-//        if(question.id && question.id != "undefined"){
-//            htmlWrongAnswer +="disabled ";
-//        }
-//        htmlWrongAnswer += " style='display: inline-block; width: 100%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + i +"' value='" + wrongAnswer[i] + "'>"
-//            // + "<span stt-answer='" + i + "' id='" + idDelWrongAnswer + "' style='display: inline-block; width: 5%' class='glyphicon glyphicon-remove'></span> "
-//            +" </div>";
-//        $("#questionDiv").append(htmlWrongAnswer);
-//        $("#" + idDelWrongAnswer).click(function () {
-//            var stt = $(this).attr("stt-answer");
-//            var wrongAnswers = Ks.quiz.currentQuestion.options.answers;
-//            var wrongAnswerKeys = Object.keys(wrongAnswers);
-//            delete Ks.quiz.currentQuestion.options.answers[wrongAnswerKeys[stt]];
-//            Ks.quiz.genDetailQuestion(Ks.question.currentQuestion);
-//        });
-//    }
-//
-//    $("#selectTagCreateQuestion").val(question.tags).trigger("change");
-//    $("#selectTagCreateQuestionDiv").css("display", "block");
-//    $("#removeOneQuestionBtn").css("display", "inline-block");
-//    if(question.id && question.id != "undefined"){
-//        $("#saveOneQuestionBtn").css("display", "none");
-//        $("#selectTagCreateQuestion").select2("enable", false);
-//    }else {
-//        $("#saveOneQuestionBtn").css("display", "inline-block");
-//        $("#selectTagCreateQuestion").select2("enable");
-//    }
-//
-//};
 
 Ks.quiz.genDetailQuestion = function (question, index) {
     $("#createQuestionErrorText").html("");

@@ -16,7 +16,7 @@
 
 <div class="hearder-Home" style="text-align:center">
     <a class='iconFont-Home' href="" style="margin-left:3%;vertical-align: middle">
-        <img src="/moodle/koolsoft/resources/images/rpund2-01.png" width="30px">
+        <img src="/moodle/koolsoft/resources/images/logo-01.png" width="60px">
     </a>
 
     <a class='iconFont-Home' href="/moodle/koolsoft" style="margin-left:3%; vertical-align: middle">
@@ -43,7 +43,7 @@
 
             <div class="dropdown" style="display: inline-block">
                 <a class=" dropdown-toggle" data-toggle="dropdown" style="color: black;margin-left:15px;">
-                     <img src="/moodle/koolsoft/resources/images/rpund2-01.png" width="40px" style="border-radius:100%">
+                     <img src="/moodle/koolsoft/resources/images/default-avatar.png" width="40px" style="border-radius:100%">
                     <!-- <b><?php global $USER; echo $USER->username?></b>
                     <span class="caret"></span> -->
                 </a>

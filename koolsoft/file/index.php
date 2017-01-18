@@ -6,10 +6,10 @@
  * Time: 1:26 PM
  */
 
-require_once(__DIR__.'/LibraryController.php');
+require_once(__DIR__.'/FileController.php');
 
 $action = 'index';
-$controller = new LibraryController();
+$controller = new FileController();
 
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
@@ -20,4 +20,10 @@ if($action == "index"){
 
 } else if($action == "upload"){
     $controller->upload();
+
+} else if($action == "download"){
+    $controller->download();
+
+} else if($action == "filesOfCourse"){
+    $controller->filesOfCourse();
 }

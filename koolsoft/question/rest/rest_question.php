@@ -29,7 +29,6 @@ class rest_question {
         global $dao;
 
         $questionStrings = optional_param('questions', "", PARAM_TEXT);
-        error_log("dungdv 2222xx ".json_encode($questionStrings));
         $dataType = optional_param('data_type', "", PARAM_TEXT);
         $questions = (array) json_decode($questionStrings);
 
@@ -147,7 +146,7 @@ class rest_question {
     public function import(){
         global $dao;
 
-        error_log(print_r($_FILES['file'], true));
+//        error_log(print_r($_FILES['file'], true));
 
         if(!strpos($_FILES['file']["name"], "xls")){
             echo false;
@@ -174,7 +173,7 @@ class rest_question {
     }
 
     private function buildQuestionObjectFromRowExcel($row){
-        //       {"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
+        //{"questions":"[{\"id\":\"undefined\",\"question\":\"4\",\"answer\":\"4\",\"qtype\":\"multichoice\",\"tags\":[],\"wrongAnswer\":[\"4\",\"4\",\"4\"]}]"}
 
         $question = new stdClass();
 

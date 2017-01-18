@@ -40,26 +40,24 @@ Ks.exercise.handler = function (idBtnFinishExercise, idBtnNewExercise) {
         for(var i = 0; i < inputAnswers.length; i++){
             var inputAnswer = $(inputAnswers[i]);
             inputAnswer.prop("disabled", true);
-            var divAnswer = $("#" + inputAnswer.attr("div-id"));
             if(inputAnswer.attr("value") == "true"){
-                divAnswer.addClass("correctAnswer");
+                inputAnswer.addClass("questionExerciseCorrect");
             }
         }
 
-        var divAnswer = $("#" + $(this).attr("div-id"));
         var divResult = $("#" + $(this).attr("div-result"));
         divResult.css("display", "block");
         Ks.exercise.quiz.questions[index - 1].finished = true;
         if($(this).attr("value") == "true"){
             Ks.exercise.quiz.questions[index - 1].fraction = 1;
-            divAnswer.addClass("correctAnswer");
+            $(this).addClass("questionExerciseCorrect");
             divResult.addClass("divCorrect");
             divQuestionNumber.addClass("questionCorrectAnswer");
             divResult.find("#correct").css("display", "block");
             divResult.find("#wrong").css("display", "none");
         }else {
             Ks.exercise.quiz.questions[index - 1].fraction = 0;
-            divAnswer.addClass("wrongAnswer");
+            $(this).addClass("questionExerciseWrong");
             divResult.addClass("divWrong");
             divQuestionNumber.addClass("questionWrongAnswer");
             divResult.find("#correct").css("display", "none");
