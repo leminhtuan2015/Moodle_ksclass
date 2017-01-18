@@ -1,7 +1,7 @@
 <div class="panel panel-white post panel-shadow">
     <div class="post-heading">
         <div class="pull-left image">
-            <img src="/moodle/koolsoft/resources/images/user_1.jpg" class="avatar" alt="user profile image">
+            <img src="/moodle/koolsoft/resources/images/default-avatar.png" class="avatar" alt="user profile image" style="width:50px;height:50px;">
         </div>
         <div class="pull-left meta">
             <div class="title h5">

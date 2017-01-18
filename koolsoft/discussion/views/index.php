@@ -1,6 +1,7 @@
 <style>
     .panel-white {
-        border: 1px solid #dddddd;
+        box-shadow: 0px 0px 1px 1px gray;
+        border-radius: 0px;
     }
     .panel-white  .panel-heading {
         color: #333;
@@ -13,8 +14,8 @@
     }
 
     .post .post-heading {
-        height: 95px;
-        padding: 20px 15px;
+        height: 55px;
+        padding: 5px 15px 20px 15px;
     }
     .post .post-heading .avatar {
         width: 60px;
@@ -56,7 +57,13 @@
     .post .post-description .stats .stat-item .icon {
         margin-right: 8px;
     }
-    .post .post-footer {
+    .post-footer {
+        width: 97%;
+        margin: 0 auto;
+        border-top: 1px solid #ddd;
+        padding: 15px 0px;
+    }
+    .post {
         border-top: 1px solid #ddd;
         padding: 15px;
     }
@@ -106,7 +113,7 @@
 <br/>
 <div id="discussionBox"
      class="tab-pane fade in <?php if($tabActive == "discussionBox"){echo "active";};?>"
-     style="padding-left: 50px; padding-right: 50px">
+     style="padding:0px 50px 30px 50px;">
 
     <?php require_once ("new_post_form.php")?>
 

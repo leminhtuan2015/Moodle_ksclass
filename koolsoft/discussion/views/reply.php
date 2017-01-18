@@ -1,11 +1,11 @@
 <li class="comment">
     <a class="pull-left" href="#">
-        <img class="avatar" src="/moodle/koolsoft/resources/images/user_3.jpg" alt="avatar">
+        <img class="avatar" src="/moodle/koolsoft/resources/images/default-avatar.png" alt="avatar" style="width:34px;">
     </a>
     <div class="comment-body">
         <div class="comment-heading">
-            <h4 class="user" style="display:inline-block;"><?php echo $post_child->firstname ?></h4>
-            <p style="display:inline-block;margin-bottom:5px;" ><?php echo $post_child->message ?></p>
+            <h4 class="user" style="display:inline-block;margin-right:5px;"><?php echo $post_child->firstname ?></h4>
+            <p style="display:inline-block;margin-bottom:5px;font-size:0.9em;" ><?php echo $post_child->message ?></p>
         </div>
         <h6 class="time" id="time_ago_of_reply_discussion_<?php echo $post_child->id ?>" style="margin:5px 0px;">
                 <?php echo $post_child->time_ago ?>

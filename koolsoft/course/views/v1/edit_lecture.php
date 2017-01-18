@@ -9,14 +9,13 @@
         <h5 class="headerRightPanel">
             <div style="display: inline-block; width: 85%; text-align: center;">
                 <img src="/moodle/koolsoft/resources/images/previous-black-01.png" style="width:30px;margin-right:20px;vertical-align:middle;"></img>
-                    <input style="color: #0c0c0c" type="text" name="name" value="<?php echo $sectionEdit->name ?>"/>
+                    <input style="color: #0c0c0c;width: 50%;padding:5px;" type="text" name="name" value="<?php echo $sectionEdit->name ?>"/>
                 <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
             </div>
             <div style="display: inline-block; float:right">
                 <img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
                 <button type="submit" style="right:75px;background-color:transparent;border:none">
-                   <!--  <img src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img> -->
-                    Save
+                   <img src="/moodle/koolsoft/resources/images/save-01.png" style="width:25px;margin-right:10px;vertical-align:middle;"></img>
                 </button> 
             <div>
 

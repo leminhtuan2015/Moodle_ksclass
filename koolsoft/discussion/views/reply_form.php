@@ -1,10 +1,12 @@
 <div class="input-group">
-    <input class="form-control" placeholder="Write a comment..." type="text"
+    <img src="/moodle/koolsoft/resources/images/default-avatar.png" class="avatar" style="width:34px;float:left;">
+    <input class="form-control" placeholder="Write a comment..." type="text" 
+           style="display:inline-block;width:calc(100% - 40px);margin-left:6px;"
            id="reply_discussion_input_<?php echo $discussion->firstpost ?>"
            firstpostId="<?php echo $discussion->firstpost ?>">
     <span class="input-group-addon">
             <a href="#"><i class="fa fa-edit"></i></a>
-        </span>
+    </span>
 </div>
 
 <script>
