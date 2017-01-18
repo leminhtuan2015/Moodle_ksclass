@@ -5,7 +5,8 @@
  * Date: 1/6/17
  * Time: 1:41 PM
  */
-
+	global $CFG;
+	include($CFG->dirroot.'/koolsoft/quiz/views/templates/quiz.html');
 ?>
 <script src="/moodle/koolsoft/quiz/resources/javascript/quiz.js"></script>
 <div id="createQuizDialog" class="modal fade" role="dialog" style="overflow-y: auto;">
@@ -99,11 +100,11 @@
                     </div>
 
                 </form>
-                    <div id="questionMainPanel" width="100%">
+                    <div id="questionMainPanel" style="overflow: hidden; width = 100%;">
                         <div style="display: inline-block;" class="col-md-3">
                             <div class="navbar-collapse collapse sidebar-navbar-collapse">
                                 <ul class="nav navbar-nav" style="width: 100%;">
-                                    <ul class="nav nav-pills brand-pills nav-stacked" role="tablist" style="height: 500px;border: 1px solid; border-radius: 6px; overflow-y: scroll;" id="listQuestion">
+                                    <ul class="nav nav-pills brand-pills nav-stacked" role="tablist" style="height: 400px; border-radius: 6px; overflow-y: scroll;" id="listQuestion">
                                     </ul>
 
                                 </ul>
@@ -112,30 +113,30 @@
                             <br>
 
                         </div>
-                        <div style="display: inline-block; border: 1px solid; border-radius: 6px;" class="col-md-9" id="questionDetail">
+                        <div style="display: inline-block; border-radius: 6px;" class="col-md-9" id="questionDetail">
 
                             <div id="questionDiv">
 
                             </div>
-                            <div class="form-group" id="selectTagCreateQuestionDiv" style="display: none">
-                                <label for="selectTagCreateQuestion">Tags</label>
-                                <select multiple="true" style="width: 100%" id="selectTagCreateQuestion"> </select>
-                            </div>
+                           
                             <div class="form-group">
 
                                 <label style="display: none; color: #ff5f50;" id="createQuestionErrorText"></label>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary" style="display: none;" id="saveOneQuestionBtn">Save question</button>
-                                <button class="btn btn-danger" style="display: none;" id="removeOneQuestionBtn">Remove question</button>
+                                <button class="btn btn-primary" style="display: none;" id="saveOneQuestionBtn">Save</button>
+                                <button class="btn btn-danger" style="display: none;" id="removeOneQuestionBtn">Remove</button>
                             </div>
                             <br>
 
                         </div>
                     </div>
-                <div style="margin-left: 3%; width: 30%">
-                    <button style="float:left; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestion">Add form library</button>
-                    <button style="float:left; margin-right: 15px;" class="btn btn-primary"  id="btnAddQuestionNew">Add new</button>
+                <div style="margin-left: 3%; width: 30%; overflow: hidden;">
+                    <a style="float:left; margin-right: 15px;" class="blue"  id="btnAddQuestionNew">Add new</a>
+                    <br>
+                    or
+                    <br>
+                    <a style="float:left; margin-right: 15px;" class="blue"  id="btnAddQuestion">Add form library</a>
                 </div>
             </div>
             <div class="modal-footer">

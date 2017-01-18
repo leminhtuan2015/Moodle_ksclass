@@ -29,18 +29,29 @@ class rest_question {
         global $dao;
 
         $questionStrings = optional_param('questions', "", PARAM_TEXT);
+        error_log("dungdv 2222xx ".json_encode($questionStrings));
+        $dataType = optional_param('data_type', "", PARAM_TEXT);
         $questions = (array) json_decode($questionStrings);
 
 //        error_log(print_r($questions, true));
 
-        foreach ($questions as $question){
-            $questionObject = $dao->create($question);
-            $question->resultText = "Success";
-            $question->id = $questionObject->id;
-
-            echo "<tr id='question_list_table_row_$question->id'>";
-            include ("../views/question_row.php");
-            echo "</tr>";
+        if($dataType = "json"){
+        	foreach ($questions as $question){
+        		$questionObject = $dao->create($question);
+        		$question->resultText = "Success";
+        		$question->id = $questionObject->id;
+        	}
+        	echo json_encode($questions);
+        }else {
+	        foreach ($questions as $question){
+	            $questionObject = $dao->create($question);
+	            $question->resultText = "Success";
+	            $question->id = $questionObject->id;
+	
+	            echo "<tr id='question_list_table_row_$question->id'>";
+	            include ("../views/question_row.php");
+	            echo "</tr>";
+	        }
         }
     }
 

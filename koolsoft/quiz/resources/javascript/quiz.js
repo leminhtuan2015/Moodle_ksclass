@@ -4,6 +4,7 @@
 var Ks = Ks || {};
 Ks.quiz = Ks.quiz || {};
 Ks.quiz.numberQuestionInBank = 0;
+Ks.quiz.questionInBank = null;
 Ks.quiz.numberQuestion = 0;
 Ks.quiz.questionCurrentIndex = 0;
 Ks.quiz.questions = [];
@@ -11,6 +12,7 @@ Ks.quiz.numberWrongAnswer = 3;
 Ks.quiz.wrongAnswerInputId = "wrongAnserTxt";
 Ks.quiz.typeTest = 2;
 Ks.quiz.typeExercise = 1;
+Ks.quiz.tagSelects = [];
 Ks.quiz.init = function () {
     Ks.quiz.loadLecture();
 
@@ -35,17 +37,17 @@ Ks.quiz.init = function () {
                 var tag = {};
                 tag.id = tags[keys[i]].id;
                 tag.text = tags[keys[i]].name;
-                tagSelects.push(tag);
+                Ks.quiz.tagSelects.push(tag);
             }
 
             $("#selectTagSearch").select2({
-                data: tagSelects,
+                data: Ks.quiz.tagSelects,
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
 
             $("#selectTagCreateQuestion").select2({
-                data: tagSelects,
+                data: Ks.quiz.tagSelects,
                 tags: true,
                 tokenSeparators: [',', ' ']
             });
@@ -131,6 +133,10 @@ Ks.quiz.handler = function () {
     });
 
     $("#btnAddQuestion").click(function(){
+    	$('#paginationQuestionBank').twbsPagination("destroy");
+    	Ks.quiz.questionInBank = null;
+    	Ks.quiz.numberQuestion = 0;
+    	$("#bodyTableQuestionBank").html("");
         $("#questionBankDialog").modal();
     });
 
@@ -185,21 +191,8 @@ Ks.quiz.handler = function () {
     });
 
     $("#saveOneQuestionBtn").click(function(){
-        var question = {};
-        var indexQuestion = $("#questionIndex").val();
-        question.id = $("#questionId").val();
-        question.question = $("#questionTxt").val();
-        question.answer = $("#answerTxt").val();
-        question.qtype = "multichoice";
-        var wrongAnswer = [];
-        question.tags = $("#selectTagCreateQuestion").val();
-        for(var i = 0; i < Ks.quiz.numberWrongAnswer; i ++){
-            wrongAnswer[i] = $("#" + Ks.quiz.wrongAnswerInputId + i).val();
-        }
-
-        question.wrongAnswer = wrongAnswer;
-
-        Ks.quiz.questions[indexQuestion] = question;
+    	Ks.quiz.saveQuestionInLocal();
+        alert("Save question success!");
     });
 
     $("#saveQuiz").click(function (e) {
@@ -208,23 +201,29 @@ Ks.quiz.handler = function () {
             window.alert("Please choice lecture !");
             return;
         }
+        
+        Ks.quiz.saveQuestionInLocal();
         var questionIds = [];
         var questionNews = [];
         for(var i = 0; i < Ks.quiz.questions.length; i++){
             var question = Ks.quiz.questions[i];
             question.index = i;
             if(!question.id || question.id == "undefined"){
-                questionNews[i] = question;
+                questionNews.push(question);
             }else {
                 questionIds.push(question.id);
             }
         }
+        console.log(questionNews);
         if(questionNews.length > 0){
-            var data = {"questions" : JSON.stringify(questionNews)};
+            var data = { };
+            data.questions = JSON.stringify(questionNews);
             data.action = "create";
-            $.post({url: "/moodle/koolsoft/question/rest"
-                , data : data
-                , success: function(result){
+            data.data_type = "json";
+            $.ajax({
+            	url: "/moodle/koolsoft/question/rest" , 
+            	data: data,
+                success: function(result){
                     var questions = JSON.parse(result);
                     var keys = Object.keys(questions);
                     for(var i = 0; i < keys.length ; i++){
@@ -244,10 +243,7 @@ Ks.quiz.handler = function () {
 
                     Ks.quiz.submitForm(questionIds);
 
-                }, error: function(){
-                    console.log("create question error");
                 }
-
             });
         }else {
             Ks.quiz.submitForm(questionIds);
@@ -269,6 +265,26 @@ Ks.quiz.handler = function () {
             $("#idCheckBoxQuestion" + i).prop('checked', $("#idCheckBoxQuestionAll").prop("checked"));
         }
     });
+};
+
+Ks.quiz.saveQuestionInLocal = function () {
+	var question = {};
+    var indexQuestion = $("#questionIndex").val();
+    question.id = $("#questionId").val();
+    if(!question.id || question.id == ""){
+    	question.question = $("#questionTxt").val();
+    	question.answer = $("#answerTxt").val();
+    	question.qtype = "multichoice";
+    	var wrongAnswer = [];
+    	question.tags = $("#selectTagCreateQuestion").val();
+    	for(var i = 1; i <= Ks.quiz.numberWrongAnswer; i ++){
+    		wrongAnswer[i-1] = $("#" + Ks.quiz.wrongAnswerInputId + i).val();
+    	}
+    	
+    	question.wrongAnswer = wrongAnswer;
+    	
+    	Ks.quiz.questions[indexQuestion] = question;
+    }
 };
 
 Ks.quiz.submitForm = function (questionIds) {
@@ -356,7 +372,7 @@ Ks.quiz.genQuestionTitle = function () {
         var html = "";
         var idQuestionBtn = new Date().getTime() + i;
         html += "<li  role='presentation' class='brand-nav' index-question='"+ i +"' id-question='" + Ks.quiz.questions[i].id + "' id='" + idQuestionBtn + "' tyle='height: 30px;'>";
-        html += "<a role='tab' data-toggle='tab'>Question " + (i + 1) + "</a>";
+        html += "<a role='tab' style='text-align: center;' data-toggle='tab'>" + (i + 1) + "</a>";
         html += "</li>";
         $("#listQuestion").append(html);
         $("#" + idQuestionBtn).click(function (e){
@@ -380,53 +396,96 @@ Ks.quiz.genQuestionTitle = function () {
     }
 };
 
+//Ks.quiz.genDetailQuestion = function (question, index) {
+//    $("#createQuestionErrorText").html("");
+//    $("#createQuestionErrorText").css("display", "none");
+//    Ks.quiz.currentQuestion = question;
+//    var html = "";
+//    html += "<div class='form-group' style='display: none'> "
+//        + "<input ";
+//    if(question.id && question.id != "undefined"){
+//        html +="disabled ";
+//    }
+//    html += "class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
+//    html += "<div class='form-group' style='display: none'> "
+//        + "<input class='form-control' placeholder='question' id='questionIndex' value='" + index + "'> </div>";
+//    html += "<div class='form-group'> <label for='questionTxt'>Question</label>"
+//        + "<input ";
+//    if(question.id && question.id != "undefined"){
+//        html +="disabled ";
+//    }
+//    html += "style='width: 100%'class='form-control' placeholder='question' id='questionTxt' value='" + question.question + "'> </div>";
+//    html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input";
+//
+//    if(question.id && question.id != "undefined"){
+//        html += " disabled ";
+//    }
+//    html += " style='width: 100%' class='form-control' placeholder='answer' id='answerTxt' value='" + question.answer + "'> </div>";
+//    $("#questionDiv").html(html);
+//
+//    var wrongAnswer = question.wrongAnswer;
+//    for(var i = 0; i < wrongAnswer.length; i++){
+//        var idDelWrongAnswer = "idDWA" + new Date().getTime() + i;
+//        var htmlWrongAnswer = "<div class='form-group'> <label for='answerTxt'>Wrong Answer</label> "
+//            +" <input ";
+//        if(question.id && question.id != "undefined"){
+//            htmlWrongAnswer +="disabled ";
+//        }
+//        htmlWrongAnswer += " style='display: inline-block; width: 100%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + i +"' value='" + wrongAnswer[i] + "'>"
+//            // + "<span stt-answer='" + i + "' id='" + idDelWrongAnswer + "' style='display: inline-block; width: 5%' class='glyphicon glyphicon-remove'></span> "
+//            +" </div>";
+//        $("#questionDiv").append(htmlWrongAnswer);
+//        $("#" + idDelWrongAnswer).click(function () {
+//            var stt = $(this).attr("stt-answer");
+//            var wrongAnswers = Ks.quiz.currentQuestion.options.answers;
+//            var wrongAnswerKeys = Object.keys(wrongAnswers);
+//            delete Ks.quiz.currentQuestion.options.answers[wrongAnswerKeys[stt]];
+//            Ks.quiz.genDetailQuestion(Ks.question.currentQuestion);
+//        });
+//    }
+//
+//    $("#selectTagCreateQuestion").val(question.tags).trigger("change");
+//    $("#selectTagCreateQuestionDiv").css("display", "block");
+//    $("#removeOneQuestionBtn").css("display", "inline-block");
+//    if(question.id && question.id != "undefined"){
+//        $("#saveOneQuestionBtn").css("display", "none");
+//        $("#selectTagCreateQuestion").select2("enable", false);
+//    }else {
+//        $("#saveOneQuestionBtn").css("display", "inline-block");
+//        $("#selectTagCreateQuestion").select2("enable");
+//    }
+//
+//};
+
 Ks.quiz.genDetailQuestion = function (question, index) {
     $("#createQuestionErrorText").html("");
     $("#createQuestionErrorText").css("display", "none");
-    Ks.quiz.currentQuestion = question;
-    var html = "";
-    html += "<div class='form-group' style='display: none'> "
-        + "<input ";
-    if(question.id && question.id != "undefined"){
-        html +="disabled ";
+    var template = $("#templateQuestion").html();
+    Mustache.parse(template);
+    
+    var questionDisplay = {};
+    questionDisplay.id = question.id;
+    questionDisplay.answer = question.answer;
+    questionDisplay.question = question.question;
+    
+    var wrongAnswer = [];
+    for(var i = 0; i < question.wrongAnswer.length; i++){ 
+    	var answer = {};
+    	answer.answer = question.wrongAnswer[i];
+    	answer.index = i + 1;
+    	wrongAnswer.push(answer);
     }
-    html += "class='form-control' placeholder='question' id='questionId' value='" + question.id + "'> </div>";
-    html += "<div class='form-group' style='display: none'> "
-        + "<input class='form-control' placeholder='question' id='questionIndex' value='" + index + "'> </div>";
-    html += "<div class='form-group'> <label for='questionTxt'>Question</label>"
-        + "<input ";
-    if(question.id && question.id != "undefined"){
-        html +="disabled ";
-    }
-    html += "style='width: 100%'class='form-control' placeholder='question' id='questionTxt' value='" + question.question + "'> </div>";
-    html += "<div class='form-group'> <label for='answerTxt'>Answer</label> <input";
-
-    if(question.id && question.id != "undefined"){
-        html += " disabled ";
-    }
-    html += " style='width: 100%' class='form-control' placeholder='answer' id='answerTxt' value='" + question.answer + "'> </div>";
-    $("#questionDiv").html(html);
-
-    var wrongAnswer = question.wrongAnswer;
-    for(var i = 0; i < wrongAnswer.length; i++){
-        var idDelWrongAnswer = "idDWA" + new Date().getTime() + i;
-        var htmlWrongAnswer = "<div class='form-group'> <label for='answerTxt'>Wrong Answer</label> "
-            +" <input ";
-        if(question.id && question.id != "undefined"){
-            htmlWrongAnswer +="disabled ";
-        }
-        htmlWrongAnswer += " style='display: inline-block; width: 100%' class='form-control' placeholder='answer' id='"+ Ks.quiz.wrongAnswerInputId + i +"' value='" + wrongAnswer[i] + "'>"
-            // + "<span stt-answer='" + i + "' id='" + idDelWrongAnswer + "' style='display: inline-block; width: 5%' class='glyphicon glyphicon-remove'></span> "
-            +" </div>";
-        $("#questionDiv").append(htmlWrongAnswer);
-        $("#" + idDelWrongAnswer).click(function () {
-            var stt = $(this).attr("stt-answer");
-            var wrongAnswers = Ks.quiz.currentQuestion.options.answers;
-            var wrongAnswerKeys = Object.keys(wrongAnswers);
-            delete Ks.quiz.currentQuestion.options.answers[wrongAnswerKeys[stt]];
-            Ks.quiz.genDetailQuestion(Ks.question.currentQuestion);
-        });
-    }
+    questionDisplay.wrongAnswer = wrongAnswer;
+    
+    var questionHtml = Mustache.render(template, {question : questionDisplay, index: index});
+    $("#questionDiv").html("");
+    $("#questionDiv").append(questionHtml);
+    
+    $("#selectTagCreateQuestion").select2({
+        data: Ks.quiz.tagSelects,
+        tags: true,
+        tokenSeparators: [',', ' ']
+    });
 
     $("#selectTagCreateQuestion").val(question.tags).trigger("change");
     $("#selectTagCreateQuestionDiv").css("display", "block");
@@ -440,7 +499,6 @@ Ks.quiz.genDetailQuestion = function (question, index) {
     }
 
 };
-
 
 Ks.quiz.deleteOneQuestion = function (index) {
     Ks.quiz.questions.splice(index, index + 1);
@@ -465,19 +523,46 @@ Ks.quiz.loadQuestionByTag = function () {
         data: data,
         success: function(results){
             var questions = JSON.parse(results);
+            Ks.quiz.questionInBank = [];
             var keys = Object.keys(questions);
             var htmlTr = "";
             for(var i = 0; i < keys.length; i++){
                 if(questions[keys[i]].id){
-                    htmlTr += "<tr>"
-                        + "<td><input type='checkbox' value='' id='idCheckBoxQuestionBank"+ i + "' idQuestion='"+ questions[keys[i]].id + "' nameQuestion='"+ questions[keys[i]].name + "'></td>"
-                        + "<td>" + questions[keys[i]].name + "</td>"
-                        +"</tr>";
+                	Ks.quiz.questionInBank.push(questions[keys[i]]);
                 }
             }
+            
+            var totalPage;
+            if(Ks.quiz.questionInBank.length % 10 > 0){
+            	totalPage = Ks.quiz.questionInBank.length / 10 + 1;
+            }else {
+            	totalPage = Ks.quiz.questionInBank.length / 10;
+            }
+            
+            $('#paginationQuestionBank').twbsPagination("destroy");
+            Ks.exercise.pagination = $('#paginationQuestionBank').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: 10,
+                first: "",
+                last: "",
+                prev: "",
+                next: "",
+                onPageClick: function (event, page) {
+                	var questionInPages = Ks.quiz.questionInBank.slice(10 * (page - 1), 10 * page);
+                	var htmlTr= "";
+                	for(var i=0; i < questionInPages.length; i++){
+                		 htmlTr += "<tr>"
+                             + "<td><input type='checkbox' value='' id='idCheckBoxQuestionBank"+ i + "' idQuestion='"+ questionInPages[i].id + "' nameQuestion='"+ questionInPages[i].name + "'></td>"
+                             + "<td>" + questionInPages[i].name + "</td>"
+                             +"</tr>";
+                	}
+                	
+                	$("#bodyTableQuestionBank").html(htmlTr);
+                }
+            });
 
-            Ks.quiz.numberQuestionInBank = keys.length;
-            $("#bodyTableQuestionBank").html(htmlTr);
+            Ks.quiz.numberQuestionInBank = Ks.quiz.questionInBank.length;
+            
         },
         error: function () {
             console.log("get question error !!!!!");
