@@ -80,7 +80,7 @@
 		<div>
     </h4>
 
-    <div class="container">
+    <div >
         <div>
             {{#quiz.questions}}
                 <div style="display: inline-block; vertical-align: top;">
@@ -93,7 +93,8 @@
         </div>
         <div class="tab-content">
             {{#quiz.questions}}
-                <div class="questionDiv" id="questionDiv{{id}}" style="width:100%;{{^display}}display:none{{/display}}">
+                <div class="questionDiv" id="questionDiv{{id}}" 
+                     style="width:100%;{{^display}}display:none{{/display}}">
                     <label>{{questiontext}}</label> <br>
                      {{#answers}}
                         <div id="divAnswer{{idAnswer}}" style="padding: 5px;">
@@ -105,9 +106,13 @@
                      <br>
                      <div style="display: none; padding: 10px;" id="questionResultDiv{{id}}">
 						<div id="correct">
+                            <img src="../resources/images/correct-icon.png" 
+                                 style="width:20px;display:inline-block;">
                         	<label >Correct</label>
 						</div>
 						<div id="wrong">
+                            <img src="../resources/images/incorrect-icon.png" style="width:20px;" 
+                                 style="width:30px;display:inline-block;">
                         	<label >Wrong</label> 
 						</div>
 

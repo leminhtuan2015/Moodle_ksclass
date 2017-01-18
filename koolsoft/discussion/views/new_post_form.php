@@ -105,7 +105,7 @@
     });
 </script>
 
-<div>
+<div style="background-color:white;">
     <form action="/moodle/koolsoft/discussion/?action=create" method="post" id="new_discussion_form">
         <input type="hidden" name="forum" id="new_discussion_form_forum" value="<?php echo $forumId ?>"/>
         <input type="hidden" name="courseId" id="new_discussion_form_courseId" value="<?php echo $course->id ?>"/>
