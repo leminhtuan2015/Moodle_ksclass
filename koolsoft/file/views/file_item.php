@@ -23,9 +23,10 @@
     }
 </style>
 
-<div>
-    <div class="fileName"><?php echo $file->filename ?></div>
-    <a  href="/moodle/koolsoft/file/?action=download&id=<?php echo $file->id ?>"
-        class="">Download</a>
+<div style="padding:10px 15px;">
+    <div class="fileName" style="display:inline-block;width:calc(100% - 50px);"><?php echo $file->filename ?></div>
+    <a  style="display:inline-block;" href="/moodle/koolsoft/file/?action=download&id=<?php echo $file->id ?>" class="">
+        <img src="/moodle/koolsoft/resources/images/download.png" style="width:25px;margin-right:10px;vertical-align:middle;"></img>
+    </a>
+    <img src="/moodle/koolsoft/resources/images/iconsetting.png" style="width:5px;display:inline-block;vertical-align:middle;"></img>
 </div>
-<hr>

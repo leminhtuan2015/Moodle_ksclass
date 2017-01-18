@@ -1,9 +1,9 @@
 <form id="uploadFileForm">
-
-    <input type="file" name="file" id="fileOfCourseInput">
-    <br>
+    
+    <input type="file" name="file" id="fileOfCourseInput" style="display:inline-block; width:calc(100% - 100px);">
     <input type="hidden" value="<?php echo $coure_id ?>" name="course_id">
-    <input type="submit" value="Upload" name="submit">
+    <input type="submit" value="Upload" name="submit"
+           style="display:inline-block; border: none; padding: 7px 25px; color: white; background-color: #3584D4;">
 
 </form>
 
