@@ -23,4 +23,7 @@ if($action == "index"){
 
 } else if($action == "download"){
     $controller->download();
+
+} else if($action == "filesOfCourse"){
+    $controller->filesOfCourse();
 }

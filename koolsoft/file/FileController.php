@@ -29,11 +29,25 @@ class FileController extends ApplicationController {
         require_once("views/index.php");
     }
 
-    public function upload(){
-        $idFile = File::upload($_FILES['file']);
+    public function filesOfCourse(){
+        require_login();
 
-        if($idFile){
-            redirect("/moodle/koolsoft/file");
+        $coure_id = optional_param("course_id", 0, PARAM_INT);
+
+        Logger::log($coure_id);
+
+        $files = File::filesOfCourse($coure_id);
+
+        require_once("views/index.php");
+    }
+
+    public function upload(){
+        $file = File::upload($_FILES['file']);
+
+//        Logger::log($_FILES['file']);
+
+        if($file){
+            include ("views/file_item.php");
         }
     }
 
@@ -42,7 +56,7 @@ class FileController extends ApplicationController {
 
         $file = File::get($idFile);
 
-        Logger::log($_SERVER);
+//        Logger::log($_SERVER);
 
         header('Content-Disposition: attachment; filename="'. $file->filename .'"');
         header('Content-Type: "application/download"');

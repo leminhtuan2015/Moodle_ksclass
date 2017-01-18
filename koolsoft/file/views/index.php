@@ -4,10 +4,4 @@
     <hr>
 </div>
 
-<div class="container" id="files_container">
-    <h2>Files</h2>
-
-    <?php foreach ($files as $file) {?>
-        <?php include ("file_item.php")?>
-    <?php }?>
-</div>
+<?php require_once ("files.php")?>
