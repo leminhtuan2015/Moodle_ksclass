@@ -1,6 +1,5 @@
 <style>
     .panel-white {
-        box-shadow: 0px 0px 1px 1px gray;
         border-radius: 0px;
     }
     .panel-white  .panel-heading {
@@ -113,7 +112,7 @@
 <br/>
 <div id="discussionBox"
      class="tab-pane fade in <?php if($tabActive == "discussionBox"){echo "active";};?>"
-     style="padding:0px 50px 30px 50px;">
+     style="padding:20px 50px 30px 50px;background-color: #E9EBEE;margin-top: -20px;">
 
     <?php require_once ("new_post_form.php")?>
 
