@@ -42,6 +42,7 @@ class Course {
         $course->isEnroled = Course::isEnrolled1($id);
         $course->isFree = Course::isFree($id);
         $course->isPresent = Course::isPresent($course);
+        $course->isOwner = Course::isOwner($course);
 
         return $course;
     }
@@ -229,6 +230,15 @@ class Course {
         $sqlString = "SELECT * FROM ".$DB->get_prefix()."course_sections WHERE parent_id = ".$section->parent_id;
         $sections = $DB->get_records_sql($sqlString, array());
         return $sections;
+    }
+    
+    public static function isOwner($course){
+    	global $DB, $USER;
+    	if($course->creator_id == $USER->id){
+    		return true;
+    	}else { 
+    		return false;
+    	}
     }
 
 }

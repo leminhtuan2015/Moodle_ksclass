@@ -111,10 +111,13 @@ class ks_quiz
     public function loadAllResultTestForUser($idCourse, $idUser){
         global $DB;
         $sql = "SELECT q.id, q.name, q.sumgrades,a.sumgrades as grade, a.state, a.timefinish  FROM ".$DB->get_prefix()."quiz q "
-                    ."INNER JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ".$idUser." AND q.course = ".$idCourse + "q.type = 2";
+                    ."LEFT JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz AND a.userid = ".$idUser." WHERE q.course = ".$idCourse." AND q.type = 2";
+        
         $quizResults = $DB->get_records_sql($sql, array());
         foreach($quizResults as $quizResult){
             $quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
+            $quizResult->grade = intval( $quizResult->grade);
+            $quizResult->sumgrades = intval( $quizResult->sumgrades);
         }
         return $quizResults;
     }
@@ -122,13 +125,10 @@ class ks_quiz
     public function loadAllResultExerciseForUser($idCourse, $idUser){
     	global $DB;
     	$daoQuestionProgress = new ks_question_progress();
-    	$sql = "SELECT q.id, q.name, q.grade  FROM ".$DB->get_prefix()."quiz q "
-    			."INNER JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz WHERE a.userid = ".$idUser." AND q.course = ".$idCourse + "q.type = 1";
-    	$quizResults = $DB->get_records_sql($sql, array());
+    	$quizResults = $DB->get_records("quiz", array("course" => $idCourse, "type" => 1));
     	foreach($quizResults as $quizResult){
-    		$quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
     		$numberQuestionCompleted = $daoQuestionProgress->countCompleted($idUser, $quizResult->id, 4);
-    		$quizResult->progess = intval($numberQuestionCompleted / intval($quizResult->grade));
+    		$quizResult->progress = round($numberQuestionCompleted / intval($quizResult->grade), 2);
     	}
     	return $quizResults;
     }

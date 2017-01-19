@@ -69,10 +69,12 @@
         		{{quiz.name}}
             <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
         </div>
+		{{#isOwner}}
 		<div style="display: inline-block; float:right">
 			<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
             <img onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})" src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
 		<div>
+		{{/isOwner}}
     </h4>
 
     <div >

@@ -14,6 +14,7 @@ Ks.test.idSectionCurrent = null;
 Ks.test.testPanelCurrent = null;
 Ks.test.Timeinterval = null;
 Ks.test.forceFinish = false;
+Ks.test.isOwner = false;
 
 Ks.test.init = function () {
 	Ks.test.numberQuestion = 0;
@@ -163,7 +164,7 @@ Ks.test.genReviewView = function (quiz, questionPanel){
     var idBtnNewTest = new Date().getTime() + "NewTest";
     var template = $("#templateTestReview").html();
     Mustache.parse(template);
-    var reviewHtml = Mustache.render(template, {quiz : quiz, idBtnNewTest : idBtnNewTest, sectionId: Ks.test.idSectionCurrent, quizId: Ks.test.idTestInstanceCurrent});
+    var reviewHtml = Mustache.render(template, {isOwner: Ks.test.isOwner, quiz : quiz, idBtnNewTest : idBtnNewTest, sectionId: Ks.test.idSectionCurrent, quizId: Ks.test.idTestInstanceCurrent});
 
     questionPanel.html(reviewHtml);
 
@@ -224,6 +225,7 @@ Ks.test.clearClock = function (){
 
 
 $(function () {
+	Ks.test.isOwner = $("#isOwnerCourse").val();
 	$("#overTimeDialog").on("hidden.bs.modal", function() {
 		Ks.test.submitForm();
     });

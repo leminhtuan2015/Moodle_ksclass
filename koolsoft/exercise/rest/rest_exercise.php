@@ -19,6 +19,12 @@ class rest_exercise
 {
     public function start(){
         global $USER;
+        if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
+        
         $daoQuiz = new ks_quiz();
         $firstPlay = false;
         $quizId = required_param('quiz', PARAM_INT);
@@ -44,6 +50,12 @@ class rest_exercise
 
     public function play(){
         global $USER;
+        if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
+        
         $daoQuestionProgress = new ks_question_progress();
         $quizId = required_param('quiz', PARAM_INT);
         $questionDataText = required_param('questionData', PARAM_TEXT);
@@ -70,6 +82,12 @@ class rest_exercise
 
     public function getQuestionInBox($quizId, $box, $numberQuestion){
         global $USER;
+        if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
+        
         $daoQuestionProgess = new ks_question_progress();
         $listQuestionProgress = $daoQuestionProgess->getByBox($USER->id, $quizId, $box, 0, $numberQuestion);
         $daoQuestion = new ks_question();
@@ -195,6 +213,12 @@ class rest_exercise
 
     public function getQuizOverview(){
         global $USER;
+        if(!$USER->id){
+        	$userId     = required_param('user',  PARAM_INT);
+        	$USER = new stdClass();
+        	$USER->id = $userId;
+        }
+        
         $quizId = required_param('quiz', PARAM_INT);
         $daoQuiz = new ks_quiz();
         $daoQuestionProgress = new ks_question_progress();

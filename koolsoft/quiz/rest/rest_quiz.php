@@ -28,12 +28,20 @@ class rest_quiz {
     	echo json_encode($quizs);
     }
 
-    public function loadAllResultQuizForUser(){
+    public function loadResultTestForUser(){
         $dao = new ks_quiz();
         $idUser  = optional_param('idUser', 0, PARAM_INT);
         $idCourse = optional_param('idCourse', 0, PARAM_INT);
-        $quizReslut = $dao->loadAllResultQuizForUser($idCourse, $idUser);
-        echo json_encode($quizReslut);
+        $quizResultTest = $dao->loadAllResultTestForUser($idCourse, $idUser);
+        echo json_encode($quizResultTest);
+    }
+    
+    public function loadResultExerciseForUser(){
+    	$dao = new ks_quiz();
+    	$idUser  = optional_param('idUser', 0, PARAM_INT);
+    	$idCourse = optional_param('idCourse', 0, PARAM_INT);
+    	$quizResultExercise = $dao->loadAllResultExerciseForUser($idCourse, $idUser);
+    	echo json_encode($quizResultExercise);
     }
 
     public function loadBySection(){

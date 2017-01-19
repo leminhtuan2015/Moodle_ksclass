@@ -61,8 +61,11 @@ class ks_question_progress
     
     public function countCompleted($userId, $quizId, $box){
     	global $DB;
-    	$numberQuestionCompleted = $DB->get_records("question_progress", array("quiz_id"=> $quizId, "user_id" => $userId, "box >= " => $box));
-    	return $numberQuestionCompleted;
+    	$sql = "SELECT COUNT(*) as count FROM ".$DB->get_prefix()."question_progress WHERE quiz_id = ".$quizId." AND user_id = ".$userId." AND box >= ".$box;
+    	$numberQuestionCompleteds = $DB->get_records_sql($sql, array($quizId, $userId, $box));
+    	foreach($numberQuestionCompleteds as $numberQuestionCompleted){
+    		return $numberQuestionCompleted->count;
+    	}
     }
 
     public function getByUserAndQuiz($userId, $quizId){
