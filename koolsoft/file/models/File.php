@@ -48,17 +48,22 @@ class File {
 
         $fileTmp = $fileInfo['tmp_name'];
         $fileName = $fileInfo['name'];
+
         $status = move_uploaded_file($fileTmp, $fileTmp);
 
         if($status){
+            Logger::log($status);
             $file = File::buildFileObject($fileName, $fileTmp, $course_id);
             $id = $DB->insert_record('files', $file);
 
             if($id){
+                Logger::log($id);
                 $file->id = $id;
                 return $file;
             }
         }
+
+        Logger::log("Upload fail");
 
         return "";
     }

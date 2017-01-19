@@ -7,6 +7,10 @@
 
 </form>
 
+<div id='ajax_loader' style="position: fixed; left: 50%; top: 50%; display: none;">
+    <img src="https://www.drupal.org/files/issues/ajax-loader.gif"></img>
+</div>
+
 <script>
 
     $("#uploadFileForm").on("submit", function (event) {
@@ -23,6 +27,8 @@
             return
         }
 
+        $("#ajax_loader").show();
+
         formData.append("file", file);
         formData.append("course_id", coure_id);
 
@@ -32,6 +38,9 @@
 
         /* Check the response status */
         client.onload = function() {
+
+            $("#ajax_loader").hide();
+
             if (client.readyState === client.DONE && client.status == 200) {
                 $("#fileOfCourseInput").val("")
 //                alert(client.statusText);
