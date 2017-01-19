@@ -62,6 +62,15 @@ switch ($action) {
 
         echo json_encode($sectionOfChapter, JSON_FORCE_OBJECT);
         break;
+    case "getChapterOfCourse":
+        $id  = optional_param('id', 0, PARAM_INT);
+
+        list ($chapters, $sections) = Course::getCourseDataAll($id);
+
+        error_log(print_r($chapters, true));
+
+        echo json_encode($chapters, JSON_FORCE_OBJECT);
+        break;
 }
 ?>
 
