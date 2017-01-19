@@ -36,6 +36,7 @@
 
     $("#file_" + fileId).click(function () {
         filepath = "<?php echo str_replace("$CFG->dirroot", "", $file->filepath) ?>"
+        filepath = "<?php echo str_replace("moodle/opt/lampp/htdocs/", "", $file->filepath) ?>"
         hostname = "<?php echo $_SERVER['HTTP_HOST']; ?>"
 
         url = hostname + "/moodle" + filepath
