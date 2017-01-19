@@ -42,7 +42,8 @@ class File {
     public static function upload($fileInfo){
         global $DB;
 
-//        Logger::log($fileInfo);
+        Logger::log($fileInfo);
+
         $course_id = optional_param("course_id", 0, PARAM_INT);
 
         $fileTmp = $fileInfo['tmp_name'];
