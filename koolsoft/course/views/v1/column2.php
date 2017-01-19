@@ -1,21 +1,23 @@
 <div class="tab-content listCategory" style="overflow:scroll; overflow-x: hidden;">
     <div>
         <h5 class="titleCourse textOverflow" style="padding: 5px 5px 7px 5px;color:white;display: inline-block;">
-            <a href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>"
+            <a <?php if($course->isOwner) { ?> href="/moodle/koolsoft/course/?action=edit&id=<?php echo $course->id ?>" <?php } ?>
                style="color: whitesmoke;padding-left: 5px;">
                 <?php echo $course->fullname ?>
             </a>
         </h5>
-        <div class="dropdown" style="display: inline-block;float: right; margin-top: 5px;">
-            <a class="dropdown-toggle iconPanel" data-toggle="dropdown">
-                <img src="../resources/images/add-01.png" class="iconHome">
-            </a>
-            <ul class="dropdown-menu menuCustom">
-                <li><a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a></li>
-                <li><a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a></li>
-                <li><a data-toggle='modal' class='createQuizBtn'>Create quiz</a></li>
-            </ul>
-        </div>
+        <?php if($course->isOwner) { ?>
+	        <div class="dropdown" style="display: inline-block;float: right; margin-top: 5px;">
+	            <a class="dropdown-toggle iconPanel" data-toggle="dropdown">
+	                <img src="../resources/images/add-01.png" class="iconHome">
+	            </a>
+	            <ul class="dropdown-menu menuCustom">
+	                <li><a href='#' data-toggle='modal' data-target='#createChapter'>Create Chapter</a></li>
+	                <li><a href='#' data-toggle='modal' data-target='#createLecture'>Create lecture</a></li>
+	                <li><a data-toggle='modal' class='createQuizBtn'>Create quiz</a></li>
+	            </ul>
+	        </div>
+        <?php } ?>
     </div>
 
     <div id="Home" class="tab-pane fade in active">

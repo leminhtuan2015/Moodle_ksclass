@@ -20,8 +20,11 @@ switch ($action) {
     case "loadBySectionAndType":
         $controller->loadBySectionAndType();
         break;
-    case "loadAllResultQuizForUser":
-        $controller->loadAllResultQuizForUser();
+    case "loadResultExerciseForUser":
+        $controller->loadResultExerciseForUser();
+        break;
+   case "loadResultTestForUser":
+        $controller->loadResultTestForUser();
         break;
     case "loadBySection":
         $controller->loadBySection();

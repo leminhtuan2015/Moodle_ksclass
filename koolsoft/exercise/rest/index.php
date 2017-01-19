@@ -5,6 +5,7 @@
  * Date: 1/9/17
  * Time: 10:09 AM
  */
+header('Access-Control-Allow-Origin: *');
 
 require_once("../../../config.php");
 require_once($CFG->dirroot . "/koolsoft/exercise/rest/rest_exercise.php");

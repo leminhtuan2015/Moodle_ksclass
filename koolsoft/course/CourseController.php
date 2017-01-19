@@ -58,7 +58,7 @@ class CourseController extends ApplicationController {
 
         $daoQuiz = new ks_quiz();
         $quizs = $daoQuiz->loadByCourse($id);
-
+        
 //        require_once(__DIR__.'/views/show.php');
         require_once(__DIR__.'/views/v1/show.php');
     }
@@ -115,9 +115,12 @@ class CourseController extends ApplicationController {
 
     public function edit($id){
         global $USER;
-
+		
         if($id){
             $course = get_course($id);
+            if(!Course::isOwner($course)){
+            	redirect("/moodle/koolsoft/");
+            }
             $modinfo = get_fast_modinfo($course);
             $sections = $modinfo->get_section_info_all();
             $categoryController = new CategoryController();

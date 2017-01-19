@@ -13,14 +13,47 @@ $(function () {
         var idCourse = $(this).attr("id-course");
         var idUser = $(this).attr("id-user");
         var nameUser = $(this).attr("name-user");
-        var data = {};
-        data.action = "loadAllResultQuizForUser";
-        data.idCourse = idCourse;
-        data.idUser = idUser;
         $("#quizResultForUserHeader").html("Progess for user :" + nameUser);
         $("#quizResultForUserDialog").modal();
+        $('a[href="#test"]').click();
+        var data = {};
+        data.idCourse = idCourse;
+        data.idUser = idUser;
+        
+        data.action = "loadResultTestForUser";
         $.ajax({url: "/moodle/koolsoft/quiz/rest",
             data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(quizResults){
+            	console.log(quizResults);
+                var html = "";
+                var keys = Object.keys(quizResults);
+                for(var i = 0; i < keys.length; i++){
+                    var quizResult = quizResults[keys[i]];
+                    html += "<tr>";
+                    html += "<td> " + quizResult.name + " </td>";
+                    if(quizResult.state == "finished"){
+                        html += "<td> " + quizResult.grade + "/" + quizResult.sumgrades + " </td>";
+                        html += "<td> " + quizResult.timefinish + " </td>";
+                    }else {
+                        html += "<td>  </td>";
+                        html += "<td>  </td>";
+                    }
+                    html += "</tr>";
+                }
+               $("#quizResultTestForUser").html(html);
+            },
+            error: function () {
+                console.log("get result test error !!!!!");
+            }
+        });
+        
+        data.action = "loadResultExerciseForUser";
+        $.ajax({url: "/moodle/koolsoft/quiz/rest",
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function(quizResults){
                 var html = "";
                 var keys = Object.keys(quizResults);
@@ -28,19 +61,13 @@ $(function () {
                     var quizResult = quizResults[keys[i]];
                     html += "<tr>";
                     html += "<td> " + quizResult.name + " </td>";
-                    html += "<td> " + quizResult.state + " </td>";
-                    if(quizResult.state == "finished"){
-                        html += "<td> " + quizResult.grade + "/" + quizResult.sumgrades + " </td>";
-                    }else {
-                        html += "<td>  </td>";
-                    }
-                    html += "<td> " + quizResult.timefinish + " </td>";
+                    html += "<td> " + quizResult.progress + " </td>";
                     html += "</tr>";
                 }
-               $("#quizResultForUserContent").html(html);
+               $("#quizResultExerciseForUser").html(html);
             },
             error: function () {
-                console.log("get question error !!!!!");
+                console.log("get result exercise error !!!!!");
             }
         });
     });

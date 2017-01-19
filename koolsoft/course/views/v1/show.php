@@ -163,9 +163,12 @@
 
 <?php
     global $CFG;
-    require_once ($CFG->dirroot."/koolsoft/quiz/views/create_quiz_dialog.php");
-    require_once ($CFG->dirroot."/koolsoft/quiz/views/question_category_dialog.php");
+    if($course->isOwner){
+    	require_once ($CFG->dirroot."/koolsoft/quiz/views/create_quiz_dialog.php");
+    	require_once ($CFG->dirroot."/koolsoft/quiz/views/question_category_dialog.php");
+    } 
 ?>
+    <input style="display: none;" id="isOwnerCourse" value="<?php echo $course->isOwner;?>">
 
 <!-- <div class="container">
     <?php if(!$course->isEnroled){ ?>

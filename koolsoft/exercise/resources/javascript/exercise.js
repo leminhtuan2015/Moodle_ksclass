@@ -11,6 +11,7 @@ Ks.exercise.exercisePanelCurrent = null;
 Ks.exercise.questionPanelCurrent = null;
 Ks.exercise.questionResult = [];
 Ks.exercise.pagination = null;
+Ks.exercise.isOwner = false;
 
 Ks.exercise.init = function () {
     Ks.exercise.handler();
@@ -202,7 +203,7 @@ Ks.exercise.genPlayView = function (quiz, questionPanel){
     var idBtnFinishExercise = new Date().getTime() + "FinishExercise";
     var template = $("#templateExercisePlay").html();
     Mustache.parse(template);
-    var questionHtml = Mustache.render(template, {quiz : quiz, idBtnFinishExercise : idBtnFinishExercise, sectionId: Ks.exercise.idSectionCurrent, quizId: Ks.exercise.idQuizCurrent});
+    var questionHtml = Mustache.render(template, {isOwner: Ks.exercise.isOwner, quiz : quiz, idBtnFinishExercise : idBtnFinishExercise, sectionId: Ks.exercise.idSectionCurrent, quizId: Ks.exercise.idQuizCurrent});
     questionPanel.html(questionHtml);
 
     Ks.exercise.handler(idBtnFinishExercise, null);
@@ -227,7 +228,7 @@ Ks.exercise.genReviewView = function (quiz, reviewPanel){
 
     var template = $("#templateExerciseReview").html();
     Mustache.parse(template);
-    var reviewHtml = Mustache.render(template, {quiz : quiz, idQuestionPanel: idQuestionPanel, idBtnNewExercise : idBtnNewExercise,sectionId: Ks.exercise.idSectionCurrent, quizId: Ks.exercise.idQuizCurrent});
+    var reviewHtml = Mustache.render(template, {isOwner: Ks.exercise.isOwner, quiz : quiz, idQuestionPanel: idQuestionPanel, idBtnNewExercise : idBtnNewExercise,sectionId: Ks.exercise.idSectionCurrent, quizId: Ks.exercise.idQuizCurrent});
     reviewPanel.html(reviewHtml);
 
     Ks.exercise.questionPanelCurrent = $("#" + idQuestionPanel);
@@ -274,6 +275,7 @@ function addHandle(){
 }
 
 $(function () {
+	Ks.exercise.isOwner = $("#isOwnerCourse").val();
     $(".showExerciseBtn").click(function () {
         Ks.exercise.idQuizCurrent = $(this).attr("id-quiz-instance");
         Ks.exercise.idSectionCurrent = $(this).attr("id-section");

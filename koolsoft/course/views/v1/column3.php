@@ -16,12 +16,14 @@
                         <?php echo $section->name ?>
                     <img src="/moodle/koolsoft/resources/images/next-black-01.png" style="width:30px;margin-left:20px;vertical-align:middle;right:110px;"></img>
                 </div>
-                <div style="display: inline-block; float:right">
-                    <img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
-                    <a style="right:55px;margin-top:3px;" data-toggle="pill" href="#editLecture<?php echo $section->id ?>">
-                        <img src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
-                    </a>
-                <div>
+                <?php if($course->isOwner) { ?>
+                	<div style="display: inline-block; float:right">
+                    	<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+                    	<a style="right:55px;margin-top:3px;" data-toggle="pill" href="#editLecture<?php echo $section->id ?>">
+                        	<img src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
+                    	</a>
+                	<div>
+                <?php } ?>
             </h4>
 
             <!-- RENDER LABEL CONTENT -->
@@ -38,7 +40,7 @@
             </div>
         </div>
 
-        <!-- RENDER TÉT-->
+        <!-- RENDER TEST-->
         <?php
            include (__DIR__."/../../../test/views/test_panel.php");
            include (__DIR__."/../../../exercise/views/exercise_panel.php");
@@ -47,7 +49,7 @@
     <?php } ?>
 
     <!--    RENDER EDIT LECTURE FORM-->
-    <?php
+    <?php if($course->isOwner){
         foreach ($sections as $sectionEdit) {
             if($sectionEdit->section == 0 || $sectionEdit->parent_id == 0){continue;}
 
@@ -66,6 +68,7 @@
 
             include ("edit_lecture.php");
         }
+    }
     ?>
 
     <!--    RENDER MEMBER TAB-->
