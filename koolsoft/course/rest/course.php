@@ -35,6 +35,33 @@ switch ($action) {
 
         echo json_encode($courseData, JSON_FORCE_OBJECT);
         break;
+    case "getLectureOfChapter":
+        $courseId  = optional_param('courseId', 0, PARAM_INT);
+        $chapterId  = optional_param('chapterId', 0, PARAM_INT);
+
+        error_log(print_r($courseId, true));
+        error_log(print_r($chapterId, true));
+
+        list ($chapters, $sections) = Course::getCourseDataAll($courseId);
+
+        error_log(print_r($sections, true));
+        error_log(print_r($chapters, true));
+
+        $sectionOfChapter = array();
+
+        foreach ($sections as $section) {
+            if($section->parent_id == $chapterId){
+
+                $sec = new stdClass();
+                $sec->id = $section->id;
+                $sec->name = $section->name;
+
+                array_push($sectionOfChapter, $sec);
+            }
+        }
+
+        echo json_encode($sectionOfChapter, JSON_FORCE_OBJECT);
+        break;
 }
 ?>
 
