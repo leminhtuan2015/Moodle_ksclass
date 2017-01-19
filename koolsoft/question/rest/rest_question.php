@@ -29,7 +29,6 @@ class rest_question {
         global $dao;
 
         $questionStrings = optional_param('questions', "", PARAM_TEXT);
-        error_log("dungdv 2222xx ".json_encode($questionStrings));
         $dataType = optional_param('data_type', "", PARAM_TEXT);
         $questions = (array) json_decode($questionStrings);
 

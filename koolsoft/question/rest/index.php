@@ -15,10 +15,7 @@ require_once(__DIR__.'/rest_question.php');
 $controller = new rest_question();
 
 $action  = optional_param('action', "", PARAM_TEXT);
-error_log("dungdvaction".json_encode($action));
 if($action == "create"){
-	error_log("dungdv 2222question fff".json_encode(optional_param('questions', "", PARAM_TEXT)));
-	error_log("dungdv 2222question fff".json_encode(optional_param('action', "", PARAM_TEXT)));
     $controller->create();
 
 } else if($action == "edit") {

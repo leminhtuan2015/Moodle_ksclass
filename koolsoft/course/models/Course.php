@@ -67,7 +67,7 @@ class Course {
             $section->parent_id = $courseSection->parent_id;
         }
 
-        return $chapters;
+        return array($chapters, $sections);
     }
 
     public static function getMyCourses(){
