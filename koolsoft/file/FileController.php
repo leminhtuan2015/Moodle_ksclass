@@ -32,6 +32,8 @@ class FileController extends ApplicationController {
     public function filesOfCourse(){
         require_login();
 
+        global $CFG;
+
         $coure_id = optional_param("course_id", 0, PARAM_INT);
 
         Logger::log($coure_id);

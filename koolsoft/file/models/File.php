@@ -40,24 +40,28 @@ class File {
     }
 
     public static function upload($fileInfo){
-        global $DB;
+        global $DB, $CFG, $USER;
+        $milliseconds = round(microtime(true) * 1000);
 
-        Logger::log($fileInfo);
+//        Logger::log($fileInfo);
 
         $course_id = optional_param("course_id", 0, PARAM_INT);
 
         $fileTmp = $fileInfo['tmp_name'];
         $fileName = $fileInfo['name'];
+        $uploadTo = $CFG->dirroot."/koolsoft/resources/files/uploaded/".$milliseconds.$USER->id.$course_id;
 
-        $status = move_uploaded_file($fileTmp, $fileTmp);
+//        Logger::log($uploadTo);
+
+        $status = move_uploaded_file($fileTmp, $uploadTo);
 
         if($status){
-            Logger::log($status);
-            $file = File::buildFileObject($fileName, $fileTmp, $course_id);
+//            Logger::log($status);
+            $file = File::buildFileObject($fileName, $uploadTo, $course_id);
             $id = $DB->insert_record('files', $file);
 
             if($id){
-                Logger::log($id);
+//                Logger::log($id);
                 $file->id = $id;
                 return $file;
             }
@@ -75,7 +79,7 @@ class File {
 
         $milliseconds = round(microtime(true) * 1000);
 
-        error_log(print_r($milliseconds, true));
+//        error_log(print_r($milliseconds, true));
 
         $file->filename = $filename;
         $file->userid = $USER->id;
