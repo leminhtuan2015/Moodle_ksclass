@@ -26,6 +26,10 @@ switch ($action) {
         $controler->getQuizOverview();
         break;
 
+    case "loadProgressForAllUser":
+        $controler->loadProgressForAllUser();
+        break;
+
 }
 
 

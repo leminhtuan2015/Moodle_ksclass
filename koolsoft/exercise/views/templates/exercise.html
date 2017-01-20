@@ -7,6 +7,7 @@
             </div>
 			{{#isOwner}}
 				<div style="display: inline-block; float:right">
+				    <img onclick="Ks.exercise.viewProgress()" src="/moodle/koolsoft/resources/images/progress.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
 					<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
             		<img onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})" src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
 				<div>
@@ -55,6 +56,27 @@
 
 </script>
 
+<script id="templateExerciseReviewProgess" type="x-tmpl-mustache">
+
+    <div style="text-align: center;">
+        <table class="table">
+             <thead>
+                <tr>
+                    <th class="col-md-7">User name</th>
+                    <th class="col-md-5">Progress</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#users}}
+                    <tr>
+                    <td class="col-md-7">{{username}}</td>
+                    <td class="col-md-5">{{progress}} %</td>
+                    </tr>
+                {{/users}}
+            </tbody>
+        </table>
+    </div>
+</script>
 
 <script id="templateExerciseReviewQuestion" type="x-tmpl-mustache">
     <table class="table">
@@ -78,6 +100,7 @@
             </div>
 		{{#isOwner}}
 			<div style="display: inline-block; float:right">
+				<img onclick="Ks.exercise.viewProgress()" src="/moodle/koolsoft/resources/images/progress.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
 				<img src="/moodle/koolsoft/resources/images/setting-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
             	<img onclick="Ks.quiz.initQuiz({{sectionId}},{{quizId}})" src="/moodle/koolsoft/resources/images/edit-01.png" style="width:30px;margin-right:10px;vertical-align:middle;"></img>
 			<div>

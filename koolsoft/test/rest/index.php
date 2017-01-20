@@ -27,6 +27,9 @@ switch ($action) {
     case "loadResult":
         $controler->loadResultByQuizId();
         break;
+    case "loadProgressForAllUser":
+        $controler->loadProgressForAllUser();
+        break;
 
 }
 

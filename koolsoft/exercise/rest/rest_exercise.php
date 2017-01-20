@@ -14,6 +14,7 @@ require_once($CFG->dirroot . '/koolsoft/test/models/ks_question_progress.php');
 require_once($CFG->dirroot . '/koolsoft/question/models/ks_question.php');
 require_once($CFG->dirroot . '/koolsoft/quiz/models/ks_quiz.php');
 require_once($CFG->dirroot . '/koolsoft/utility/DateUtil.php');
+require_once($CFG->dirroot . '/koolsoft/course/models/Course.php');
 
 class rest_exercise
 {
@@ -55,7 +56,7 @@ class rest_exercise
         	$USER = new stdClass();
         	$USER->id = $userId;
         }
-        
+
         $daoQuestionProgress = new ks_question_progress();
         $quizId = required_param('quiz', PARAM_INT);
         $questionDataText = required_param('questionData', PARAM_TEXT);
@@ -64,7 +65,7 @@ class rest_exercise
             $daoQuestionProgress->update($USER->id, $quizId, $questionData->questionId, $questionData->fraction);
         }
 
-        $this->getQuizOverview();
+        $this->getQuizOverview($userId);
     }
 
     public function initQuestionProgress($userId, $quizId){
@@ -301,4 +302,19 @@ class rest_exercise
 
         return $questions;
     }
+
+    public function loadProgressForAllUser(){
+        $quizId = optional_param("quiz", -1, PARAM_INT);
+        $daoQuestionProgress = new ks_question_progress();
+        $daoQuiz = new ks_quiz();
+        $quiz = $daoQuiz->loadOne($quizId);
+        $users = Course::enrolledUsers($quiz->course);
+        foreach ($users as $user){
+            $questionPassed = $daoQuestionProgress->countCompleted($user->id, $quizId, 4);
+            $user->progress = round($questionPassed / intval($quiz->grade), 2);
+        }
+
+        echo json_encode($users);
+    }
+
 }

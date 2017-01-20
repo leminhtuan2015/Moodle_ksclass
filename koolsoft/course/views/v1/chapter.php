@@ -32,7 +32,7 @@
                                         </span>
                                         <br>
                                     </div>
-                                <?php }else { ?>
+                                <?php }else if($quiz->type == ClientUtil::$typeExercise){ ?>
                                     <div data-toggle='pill' id-quiz-instance='<?php echo $cm->instance ?>' 
                                        id-section='<?php echo $cm->section ?>'
                                        id-quiz='<?php echo $cm->id ?>' href='#exercisePanel' style="padding:10px;color:white;margin-left:25px;cursor: pointer;"

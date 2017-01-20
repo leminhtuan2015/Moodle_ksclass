@@ -15,13 +15,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 id="quizResultForUserHeader" class="modal-title">Result for all quiz in class</h4>
             </div>
-            
+
             <div class="modal-body" style="overflow: hidden" >
                 <ul class="nav nav-tabs">
 				  <li class="active"><a id="testTab" data-toggle="tab" href="#test">Test</a></li>
 				  <li><a id="exerciseTab" data-toggle="tab" href="#exercise">Exercise</a></li>
 				</ul>
-				
+
 				<div class="tab-content">
 				  <div id="test" class="tab-pane fade in active">
 				    <table class="table">
@@ -33,7 +33,7 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody id="quizResultTestForUser">
-	
+
 	                    </tbody>
 	                </table>
 				  </div>
@@ -46,7 +46,7 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody id="quizResultExerciseForUser">
-	
+
 	                    </tbody>
 	                </table>
 				  </div>
