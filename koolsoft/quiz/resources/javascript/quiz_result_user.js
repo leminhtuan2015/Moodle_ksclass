@@ -19,14 +19,13 @@ $(function () {
         var data = {};
         data.idCourse = idCourse;
         data.idUser = idUser;
-        
+
         data.action = "loadResultTestForUser";
         $.ajax({url: "/moodle/koolsoft/quiz/rest",
             data: data,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(quizResults){
-            	console.log(quizResults);
                 var html = "";
                 var keys = Object.keys(quizResults);
                 for(var i = 0; i < keys.length; i++){
@@ -48,7 +47,7 @@ $(function () {
                 console.log("get result test error !!!!!");
             }
         });
-        
+
         data.action = "loadResultExerciseForUser";
         $.ajax({url: "/moodle/koolsoft/quiz/rest",
             data: data,

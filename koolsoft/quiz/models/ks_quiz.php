@@ -114,11 +114,13 @@ class ks_quiz
                     ."LEFT JOIN ".$DB->get_prefix()."quiz_attempts a ON q.id = a.quiz AND a.userid = ".$idUser." WHERE q.course = ".$idCourse." AND q.type = 2";
         
         $quizResults = $DB->get_records_sql($sql, array());
+
         foreach($quizResults as $quizResult){
             $quizResult->timefinish = DateUtil::todayHuman($quizResult->timefinish);
             $quizResult->grade = intval( $quizResult->grade);
             $quizResult->sumgrades = intval( $quizResult->sumgrades);
         }
+
         return $quizResults;
     }
     

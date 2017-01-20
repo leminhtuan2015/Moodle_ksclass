@@ -223,6 +223,29 @@ Ks.test.clearClock = function (){
 	clearInterval(Ks.test.Timeinterval);
 }
 
+Ks.test.viewProgress = function () {
+    var data = {};
+    data.action = "loadProgressForAllUser";
+    data.quiz = Ks.test.idTestInstanceCurrent;
+    $.ajax({
+        url: "/moodle/koolsoft/test/rest",
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var keys = Object.keys(result);
+            var users = [];
+            for(var i=0; i < keys.length; i++){
+                users.push(result[keys[i]]);
+            }
+            $("#testProgressDialog").modal();
+            var template = $("#templateTestReviewProgess").html();
+            Mustache.parse(template);
+            var progressHtml = Mustache.render(template, {users: users});
+            $("#testProgressDialog").find("#content").html(progressHtml);
+        }
+    });
+};
 
 $(function () {
 	Ks.test.isOwner = $("#isOwnerCourse").val();

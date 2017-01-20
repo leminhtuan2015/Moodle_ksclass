@@ -238,6 +238,30 @@ Ks.exercise.genReviewView = function (quiz, reviewPanel){
     Ks.exercise.handler(null, idBtnNewExercise);
 };
 
+Ks.exercise.viewProgress = function () {
+    var data = {};
+    data.action = "loadProgressForAllUser";
+    data.quiz = Ks.exercise.idQuizCurrent;
+    $.ajax({
+        url: "/moodle/koolsoft/exercise/rest",
+        data: data,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var keys = Object.keys(result);
+            var users = [];
+            for(var i=0; i < keys.length; i++){
+                users.push(result[keys[i]]);
+            }
+            $("#exerciseProgressDialog").modal();
+            var template = $("#templateExerciseReviewProgess").html();
+            Mustache.parse(template);
+            var progressHtml = Mustache.render(template, {users: users});
+            $("#exerciseProgressDialog").find("#content").html(progressHtml);
+        }
+    });
+};
+
 Ks.exercise.genQuestion = function (label, questions) {
     for(var i=0; i < questions.length; i++){
         questions[i].index = i + 1;

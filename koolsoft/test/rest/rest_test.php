@@ -14,6 +14,7 @@ require_once($CFG->dirroot . '/koolsoft/quiz/models/ks_quiz.php');
 require_once($CFG->dirroot . '/koolsoft/test/models/ks_question_progress.php');
 require_once($CFG->dirroot . '/koolsoft/question/models/ks_question.php');
 require_once($CFG->dirroot . '/koolsoft/quiz/models/ks_quiz.php');
+require_once($CFG->dirroot . '/koolsoft/course/models/Course.php');
 require_once($CFG->dirroot . '/koolsoft/utility/DateUtil.php');
 
 class rest_test
@@ -278,6 +279,51 @@ class rest_test
     	}else {
     		return true;
     	}
+    }
+
+    public function loadProgressForAllUser(){
+        global $DB;
+        $quizId = required_param("quiz", PARAM_INT);
+        $daoQuiz = new ks_quiz();
+        $quiz = $daoQuiz->loadOne($quizId);
+        $users = Course::enrolledUsers($quiz->course);
+        $index = 1;
+        $sqlUser = "(";
+        if($users && count($users)){
+            foreach ($users as $user){
+                if($index != 1){
+                    $sqlUser .= ", ";
+                }
+
+                $sqlUser .= $user->id;
+                $index++;
+            }
+        }
+
+        $sqlUser .= ")";
+        $sql = "SELECT u.id, u.username, qa.timefinish, qa.sumgrades, qa.state FROM ".$DB->get_prefix()."user u LEFT JOIN "
+            .$DB->get_prefix()."quiz_attempts qa ON qa.userid = u.id AND qa.quiz = ".$quizId." WHERE u.id IN ".$sqlUser;
+
+        $userProgress = $DB->get_records_sql($sql, array());
+
+        foreach ($userProgress as $user){
+            if($user->state == quiz_attempt::FINISHED){
+                $user->finish = true;
+                $user->sumgrades = intval($user->sumgrades);
+                $user->grade = intval($quiz->grade);
+                $user->timefinish = DateUtil::getHumanDate($user->timefinish);
+                if($user->sumgrades / $user->grade >= 0.5){
+                    $user->pass = true;
+                }else {
+                    $user->pass = false;
+                }
+            }else {
+                $user->finish = false;
+            }
+        }
+
+        echo json_encode($userProgress);
+
     }
 
 }

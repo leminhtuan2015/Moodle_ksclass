@@ -49,5 +49,25 @@
 <!--     </div> -->
 </div>
 
+<div class="modal fade" id="testProgressDialog" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 id="header" class="modal-title" id="myModalLabel">Progress</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
