@@ -67,7 +67,7 @@ class File {
             }
         }
 
-        Logger::log("Upload fail");
+//        Logger::log("Upload fail");
 
         return "";
     }

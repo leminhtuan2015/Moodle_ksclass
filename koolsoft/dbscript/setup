@@ -1,0 +1,2 @@
+mkdir -p resources/files/uploaded
+sudo chmod -R 777 resources/files/
