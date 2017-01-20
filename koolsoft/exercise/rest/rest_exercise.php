@@ -311,7 +311,7 @@ class rest_exercise
         $users = Course::enrolledUsers($quiz->course);
         foreach ($users as $user){
             $questionPassed = $daoQuestionProgress->countCompleted($user->id, $quizId, 4);
-            $user->progress = round($questionPassed / intval($quiz->grade), 2);
+            $user->progress = round($questionPassed / intval($quiz->grade), 2) * 100;
         }
 
         echo json_encode($users);

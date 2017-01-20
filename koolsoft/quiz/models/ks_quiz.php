@@ -130,7 +130,7 @@ class ks_quiz
     	$quizResults = $DB->get_records("quiz", array("course" => $idCourse, "type" => 1));
     	foreach($quizResults as $quizResult){
     		$numberQuestionCompleted = $daoQuestionProgress->countCompleted($idUser, $quizResult->id, 4);
-    		$quizResult->progress = round($numberQuestionCompleted / intval($quizResult->grade), 2);
+    		$quizResult->progress = round($numberQuestionCompleted / intval($quizResult->grade), 2) * 100;
     	}
     	return $quizResults;
     }
