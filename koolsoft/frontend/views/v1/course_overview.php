@@ -6,6 +6,7 @@
     .textOverflow{
         white-space: nowrap;
         text-overflow: ellipsis;
+        overflow: hidden;
     }
     .panelItemHome:hover{
         box-shadow: 0px 0px 2px 2px gray;
