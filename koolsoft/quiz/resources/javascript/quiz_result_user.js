@@ -60,7 +60,7 @@ $(function () {
                     var quizResult = quizResults[keys[i]];
                     html += "<tr>";
                     html += "<td> " + quizResult.name + " </td>";
-                    html += "<td> " + quizResult.progress + " </td>";
+                    html += "<td> " + quizResult.progress + " % </td>";
                     html += "</tr>";
                 }
                $("#quizResultExerciseForUser").html(html);
