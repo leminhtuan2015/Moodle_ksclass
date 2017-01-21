@@ -71,6 +71,37 @@ switch ($action) {
 
         echo json_encode($chapters, JSON_FORCE_OBJECT);
         break;
+    case "getSectionOfChapter":
+        $courseId  = optional_param('courseId', 0, PARAM_INT);
+        $chapterId  = optional_param('chapterId', 0, PARAM_INT);
+        $sectionId  = optional_param('sectionId', 0, PARAM_INT);
+
+        $section1 = new stdClass();
+        $sectionReturn = "hello";
+
+        list ($chapters, $sections) = Course::getCourseDataAll($courseId);
+
+        foreach ($sections as $section) {
+            if($section->id == $sectionId){
+                $section1 = $section;
+            }
+        }
+
+//        error_log(print_r($section1, true));
+
+        foreach ($section1->modinfo->cms as $cm) {
+            if ($cm->section == $section1->id) {
+                if($cm->module == 12){
+                    error_log(print_r($cm->content, true));
+                    $sectionReturn = $cm->content;
+                }
+            }
+        }
+
+//        error_log(print_r($sectionReturn, true));
+
+        echo json_encode($sectionReturn, JSON_FORCE_OBJECT);
+        break;
 }
 ?>
 
