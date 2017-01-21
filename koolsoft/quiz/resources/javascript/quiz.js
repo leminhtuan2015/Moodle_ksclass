@@ -194,11 +194,7 @@ Ks.quiz.handler = function () {
 
     $("#saveQuiz").click(function (e) {
         e.preventDefault();
-        // if(!$("#lectureSelect").val()){
-        //     window.alert("Please choice lecture !");
-        //     return;
-        // }
-        
+
         Ks.quiz.saveQuestionInLocal();
         var questionIds = [];
         var questionNews = [];
@@ -304,9 +300,6 @@ Ks.quiz.handler = function () {
                 var endDate1 = new Date(endDate);
                 var valid = startDate1 <= endDate1;
 
-                console.log(startDate1);
-                console.log(endDate1);
-
                 if(!startDate1 || startDate1 < new Date()){
                     $("#error_start_time").text("Please enter start time valid");
                     return;
@@ -322,9 +315,9 @@ Ks.quiz.handler = function () {
                     return;
                 }
 
+                form.submit();
             }
 
-            form.submit();
         }
     });
 };
