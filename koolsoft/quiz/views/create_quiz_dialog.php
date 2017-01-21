@@ -28,13 +28,13 @@
                         <input id="idSlotRemoves" name="idSlotRemoves" value="">
                     </div>
                     <div >
-                        <div style="display: inline-block; width: 49%">
+                        <div style="display: inline-block; width: 49%; vertical-align: top;">
                             <label for="nameQuiz" class="control-label" style="display: inline-block;width: 20%;">Name</label>
-                            <input style="display: inline-block;width: 79%;" required id="nameQuiz" placeholder="quiz name" class="form-control" <?php if($currentQuiz){ echo 'disabled';}?> name="nameQuiz" value="<?php if($currentQuiz){ echo $currentQuiz->name;}?>">
+                            <input style="display: inline-block;width: 79%;"  id="nameQuiz" placeholder="quiz name" class="form-control" <?php if($currentQuiz){ echo 'disabled';}?> name="nameQuiz" value="<?php if($currentQuiz){ echo $currentQuiz->name;}?>">
                         </div>
-                        <div style="display: inline-block; width: 49%">
+                        <div style="display: inline-block; width: 49%; vertical-align: top;">
                             <label for="descQuiz" style="display: inline-block;width: 20%;" class="control-label">Description</label>
-                            <input required id="descQuiz" style="display: inline-block;width: 79%;" placeholder="quiz description" class="form-control" <?php if($currentQuiz){ echo 'disabled';}?> name="descQuiz" value="<?php if($currentQuiz){ echo $currentQuiz->intro;}?>">
+                            <input  id="formQuiz" style="display: inline-block;width: 79%;" placeholder="quiz description" class="form-control" <?php if($currentQuiz){ echo 'disabled';}?> name="descQuiz" value="<?php if($currentQuiz){ echo $currentQuiz->intro;}?>">
                         </div>
                     </div>
                     <br>
@@ -66,15 +66,17 @@
                                 <option value="1"> Exercise </option>
                                 <option value="2"> Test </option>
                             </select>
+                            <label class="control-label text-danger"></label>
                         </div>
                         <div style="display: inline-block; width: 49%" id="timeLimitPanel">
                             <label style="display: inline-block;vertical-align: middle;width: 20%;">Time limit( mins)</label>
                             <input type="number" min="0" step="1" style="display: inline-block; width: 79%;" class="form-control" name="timeLimit" id="timeLimit">
+                            <label id="error_limit_time" class="control-label text-danger"></label>
                         </div>
                     </div>
                     <br>
                     <div style="margin-bottom: 20px;" id="timeQuizPanel">
-                        <div style="display: inline-block; width: 49%">
+                        <div style="display: inline-block; width: 49%;vertical-align: top;">
                             <label style="display: inline-block;vertical-align: middle;width: 20%;">Time start</label>
                             <div style="width: 79%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerStart'>
@@ -84,8 +86,9 @@
                                     </span>
                                 </div>
                             </div>
+                            <label id="error_start_time" class="control-label text-danger"></label>
                         </div>
-                        <div style="display: inline-block;  width: 49%">
+                        <div style="display: inline-block;  width: 49%;vertical-align: top;">
                             <label style="display: inline-block;vertical-align: middle;width: 20%;">Time end</label>
                             <div style="width: 79%; display: inline-block;vertical-align: middle;">
                                 <div class='input-group date' id='datetimepickerEnd'>
@@ -96,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        <label style="float: right; margin-right: 2%;" id="error_end_time" class="control-label text-danger"></label>
+                        <label id="error_end_time" class="control-label text-danger"></label>
                     </div>
 
                 </form>

@@ -19,13 +19,9 @@ Ks.quiz.init = function () {
     var dateTimeFormat = "YYYY/MM/DD h:m A";
     $("#datetimepickerStart").datetimepicker({
         format : dateTimeFormat
-    }).on('dp.change',function(event){
-        Ks.quiz.validateDate();
     });
     $("#datetimepickerEnd").datetimepicker({
         format : dateTimeFormat
-    }).on('dp.change',function(event){
-        Ks.quiz.validateDate();
     });
 
     $.ajax({url: "/moodle/koolsoft/question_tag/rest/question_tag.php?action=listAll",
@@ -198,10 +194,10 @@ Ks.quiz.handler = function () {
 
     $("#saveQuiz").click(function (e) {
         e.preventDefault();
-        if(!$("#lectureSelect").val()){
-            window.alert("Please choice lecture !");
-            return;
-        }
+        // if(!$("#lectureSelect").val()){
+        //     window.alert("Please choice lecture !");
+        //     return;
+        // }
         
         Ks.quiz.saveQuestionInLocal();
         var questionIds = [];
@@ -263,6 +259,72 @@ Ks.quiz.handler = function () {
     $("#idCheckBoxQuestionAll").change(function(){
         for(var i=0; i < Ks.quiz.numberQuestion; i++){
             $("#idCheckBoxQuestion" + i).prop('checked', $("#idCheckBoxQuestionAll").prop("checked"));
+        }
+    });
+
+    $("#formQuiz").validate({
+        // Specify validation rules
+        rules: {
+            nameQuiz: "required",
+            descQuiz: "required",
+            section: "required"
+        },
+        messages: {
+            nameQuiz: "Please enter your quiz name",
+            descQuiz: "Please enter your quiz description",
+            section: "Please enter your lecture"
+        },
+
+        submitHandler: function(form) {
+            if($("#typeQuizSelect").val() == 1){
+                form.submit();
+            }else {
+                $("#error_end_time").text("");
+                $("#error_start_time").text("");
+                $("#error_limit_time").text("");
+
+
+                if($("#timeLimit").val() < 1){
+                    $("#error_limit_time").text("Please enter limit time more than 1");
+                    return;
+                }
+
+                var startDate = $("#startTime").val();
+                var endDate = $("#endTime").val();
+
+                if(!startDate){
+                    startDate = 0;
+                }
+
+                if(!endDate){
+                    endDate = 0;
+                }
+
+                var startDate1 = new Date(startDate);
+                var endDate1 = new Date(endDate);
+                var valid = startDate1 <= endDate1;
+
+                console.log(startDate1);
+                console.log(endDate1);
+
+                if(!startDate1 || startDate1 < new Date()){
+                    $("#error_start_time").text("Please enter start time valid");
+                    return;
+                }
+
+                if(!endDate1 || endDate1 < new Date()){
+                    $("#error_end_time").text("Please enter end time valid");
+                    return;
+                }
+
+                if(!valid){
+                    $("#error_end_time").text("Please makesure end time is more than start time");
+                    return;
+                }
+
+            }
+
+            form.submit();
         }
     });
 };

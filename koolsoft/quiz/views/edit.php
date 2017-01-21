@@ -126,6 +126,8 @@
     <button type="submit" id="saveQuiz" form="formQuiz" class="btn btn-primary" style="float: right;"> Save quiz</button>
 </div>
 
+
+
 <?php
     global $CFG;
     require_once ("question_category_dialog.php");
