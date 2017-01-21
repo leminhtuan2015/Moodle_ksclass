@@ -17,7 +17,7 @@
                 <button type="button submit" class="btn btn-primary" style="float: right;margin-right: 10px;" form="formQuiz" id="saveQuiz">Save</button>
                 <h4 class="modal-title">Create quiz</h4>
             </div>
-            <div class="modal-body" style="overflow: hidden">
+            <div class="modal-body" style="overflow: hidden; height: 100%">
                 <form data-toggle="validator" role="form" action="/moodle/koolsoft/quiz/?action=save" method="post" id="formQuiz">
                     <div style="display: none" class="form-group">
                         <input id="idQuiz" name="idQuiz" value="">
@@ -126,7 +126,7 @@
 
                                 <label style="display: none; color: #ff5f50;" id="createQuestionErrorText"></label>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <button class="btn btn-primary" style="display: none;" id="saveOneQuestionBtn">Save</button>
                                 <button class="btn btn-danger" style="display: none;" id="removeOneQuestionBtn">Remove</button>
                             </div>
@@ -134,7 +134,7 @@
 
                         </div>
                     </div>
-                <div style="margin-left: 3%; width: 30%; overflow: hidden;">
+                <div style="margin-left: 3%; width: 30%; overflow: hidden;bottom: 10px; position: absolute;">
                     <a style="float:left; margin-right: 15px;" class="blue"  id="btnAddQuestionNew">Add new</a>
                     <br>
                     or
