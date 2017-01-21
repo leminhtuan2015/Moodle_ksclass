@@ -77,7 +77,7 @@ switch ($action) {
         $sectionId  = optional_param('sectionId', 0, PARAM_INT);
 
         $section1 = new stdClass();
-        $sectionReturn = "hello";
+        $sectionReturn = new stdClass();
 
         list ($chapters, $sections) = Course::getCourseDataAll($courseId);
 
@@ -93,7 +93,7 @@ switch ($action) {
             if ($cm->section == $section1->id) {
                 if($cm->module == 12){
                     error_log(print_r($cm->content, true));
-                    $sectionReturn = $cm->content;
+                    $sectionReturn->content = $cm->content;
                 }
             }
         }
